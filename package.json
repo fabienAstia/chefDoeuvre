@@ -1,0 +1,14 @@
+{
+  "name": "personality",
+  "version": "1.0.0",
+  "description": "apprendre chart.js + environnement node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "fabien Astiasaran",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^4.4.3"
+  }
+}
