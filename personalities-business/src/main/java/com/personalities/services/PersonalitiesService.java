@@ -20,6 +20,7 @@ public class PersonalitiesService {
     public void create(QuestionCreate questionCreate){
         Question question = new Question();
         question.setName(questionCreate.name());
+        question.setDimension(questionCreate.dimension());
         questionRepository.save(question);
     }
 

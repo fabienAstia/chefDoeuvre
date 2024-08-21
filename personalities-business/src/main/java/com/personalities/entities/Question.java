@@ -17,6 +17,9 @@ public class Question {
     @Column(name = "question_name")
     private String name;
 
+    @Column(name = "question_dimension")
+    private String dimension;
+
     public Long getId() {
         return id;
     }
@@ -27,5 +30,13 @@ public class Question {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(String dimension) {
+        this.dimension = dimension;
     }
 }
