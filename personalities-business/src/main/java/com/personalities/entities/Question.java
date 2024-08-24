@@ -17,6 +17,10 @@ public class Question {
     @Column(name = "question_name")
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "question_dimension_id")
+    private Dimension dimension;
+
     public Long getId() {
         return id;
     }
@@ -27,5 +31,17 @@ public class Question {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Dimension getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
+    }
+
+    public String getDimensionName() {
+        return dimension.getName();
     }
 }
