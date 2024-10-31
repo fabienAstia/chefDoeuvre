@@ -1,6 +1,7 @@
 package com.personalities.services;
 
 import com.personalities.dto.QuestionCreate;
+import com.personalities.dto.QuestionUpdate;
 import com.personalities.dto.QuestionView;
 import com.personalities.entities.Question;
 import com.personalities.entities.Dimension;
@@ -10,6 +11,9 @@ import com.personalities.repositories.QuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 public class PersonalitiesService {
@@ -22,14 +26,13 @@ public class PersonalitiesService {
         this.dimensionRepository = dimensionRepository;
     }
 
-    public void create(QuestionCreate questionCreate){
+    public void create(QuestionCreate questionCreate)  {
         Question question = new Question();
         Dimension dimension = dimensionRepository.findByNameIgnoreCase(questionCreate.dimension());
         question.setName(questionCreate.name());
         question.setDimension(dimension);
         questionRepository.save(question);
     }
-
 
     public List<QuestionView> getQuestions (){
         List<Question>questionList = questionRepository.findAllProjectedBy();
@@ -40,4 +43,13 @@ public class PersonalitiesService {
         questionRepository.deleteById(id);
     }
 
+    public void updateQuestion (Long id, QuestionUpdate inputs) {
+        Question question = questionRepository.findById(id).get();
+        Dimension dimension = dimensionRepository.findByNameIgnoreCase(inputs.dimension());
+        question.setName(inputs.name());
+        question.setDimension(dimension);
+        questionRepository.save(question);
+    }
+
+    public boolean existsByNameIgnoreCase(String value) {return questionRepository.existsByNameIgnoreCase(value);}
 }

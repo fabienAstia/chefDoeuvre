@@ -12,9 +12,9 @@ public class QuestionMapper {
     public static QuestionView mapToDto(Question question) {
 
         QuestionView questionView = new QuestionView();
-        questionView.setQuestionName(question.getName());
-        questionView.setDimensionName(question.getDimensionName());
-        System.out.println(question.getDimensionName());
+        questionView.setId(question.getId());
+        questionView.setName(question.getName());
+        questionView.setDimension(question.getDimensionName());
         return  questionView;
     }
     public static List<QuestionView> mapToDto(List<Question>questionList){
@@ -22,7 +22,6 @@ public class QuestionMapper {
         for(Question question : questionList ){
             listView.add(mapToDto(question));
         }
-        System.out.println("systemView : " + listView);
         return listView;
     }
 }

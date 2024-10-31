@@ -11,4 +11,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Override
     void deleteById(Long aLong);
+
+    boolean existsByNameIgnoreCase(String value);
 }
