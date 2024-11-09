@@ -1,0 +1,36 @@
+{
+    "header": {
+        "test": "Test",
+        "personalities": "Personnalités",
+        "documentation": "Articles",
+        "registration": "S'enregistrer",
+        "authentication": "Se connecter",
+        "languages": "Langues"
+    },
+    "admin": {
+        "questionLabel": "Nouvelle Question",
+        "creation":"créer",
+        "placeholder":"Ecrivez une question",
+        "filter":"Filtre",
+        "dimension":"Dimension",
+        "operations":"Opérations"
+    },
+    "register": {
+        "title": "S'enregistrer",
+        "username":"Nom d'utilisateur",
+        "email":"Email",
+        "password":"Mot de passe",
+        "submit":"S'enregistrer"
+    },
+    "login":{
+        "title":"Se connecter ?",
+        "email":"Email",
+        "password":"Mot de passe",
+        "submit":"Se connecter"
+    },
+    "answer": {
+        "disagree" : "En désaccord",
+        "agree": "D'accord"
+    }
+}
+
