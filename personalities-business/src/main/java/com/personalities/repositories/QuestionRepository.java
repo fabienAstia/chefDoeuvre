@@ -12,7 +12,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Override
     void deleteById(Long aLong);
 
-    boolean existsByNameIgnoreCase(String value);
+    boolean existsByNameIgnoreCase(String name);
 
-    boolean existsByNameIgnoreCaseAndIdNot(String value, Long id);
+    boolean existsByNameIgnoreCaseAndIdNot(String name, Long id);
 }

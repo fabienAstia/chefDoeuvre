@@ -14,17 +14,25 @@ public class Answer {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_question")
-    private Question question;
+    @JoinColumn(name = "session_id")
+    private Session session;
 
     @ManyToOne
-    @JoinColumn(name = "id_user")
-    private User user;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
     private int rating;
 
     public Long getId() {
         return id;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public Question getQuestion() {
@@ -33,14 +41,6 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public int getRating() {

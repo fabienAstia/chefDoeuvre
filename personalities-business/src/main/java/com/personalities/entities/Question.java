@@ -17,7 +17,7 @@ public class Question {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "id_dimension")
+    @JoinColumn(name = "dimension_id")
     private Dimension dimension;
 
     public Long getId() {

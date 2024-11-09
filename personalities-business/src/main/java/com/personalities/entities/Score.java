@@ -38,7 +38,7 @@ public class Score {
     private Double scoreJ;
 
     @OneToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {

@@ -11,7 +11,7 @@ export function useQuestions(){
         const options = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify(question.value),
+            body: JSON.stringify(question.value)
         }
         try{
             const response = await fetch(url, options);

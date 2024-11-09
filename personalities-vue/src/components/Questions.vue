@@ -19,7 +19,7 @@ const {
 
 
 <template>
-  <form method="post" action="http://localhost:8080/personalities/question" @submit.prevent="addQuestion">
+  <form @submit.prevent="addQuestion">
     
     <div class="row g-3 mb-3 align-items-end">
       <div class="col-12 col-sm-8 col-lg-10">

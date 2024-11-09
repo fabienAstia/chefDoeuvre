@@ -1,53 +1,96 @@
 package com.personalities.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name="t_users")
-public class User {
+public class User implements UserDetails {
 
-    public User() {
-        this.visitorUUID = UUID.randomUUID().toString();
+    public User(String username, String email, String password, Role role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "")
-    private String visitorUUID;
+    private String username;
 
-    @OneToOne (mappedBy = "user", cascade = CascadeType.ALL)
-    private Score score;
+    private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Long getId() {
         return id;
     }
 
-    public List<Answer> getAnswers() {
-        return answers;
+    public String getUsername() { //toDo : return email ???
+        return username;
     }
 
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
     }
 
-    public Score getScore() {
-        return score;
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
     }
 
-    public void setScore(Score score) {
-        this.score = score;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
     }
 
-    public String getVisitorUUID() {
-        return visitorUUID;
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
