@@ -4,7 +4,7 @@ import Header from '@/components/Header.vue';
 </script>
 
 <template>
-  <Header class="fs-5"/> 
+  <Header/> 
   <div class="container">
     <router-view/> 
   </div> 

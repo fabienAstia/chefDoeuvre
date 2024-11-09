@@ -3,7 +3,7 @@ package com.personalities.controllers;
 import com.personalities.dto.QuestionCreate;
 import com.personalities.dto.QuestionUpdate;
 import com.personalities.dto.QuestionView;
-import com.personalities.services.PersonalitiesService;
+import com.personalities.services.QuestionService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,17 +12,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/questions")
 @CrossOrigin("*")
-public class PersonalitiesController {
+public class QuestionController {
 
-    private final PersonalitiesService service;
+    private final QuestionService service;
 
-    public PersonalitiesController(PersonalitiesService service) {
+    public QuestionController(QuestionService service) {
         this.service = service;
     }
 
     @PostMapping
     public void createQuestion(@Valid @RequestBody QuestionCreate question) {
-        service.create(question);
+        service.createQuestion(question);
     }
 
     @PutMapping("/{id}")

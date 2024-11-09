@@ -13,9 +13,29 @@ const {
   sortDim,
 } = useQuestions();
 const hover =  ref(false);
-const buttonsWidth = ref(0);
 const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? 'blue' : 'purple';
-const answer = () => {};
+
+const addAnswer = async(idQuestion, buttonIndex) => {
+  console.log("idQuestion:"+ idQuestion);
+  const url ='http://localhost:8080/answers';
+  const options = {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({questionId: idQuestion, rating: buttonIndex})
+  }
+  try {
+    const response = await fetch(url, options);
+    if(response.ok){
+      alert('You have sent your response');
+    }else{
+      alert('A client or server error has occured')
+    }
+  }
+  catch(err){
+    alert('An unexpected error has occured');
+    console.error('An unexpected error has occured', err);
+  }
+}
 </script>
 
 <template>
@@ -27,7 +47,7 @@ const answer = () => {};
         <div class="container-fluid">
           <!-- question -->
           <div class=" row fs-2 m-3 text-center ">
-            <b>{{questionIndex+1}}. {{q.name }}</b>
+            <b>{{questionIndex+1}}. {{q.name }} {{ q.id }}</b>
           </div>
 
           <!-- espace réponse -->
@@ -43,7 +63,7 @@ const answer = () => {};
                 :key="buttonIndex" 
                 @mouseover="hover = {questionIndex, buttonIndex}"
                 @mouseleave="hover = false"
-                @click=""
+                @click="addAnswer(q.id, buttonIndex)"
                 :class="'btn-circle '" 
                 :style="{width:`buttonsWidth=${3 + Math.abs(buttonIndex)*1.1}vw`, 
                   height:`${3 + Math.abs(buttonIndex)*1.1}vw`, 

@@ -12,21 +12,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
 @Service
-public class PersonalitiesService {
+public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final DimensionRepository dimensionRepository;
 
-    public PersonalitiesService(QuestionRepository questionRepository, DimensionRepository dimensionRepository) {
+    public QuestionService(QuestionRepository questionRepository, DimensionRepository dimensionRepository) {
         this.questionRepository = questionRepository;
         this.dimensionRepository = dimensionRepository;
     }
 
-    public void create(QuestionCreate questionCreate)  {
+    public void createQuestion(QuestionCreate questionCreate)  {
         Question question = new Question();
         Dimension dimension = dimensionRepository.findByNameIgnoreCase(questionCreate.dimension());
         question.setName(questionCreate.name());
