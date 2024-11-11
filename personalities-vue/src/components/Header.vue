@@ -34,6 +34,7 @@ const closeModal = () => {
 watch(registered, (newVal) => {
   if (newVal) {
     const myModal =  Modal.getInstance(document.getElementById('register'));
+    console.log(myModal);
     if(myModal) {
       myModal.hide();
     }
