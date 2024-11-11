@@ -14,8 +14,8 @@ import arrowCircle from '@/assets/arrowCircle.svg';
 
             <div class=" d-flex justify-content-center">
                 <router-link to="/test" class="btn btn-success">
-                    <span class="d-flex gap-1">
-                        <b>Passer le test</b>
+                    <span class="d-flex gap-2 fs-5">
+                        <b>Passer le test  </b>
                         <img :src="arrowCircle">
                     </span>
                 </router-link>
