@@ -1,6 +1,9 @@
 <script setup>
 import {ref} from 'vue';
+import{useI18n} from 'vue-i18n';
+const{t} = useI18n;
 import { useQuestions } from './useQuestions';
+
 const {
   questions,
   question,
@@ -45,16 +48,13 @@ const addAnswer = async(idQuestion, buttonIndex) => {
      <div v-for= "(q, questionIndex) in questions" class=" my-5 py-4 border-bottom d-flex">
         
         <div class="container-fluid">
-          <!-- question -->
           <div class=" row fs-2 m-3 text-center ">
-            <b>{{questionIndex+1}}. {{q.name }} {{ q.id }}</b>
+            <b>{{questionIndex+1}}. {{q.name}}</b>
           </div>
 
-          <!-- espace réponse -->
-          <div class="row fs-5 m-3 p-3 d-flex justify-content-center align-items-center" >
-            
-            <div class="col-md-2 d-none d-md-block" :style="{color:'purple'}">
-              <b >En désaccord </b>
+          <div class="row fs-4 m-3 p-3 d-flex justify-content-center align-items-center" >
+            <div class="col-md-2 d-none d-md-block justify-content-end text-end" :style="{color:'purple'}">
+              <b>{{$t('answer.agree')}}</b>
             </div>
 
             <div class="col-12 col-sm-8 col-md-8 buttons d-flex justify-content-center align-items-center m-3 p-0 gap-3">
@@ -75,17 +75,17 @@ const addAnswer = async(idQuestion, buttonIndex) => {
             </div>
 
             <div class="col-md-2 d-none d-md-block" :style="{color:'blue'}">
-              <b>D'accord</b>
+              <b>{{$t('answer.disagree')}}</b>
             </div>
 
           </div>
 
           <div class="row d-md-none d-flex justify-content-between w-100 text-center mt-2 buttonsWidth" >
                 <div class="col-6 " :style="{color:'purple'}">
-                  <b >En désaccord </b>
+                  <b>{{$t('answer.agree')}}</b>
                 </div>
-                <div class="col-6 text-end" :style="{color:'blue'}">
-                  <b>D'accord</b>
+                <div class="col-6 text-center" :style="{color:'blue'}">
+                  <b>{{$t('answer.disagree')}}</b>
                 </div>
             </div>
 
@@ -101,7 +101,6 @@ const addAnswer = async(idQuestion, buttonIndex) => {
 .buttons{
   min-width: none;
   width: auto; 
-
 }
 
 

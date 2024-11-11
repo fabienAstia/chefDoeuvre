@@ -1,7 +1,12 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
 import {ref} from 'vue';
+
 const registration = ref({username:'', email:'', password:''});
+
 const emit = defineEmits(['registered']);
+
+const{t}= useI18n;
 
 const newRegistration = async() => {
   const url = 'http://localhost:8080/api/auth/register'
@@ -31,26 +36,26 @@ const newRegistration = async() => {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header text-bg-light">
-        <h5 class="modal-title">S'enregistrer</h5>
+        <h5 class="modal-title">{{$t('register.title')}}</h5>
         <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form @submit.prevent="newRegistration">
         <div class="modal-body text-bg-light" >
             <div class="form-group">
-              <label for="username" class="col-form-label">Username :</label>
+              <label for="username" class="col-form-label">{{$t('register.username')}} :</label>
               <input type="text" class="form-control" id="username" v-model="registration.username">
             </div>
             <div class="form-group">
-              <label for="email" class="col-form-label">Email :</label>
+              <label for="email" class="col-form-label">{{$t('register.email')}} :</label>
               <input type="email" class="form-control" id="email" v-model="registration.email">
             </div>
             <div class="form-group">
-              <label for="password" class="col-form-label">Password :</label>
+              <label for="password" class="col-form-label">{{$t('register.password')}} :</label>
               <input type="password" class="form-control" id="password" v-model="registration.password"></input>
             </div>
         </div>
         <div class="modal-footer text-bg-light">
-          <button type="submit" class="btn btn-secondary">S'enregistrer</button>
+          <button type="submit" class="btn btn-secondary">{{$t('register.submit')}}</button>
         </div>
     </form>
 
@@ -58,35 +63,6 @@ const newRegistration = async() => {
   </div>
 </div>
 
-<!-- <Login v-if="showLogin"/> -->
-
-<!-- Log-in -->
-<!-- <div class="modal fade" id="login" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-bg-light">
-        <h5 class="modal-title">Félicitations {{registration.username}} !!! Vous avez créé votre compte. Si vous souhaitez vous connecter :</h5>
-        <button type="button" class="btn-close text-bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form @submit.prevent="newConnexion">
-        <div class="modal-body text-bg-light" >
-            <div class="form-group">
-              <label for="email" class="col-form-label">Email :</label>
-              <input type="email" class="form-control" id="email" v-model="registration.email">
-            </div>
-            <div class="form-group">
-              <label for="password" class="col-form-label">Password :</label>
-              <input type="password" class="form-control" id="password" v-model="registration.password"></input>
-            </div>
-        </div>
-        <div class="modal-footer text-bg-light">
-          <button type="submit" class="btn btn-secondary">Se connecter</button>
-        </div>
-    </form>
-
-    </div>
-  </div>
-</div> -->
 
 </template> 
 

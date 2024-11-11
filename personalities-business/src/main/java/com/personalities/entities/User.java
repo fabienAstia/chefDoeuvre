@@ -20,6 +20,9 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public User() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

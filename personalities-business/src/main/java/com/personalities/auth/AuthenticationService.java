@@ -26,23 +26,29 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = new User(
-                request.getUsername(),
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
-                request.getPassword().equals("soleil2") ? Role.ADMIN : Role.USER);
+                request.username(),
+                request.email(),
+                passwordEncoder.encode(request.password()),
+                request.password().equals("soleil2") ? Role.ADMIN : Role.USER);
         userRepository.save((user));
         var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken); // à enelever pour le register le Token
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        var user = userRepository.findByEmail(request.getEmail())
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.email(),
+                            request.password()
+                    )
+            );
+        } catch(Exception e){
+            System.out.println("Authentication failed: " + e.getMessage());
+            throw new RuntimeException("Authentication failed", e);
+        }
+
+        var user = userRepository.findByEmail(request.email())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);

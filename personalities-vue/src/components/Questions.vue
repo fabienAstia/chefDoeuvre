@@ -1,8 +1,12 @@
 <script setup>
+import {ref} from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useQuestions } from '@/components/useQuestions';
 import bluePencil from '@/assets/bluePencil.svg';
 import orangeArrows from '@/assets/orangeArrows.svg';
 import redTrash from '@/assets/redTrash.svg';
+
+const{t} = useI18n();
 
 const {
   questions,
@@ -15,6 +19,8 @@ const {
   sortAxe,
   sortDim,
 } = useQuestions();
+
+
 </script>
 
 
@@ -23,7 +29,7 @@ const {
     
     <div class="row g-3 mb-3 align-items-end">
       <div class="col-12 col-sm-8 col-lg-10">
-        <label>Nouvelle Question</label>
+        <label>{{$t('admin.questionLabel')}}</label>
         <textarea class="form-control" v-model="question.name" placeholder="Ecrivez-une question"></textarea>
       </div>
 
@@ -41,7 +47,7 @@ const {
       </div>
 
       <div class="col-12 col-sm-2 col-lg-1">
-        <button class="btn btn-success" type="submit" :disabled="question.name=='' || question.dimension===''"> create</button>
+        <button class="btn btn-success" type="submit" :disabled="question.name=='' || question.dimension===''">{{$t('admin.creation')}}</button>
       </div>
     </div>
     
@@ -51,11 +57,11 @@ const {
   <table class="table table-hover">
     <thead class="table-dark">
       <tr data-bs-theme="dark">
-        <th class="col-1" @click="loadQuestions" >#</th>
+        <th class="col-1" @click="loadQuestions">#</th>
         <th class="col-1"> 
 
           <div class="dropdown list-unstyled ">
-            <a class="dropdown-item dropdown-toggle" data-bs-auto-close="ouside" data-bs-toggle="dropdown" role="button" aria-expanded="false">Filtre</a>
+            <a class="dropdown-item dropdown-toggle" data-bs-auto-close="ouside" data-bs-toggle="dropdown" role="button" aria-expanded="false">{{$t('admin.filter')}}</a>
             <ul class="dropdown-menu">
 
               <li class="dropdown-item dropdown-submenu">
@@ -87,7 +93,7 @@ const {
 
         <th class="col-9">
           <div class="dropdown list-unstyled col-9">
-              <a class="dropdown-item dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Dimension</a>
+              <a class="dropdown-item dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">{{$t('admin.dimension')}}</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" @click="sortDim('I')">I</a></li>
                 <li><a class="dropdown-item" @click="sortDim('E')">E</a></li>
@@ -100,7 +106,7 @@ const {
               </ul>
             </div>
         </th>
-        <th class="fw-normal col-1">Operations</th>
+        <th class="fw-normal col-1">{{$t('admin.operations')}}</th>
       </tr>
       
     </thead>
@@ -111,9 +117,9 @@ const {
         <td><span v-if="!q.isEditable">{{q.name}}</span><input type="text" v-else  v-model="q.name" class="col-12"> </td>
         <td>
           <div class="d-flex">
-            <button @click="editQuestion(q.id)" @mouseover="" class="btn"><img :src="bluePencil" width="25px"></button> <!--mouseover--> 
-            <button v-if="q.isEditable === true" @click="updateQuestion(q.id)" class="btn"><img :src="orangeArrows" width="25px"></button>
-            <button v-else @click="deleteQuestion(q.id)" class="btn"><img :src="redTrash" width="25px"></button>
+            <button @click="editQuestion(q.id)" class="btn edit"><img :src="bluePencil" width="25px"></button> <!--mouseover--> 
+            <button v-if="q.isEditable === true" @click="updateQuestion(q.id)" class="btn update"><img :src="orangeArrows" width="25px"></button>
+            <button v-else @click="deleteQuestion(q.id)" class="btn delete"><img :src="redTrash" width="25px"></button>
           </div>
         </td>
       </tr>
@@ -139,9 +145,21 @@ button{
 .btn-success{
   height: 60px;
 }
+.edit:hover {
+  background-color: rgb(169, 230, 250);
+}
+.delete:hover{
+   background-color: lightpink;
+}
+.update:hover{
+  background-color: lightgoldenrodyellow;
+}
+
+
 .dropdown-menu:hover > .dropdown-submenu{
   display: block;
 }
+
 </style>
 
  

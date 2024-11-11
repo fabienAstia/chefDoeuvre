@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory} from "vue-router";
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.VITE_BASE_URL),
     routes: [
         {
             path: "/",
             name:"home",
-            component: () => import("@/views/Admin.vue")
+            component: () => import("@/views/Home.vue")
         },
         {
             path:"/login",
