@@ -1,7 +1,9 @@
 <script setup>
 import {ref} from 'vue';
 import { useI18n } from 'vue-i18n';
+
 const userCredentials = ref({email:'', password:''});
+const emit = defineEmits(['logged'])
 const{t} = useI18n();
 
 const newConnexion = async() => {
@@ -10,13 +12,13 @@ const newConnexion = async() => {
     method:'POST',
     headers:{
       'Content-type':'application/json',
-      'Authorization':`Bearer ${token}`  
     },
     body:JSON.stringify(userCredentials.value)
   }
   try{
     const response = await fetch(url, options);
     if(response.ok){
+      emit('logged');
       alert('Congrats ! you are now login')
     }else{
       alert('there is a server or client side error')

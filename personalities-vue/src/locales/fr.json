@@ -5,6 +5,7 @@
         "documentation": "Articles",
         "registration": "S'enregistrer",
         "authentication": "Se connecter",
+        "welcome":"Bienvenue",
         "languages": "Langues"
     },
     "admin": {

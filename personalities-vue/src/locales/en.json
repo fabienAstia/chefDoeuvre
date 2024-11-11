@@ -5,6 +5,7 @@
         "documentation": "Documentation",
         "registration": "Register",
         "authentication": "Log in",
+        "welcome":"Welcome",
         "languages": "Languages"
     },
     "admin": {

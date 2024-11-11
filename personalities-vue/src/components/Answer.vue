@@ -52,7 +52,7 @@ const addAnswer = async(idQuestion, buttonIndex) => {
             <b>{{questionIndex+1}}. {{q.name}}</b>
           </div>
 
-          <div class="row fs-5 m-3 p-3 d-flex justify-content-center align-items-center" >
+          <div class="row fs-4 m-3 p-3 d-flex justify-content-center align-items-center" >
             <div class="col-md-2 d-none d-md-block justify-content-end text-end" :style="{color:'purple'}">
               <b>{{$t('answer.agree')}}</b>
             </div>

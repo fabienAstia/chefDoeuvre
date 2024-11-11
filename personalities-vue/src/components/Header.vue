@@ -1,12 +1,21 @@
-<script setup lang="ts">
+<script setup>
 import { useI18n } from 'vue-i18n';
 import {ref, watch} from 'vue';
 import { RouterLink } from 'vue-router';
 import Modal from '../../node_modules/bootstrap/js/src/modal'; 
 import Register from '@/components/Register.vue';
 import Login from '@/components/Login.vue';
+import clipBoard from '@/assets/clipBoard.svg';
+import filePerson from '@/assets/filePerson.svg';
+import book from '@/assets/book.svg';
+import personAdd from '@/assets/personAdd.svg';
+import personCheck from '@/assets/personCheck.svg';
+import personGear from '@/assets/personGear.svg';
+
+
 
 let registered = ref(false);
+let logged = ref(false);
 
 const { t, locale } = useI18n();
 
@@ -17,6 +26,10 @@ const changeLanguage = (lang) => {
 const goToConnection = () => {
   registered.value = true;
 };
+
+const closeModal = () => {
+  logged.value = true;
+}
 
 watch(registered, (newVal) => {
   if (newVal) {
@@ -34,6 +47,15 @@ watch(registered, (newVal) => {
     }, 50);
   }
 });
+
+watch(logged, (newVal) => {
+  if(newVal){
+    const myLoginModal = Modal.getInstance(document.getElementById('login'));
+    if(myLoginModal){
+      myLoginModal.hide();
+    }
+  }
+})
 </script>
 
 <template>
@@ -47,28 +69,45 @@ watch(registered, (newVal) => {
         </button>
   
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav me-auto">
+          <ul class="navbar-nav me-auto gap-1">
             <li class="nav-item">
-              <router-link to="/test" class="nav-link">{{$t('header.test')}}</router-link>
+              <router-link to="/test" class="nav-link d-flex gap-1 justify-content-center">
+                <img :src="clipBoard" width="20px">
+                {{$t('header.test')}}
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">{{$t('header.personalities')}}</a>
+              <a class="nav-link d-flex gap-1 justify-content-center" href="#">
+                <img :src="filePerson" width="20px">
+                {{$t('header.personalities')}}
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">{{$t('header.documentation')}}</a>
+            <li class="nav-item ">
+              <a class="nav-link d-flex gap-1 justify-content-center" href="#">
+                <img :src="book" width="20px">
+                {{$t('header.documentation')}}
+              </a>
             </li>
           </ul>
         
   
           <ul class="navbar-nav">
             <li v-if="!registered" class="nav-item ">
-              <a class="nav-link" href="#register" data-bs-toggle="modal" aria-expanded="false">
+              <a class="nav-link d-flex gap-1 justify-content-center" href="#register" data-bs-toggle="modal" aria-expanded="false">
+                <img :src="personAdd" width="20px">
                 {{$t('header.registration')}}
               </a>
             </li>
-            <li v-else class="nav-item">
-              <a class="nav-link" href="#login" data-bs-toggle="modal" aria-expanded="false">
+            <li v-if="registered && !logged" class="nav-item">
+              <a class="nav-link d-flex gap-1 justify-content-center" href="#login" data-bs-toggle="modal" aria-expanded="false">
+                <img :src="personGear" width="20px">
                 {{$t('header.authentication')}}
+              </a>
+            </li>
+            <li v-if="logged" class="nav-item">
+              <a class="nav-link d-flex gap-1 justify-content-center" href="#login" data-bs-toggle="modal" aria-expanded="false">
+                <img :src="personCheck" width="20px">
+                {{$t('header.welcome')}}   <!-- {{registration.username}} -->
               </a>
             </li>
 
@@ -103,7 +142,7 @@ watch(registered, (newVal) => {
       </div>
     </nav>
     <Register @registered="goToConnection" v-if="!registered"/>
-    <Login v-if="registered"/>
+    <Login @logged="closeModal" v-if="registered && !logged" />
 </template>
   
   <style scoped>

@@ -20,10 +20,7 @@ const {
   sortDim,
 } = useQuestions();
 
-// const isOver = ref(false);
-// const backgroundColor = (color) => {
 
-// }
 </script>
 
 
@@ -120,9 +117,9 @@ const {
         <td><span v-if="!q.isEditable">{{q.name}}</span><input type="text" v-else  v-model="q.name" class="col-12"> </td>
         <td>
           <div class="d-flex">
-            <button @click="editQuestion(q.id)" class="btn"><img :src="bluePencil" width="25px"></button> <!--mouseover--> 
-            <button v-if="q.isEditable === true" @click="updateQuestion(q.id)" class="btn"><img :src="orangeArrows" width="25px"></button>
-            <button v-else @click="deleteQuestion(q.id)" class="btn"><img :src="redTrash" width="25px"></button>
+            <button @click="editQuestion(q.id)" class="btn edit"><img :src="bluePencil" width="25px"></button> <!--mouseover--> 
+            <button v-if="q.isEditable === true" @click="updateQuestion(q.id)" class="btn update"><img :src="orangeArrows" width="25px"></button>
+            <button v-else @click="deleteQuestion(q.id)" class="btn delete"><img :src="redTrash" width="25px"></button>
           </div>
         </td>
       </tr>
@@ -148,6 +145,17 @@ button{
 .btn-success{
   height: 60px;
 }
+.edit:hover {
+  background-color: rgb(169, 230, 250);
+}
+.delete:hover{
+   background-color: lightpink;
+}
+.update:hover{
+  background-color: lightgoldenrodyellow;
+}
+
+
 .dropdown-menu:hover > .dropdown-submenu{
   display: block;
 }
