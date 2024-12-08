@@ -8,6 +8,7 @@
 
 ## MPD
 
+```postgreSQL
 CREATE TABLE t_dimensions(
 	id int GENERATED ALWAYS AS IDENTITY,
 	name char(1) NOT NULL,
@@ -62,5 +63,5 @@ CREATE TABLE t_answers(
 	CONSTRAINT t_answers_scores_fk FOREIGN KEY (score_id)
 		REFERENCES t_scores(id)
 );
-
+```
 
