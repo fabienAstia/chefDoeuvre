@@ -2,16 +2,13 @@
 import { useI18n } from 'vue-i18n';
 import {ref, watch} from 'vue';
 import { RouterLink } from 'vue-router';
-import Modal from '../../node_modules/bootstrap/js/src/modal'; 
-import Register from '@/components/Register.vue';
-import Login from '@/components/Login.vue';
+import UserCreateView from '@/views/UserCreateView.vue';
 import clipBoard from '@/assets/clipBoard.svg';
 import filePerson from '@/assets/filePerson.svg';
 import book from '@/assets/book.svg';
 import personAdd from '@/assets/personAdd.svg';
 import personCheck from '@/assets/personCheck.svg';
 import personGear from '@/assets/personGear.svg';
-
 
 
 let registered = ref(false);
@@ -27,36 +24,6 @@ const goToConnection = () => {
   registered.value = true;
 };
 
-const closeModal = () => {
-  logged.value = true;
-}
-
-watch(registered, (newVal) => {
-  if (newVal) {
-    const myModal =  Modal.getInstance(document.getElementById('register'));
-    console.log(myModal);
-    if(myModal) {
-      myModal.hide();
-    }
-    const backdrops = document.querySelectorAll('.modal-backdrop');
-    backdrops.forEach(backdrop => backdrop.remove());
-      
-  
-    setTimeout(() => {
-      const loginModal = new Modal(document.getElementById('login'));
-      loginModal.show();
-    }, 50);
-  }
-});
-
-watch(logged, (newVal) => {
-  if(newVal){
-    const myLoginModal = Modal.getInstance(document.getElementById('login'));
-    if(myLoginModal){
-      myLoginModal.hide();
-    }
-  }
-})
 </script>
 
 <template>
@@ -94,21 +61,23 @@ watch(logged, (newVal) => {
   
           <ul class="navbar-nav">
             <li v-if="!registered" class="nav-item ">
-              <a class="nav-link d-flex gap-1 justify-content-center" href="#register" data-bs-toggle="modal" aria-expanded="false">
+              <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-center">
                 <img :src="personAdd" width="20px">
                 {{$t('header.registration')}}
-              </a>
+              </router-link>
             </li>
             <li v-if="registered && !logged" class="nav-item">
-              <a class="nav-link d-flex gap-1 justify-content-center" href="#login" data-bs-toggle="modal" aria-expanded="false">
+              <!-- <a class="nav-link d-flex gap-1 justify-content-center" href="#login" data-bs-toggle="modal" aria-expanded="false"> -->
+              <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-center">
                 <img :src="personGear" width="20px">
                 {{$t('header.authentication')}}
-              </a>
+              <!-- </a> -->
+              </RouterLink>
             </li>
             <li v-if="logged" class="nav-item">
               <a class="nav-link d-flex gap-1 justify-content-center" href="#login" data-bs-toggle="modal" aria-expanded="false">
                 <img :src="personCheck" width="20px">
-                {{$t('header.welcome')}}   <!-- {{registration.username}} -->
+                {{$t('header.welcome')}}  
               </a>
             </li>
 
@@ -142,8 +111,6 @@ watch(logged, (newVal) => {
         </div>
       </div>
     </nav>
-    <Register @registered="goToConnection" v-if="!registered"/>
-    <Login @logged="closeModal" v-if="registered && !logged" />
 </template>
   
   <style scoped>

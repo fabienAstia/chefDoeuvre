@@ -49,7 +49,7 @@ const addAnswer = async(idQuestion, buttonIndex) => {
         
         <div class="container-fluid">
           <div class=" row fs-2 m-3 text-center ">
-            <b>{{questionIndex+1}}. {{q.name}}</b>
+            <b>{{questionIndex+1}}. {{q.text}}</b>
           </div>
 
           <div class="row fs-4 m-3 p-3 d-flex justify-content-center align-items-center" >

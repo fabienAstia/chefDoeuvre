@@ -1,14 +1,32 @@
 import {ref, reactive, computed} from 'vue';
+import {useRouter} from 'vue-router';
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers, maxLength, minLength } from '@vuelidate/validators'
 
 
-export function validateRegistration(){
-    const registerForm = reactive({
-        username: '',
+export function validateAuthentication(){
+    const router = useRouter();
+
+    const createUserForm = ref({
         email: '',
         password:''
     })
+
+    const isValidLength = computed(() => {
+        return createUserForm.value.password.length <= 20 && createUserForm.value.password.length >= 8;
+      });
+      const containsUpperCase = computed(() => {
+         return createUserForm.value.password !== createUserForm.value.password.toLowerCase();
+      });
+      const containsLowerCase = computed(() => {
+         return createUserForm.value.password !== createUserForm.value.password.toUpperCase();
+      });
+      const hasDigit = computed(() => {
+         return /\d/.test(createUserForm.value.password);
+      });
+      const containsSpecialChar = computed(() => {
+         return /[^\w\s]/.test(createUserForm.value.password);
+      });
       
     const emailPattern = /^(?=.{1,64}@)\w+([\.-]?\w+)*@(?=.{4,252}$)\w+([\.-]?\w+)*(\.\w{2,4})+$/;
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])\S{8,16}$/;
@@ -18,19 +36,14 @@ export function validateRegistration(){
     const digit = /(?=.*\d)/;
     const specialChar = /(?=.*[^\w\s])/;
 
-    const validEmail = (registerForm) => emailPattern.test(registerForm);
-    const containsUppercase = (registerForm) => upperCase.test(registerForm);
-    const containsLowercase = (registerForm) => lowerCase.test(registerForm);
-    const containsDigit = (registerForm) => digit.test(registerForm);
-    const containSpecialChar = (registerForm) => specialChar.test(registerForm);
+    const validEmail = (createUserForm) => emailPattern.test(createUserForm);
+    const containsUppercase = (createUserForm) => upperCase.test(createUserForm);
+    const containsLowercase = (createUserForm) => lowerCase.test(createUserForm);
+    const containsDigit = (createUserForm) => digit.test(createUserForm);
+    const containSpecialChar = (createUserForm) => specialChar.test(createUserForm);
 
     const rules = computed(() =>{
         return {
-            username: { 
-                required: helpers.withMessage("Username is required", required),
-                minLength: minLength(3),
-                maxLength: maxLength(20)
-            }, 
             email: { 
                 required: helpers.withMessage("Email is required", required), 
                 validMail: helpers.withMessage("Email must be valid", validEmail)
@@ -51,36 +64,35 @@ export function validateRegistration(){
         field.value.$touch();
     }
 
-    const validatedRegisterForm = ref(false);
+    const validatedRegisterForm = new Event("registered");
 
     async function handleSubmit() {
-        const result = await v$.value.$touch() 
+        const result = await v$.value.$validate() 
         if (!result) {
-          alert('The form has errors')
-          return 
+            alert('The form has errors');
+        }else{
+            alert('Form submitted successfully');
+            newUser();
         }
-        alert('Form submitted successfully');
-        validatedRegisterForm  = true;
-        newRegistration();
     }
       
-    const v$ = useVuelidate(rules, registerForm)
+    const v$ = useVuelidate(rules, createUserForm)
 
      
-    const newRegistration = async() => {
-        const url = 'http://localhost:8080/api/auth/register'
+    const newUser = async() => {
+        const url = 'http://localhost:8080/users'
         const options = {
             method:'POST',
             headers:{'Content-type':'application/json'},
-            body:JSON.stringify(registerForm.value)
+            body:JSON.stringify(createUserForm.value)
         }
         try {
             const response = await fetch(url, options);
             if (response.ok){
-            emit('registered');
-            console.log('Emission de l\'événement "registered"');
+                alert('you have created an account');
+                router.push('/authenticate');
             }else{
-            alert('A client or server side error has occured');
+                alert('A client or server side error has occured');
             }
         } catch(err) {
             alert('An expected error has occured');
@@ -90,13 +102,13 @@ export function validateRegistration(){
 
     return {
         validatedRegisterForm,
-        registerForm,
+        createUserForm,
         emailPattern,
         passwordPattern,
         rules,
         handleSubmit,
         v$,
-        newRegistration,
+        newUser,
         touchField
     }
 }

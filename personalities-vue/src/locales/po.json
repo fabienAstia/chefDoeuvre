@@ -18,7 +18,6 @@
     },
     "register": {
         "title": "Registrar-se",
-        "username":"Nome de usuario",
         "email":"Email",
         "password":"Senha",
         "submit":"Registrar-se"

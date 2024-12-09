@@ -30,7 +30,7 @@ const {
     <div class="row g-3 mb-3 align-items-end">
       <div class="col-12 col-sm-8 col-lg-10">
         <label>{{$t('admin.questionLabel')}}</label>
-        <textarea class="form-control" v-model="question.name" placeholder="Ecrivez-une question"></textarea>
+        <textarea class="form-control" v-model="question.text" placeholder="Ecrivez-une question"></textarea>
       </div>
 
       <div class="col-12 col-sm-2 col-lg-1">
@@ -47,7 +47,7 @@ const {
       </div>
 
       <div class="col-12 col-sm-2 col-lg-1">
-        <button class="btn btn-success" type="submit" :disabled="question.name=='' || question.dimension===''">{{$t('admin.creation')}}</button>
+        <button class="btn btn-success" type="submit" :disabled="question.text=='' || question.dimension===''">{{$t('admin.creation')}}</button>
       </div>
     </div>
     
@@ -108,13 +108,13 @@ const {
         </th>
         <th class="fw-normal col-1">{{$t('admin.operations')}}</th>
       </tr>
-      
     </thead>
+    
     <tbody>
       <tr v-for="(q, index) in questions" :key="q.id" >
         <td>{{index+1}} </td>
         <td><span v-if="!q.isEditable">{{q.dimension}}</span><input type="text" v-else  v-model="q.dimension" class="col-12"></td>
-        <td><span v-if="!q.isEditable">{{q.name}}</span><input type="text" v-else  v-model="q.name" class="col-12"> </td>
+        <td><span v-if="!q.isEditable">{{q.text}}</span><input type="text" v-else  v-model="q.text" class="col-12"> </td>
         <td>
           <div class="d-flex">
             <button @click="editQuestion(q.id)" class="btn edit"><img :src="bluePencil" width="25px"></button> <!--mouseover--> 
