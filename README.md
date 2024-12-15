@@ -1,18 +1,26 @@
 ## Project
-It's a RESTful web application where users can:
-a) Take an MBTI personality test
-b) View results and personality descriptions
-c) (Optional)Save and track progress over time
+It's a **RESTful web application** under development where users can:
+1. Take an **MBTI (Myers-Briggs Type Indicator)** personality test
+2. View results and personality descriptions
+3. *(Optional)* Save and track progress over time
 
-## MCD
+### Stack
+- Frontend : **Vue.js**
+- Backend : **Spring Boot, Java, JWT**
+- Database : **PostgreSQL**
+- Tools : **Git**
+
+## Conception
+
+### MCD
 
 ![image](https://github.com/user-attachments/assets/fb31d8f8-1836-4bf1-895e-482d5cdecb7c)
 
-## MLD
+### MLD
 
 ![image](https://github.com/user-attachments/assets/9a659da0-5e5e-40bb-a528-794ebed7661d)
 
-## MPD
+### MPD
 
 ```postgreSQL
 CREATE TABLE t_dimensions(
