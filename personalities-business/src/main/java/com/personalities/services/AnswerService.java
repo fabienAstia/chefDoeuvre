@@ -6,36 +6,31 @@ import com.personalities.entities.Question;
 import com.personalities.entities.User;
 import com.personalities.repositories.AnswerRepository;
 import com.personalities.repositories.QuestionRepository;
-import com.personalities.repositories.SessionRepository;
-import com.personalities.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
 
 @Service
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
-    private final SessionRepository sessionRepository;
     private final QuestionRepository questionRepository;
 
-    public AnswerService(AnswerRepository answerRepository,  SessionRepository sessionRepository, QuestionRepository questionRepository){
+    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository) {
         this.answerRepository = answerRepository;
-        this.sessionRepository = sessionRepository;
         this.questionRepository = questionRepository;
     }
 
-//    public void createAnswer(AnswerCreate inputs) {
-//        Optional<Question> question = questionRepository.findById(inputs.questionId());
-//        if(question.isPresent()){
-//            Answer answer = new Answer();
-//            User user = new User();
-//            answer.setQuestion(question.get());
-//            answer.setUser(user);
-//            answer.setRating(inputs.rating());
-//            userRepository.save(user);
-//            answerRepository.save(answer);
-//        }
-//    }
+    public void createAnswer(AnswerCreate inputs) {
+        Optional<Question> question = questionRepository.findById(inputs.questionId());
+        if (question.isPresent()) {
+            Answer answer = new Answer();
+            User user = new User();
+            answer.setQuestion(question.get());
+            answer.setUser(user);
+            answer.setRating(inputs.rating());
+            //userRepository.save(user);
+            answerRepository.save(answer);
+        }
+    }
 }

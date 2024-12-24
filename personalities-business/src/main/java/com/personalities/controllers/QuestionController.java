@@ -7,11 +7,10 @@ import com.personalities.services.QuestionService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/admin/questions")
-@CrossOrigin("*")
+@RequestMapping("/questions")
 public class QuestionController {
 
     private final QuestionService service;
@@ -26,18 +25,18 @@ public class QuestionController {
     }
 
     @PutMapping("/{id}")
-    public void updateQuestion(@PathVariable ("id") Long id,
-                               @Valid @RequestBody QuestionUpdate inputs){
+    public void updateQuestion(@PathVariable("id") Long id,
+                               @Valid @RequestBody QuestionUpdate inputs) {
         service.updateQuestion(id, inputs);
     }
 
     @GetMapping
-    public List<QuestionView> getQuestions (){
+    public Set<QuestionView> getQuestions() {
         return service.getQuestions();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteQuestion(@PathVariable ("id") Long id){
+    public void deleteQuestion(@PathVariable("id") Long id) {
         service.deleteQuestion(id);
     }
 

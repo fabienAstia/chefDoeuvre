@@ -5,12 +5,13 @@ import com.personalities.dto.QuestionUpdate;
 import com.personalities.dto.QuestionView;
 import com.personalities.entities.Question;
 import com.personalities.entities.Dimension;
-import com.personalities.mappers.QuestionMapper;
 import com.personalities.repositories.DimensionRepository;
 import com.personalities.repositories.QuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -23,27 +24,29 @@ public class QuestionService {
         this.dimensionRepository = dimensionRepository;
     }
 
-    public void createQuestion(QuestionCreate questionCreate)  {
+    public void createQuestion(QuestionCreate questionCreate) {
         Question question = new Question();
         Dimension dimension = dimensionRepository.findByNameIgnoreCase(questionCreate.dimension());
-        question.setName(questionCreate.name());
+        question.setText(questionCreate.text());
         question.setDimension(dimension);
         questionRepository.save(question);
     }
 
-    public List<QuestionView> getQuestions (){
-        List<Question>questionList = questionRepository.findAllProjectedBy();
-        return QuestionMapper.mapToDto(questionList);
+    public Set<QuestionView> getQuestions() {
+        List<Question> questionList = questionRepository.findAllProjectedBy();
+        return questionList.stream().map(question -> new QuestionView(
+                        question.getId(), question.getText(), question.getDimension().getName()))
+                .collect(Collectors.toSet());
     }
 
-    public void deleteQuestion (Long id){
+    public void deleteQuestion(Long id) {
         questionRepository.deleteById(id);
     }
 
-    public void updateQuestion (Long id, QuestionUpdate inputs) {
+    public void updateQuestion(Long id, QuestionUpdate inputs) {
         Question question = questionRepository.findById(id).get();
         Dimension dimension = dimensionRepository.findByNameIgnoreCase(inputs.dimension());
-        question.setName(inputs.name());
+        question.setText(inputs.text());
         question.setDimension(dimension);
         questionRepository.save(question);
     }

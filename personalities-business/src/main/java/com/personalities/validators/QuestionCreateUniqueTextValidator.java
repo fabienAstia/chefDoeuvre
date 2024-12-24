@@ -4,19 +4,19 @@ import com.personalities.repositories.QuestionRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class QuestionCreateUniqueNameValidator implements ConstraintValidator<QuestionCreateUniqueName, String> {
+public class QuestionCreateUniqueTextValidator implements ConstraintValidator<QuestionCreateUniqueText, String> {
 
     private final QuestionRepository questionRepository;
 
-    public QuestionCreateUniqueNameValidator(QuestionRepository questionRepository) {
+    public QuestionCreateUniqueTextValidator(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        if(name == null){
+        if (name == null) {
             return true;
         }
-        return !questionRepository.existsByNameIgnoreCase(name);
+        return !questionRepository.existsByTextIgnoreCase(name);
     }
 }
