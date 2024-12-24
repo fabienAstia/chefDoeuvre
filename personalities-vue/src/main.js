@@ -12,7 +12,8 @@ import App from './App.vue'
 import router from './router'
 
 // Détection de la langue du navigateur
-const browserLanguage = navigator.language.startsWith('fr') ? 'fr' : 'en';
+const browserLanguage = navigator.language.startsWith('fr') ? 'fr' :
+                        navigator.language.startsWith('en') ? 'en' : 'po'
 console.log(browserLanguage);
 
 

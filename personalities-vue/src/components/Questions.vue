@@ -34,7 +34,7 @@ const {
       </div>
 
       <div class="col-12 col-sm-2 col-lg-1">
-        <select class="form-select col" v-model="question.dimension" aria-placeholder="Dimension">
+        <select class="form-select create col" v-model="question.dimension" aria-placeholder="Dimension">
           <option value="E">E</option>
           <option value="I">I</option>
           <option value="N">N</option>
@@ -113,7 +113,18 @@ const {
     <tbody>
       <tr v-for="(q, index) in questions" :key="q.id" >
         <td>{{index+1}} </td>
-        <td><span v-if="!q.isEditable">{{q.dimension}}</span><input type="text" v-else  v-model="q.dimension" class="col-12"></td>
+        <td><span v-if="!q.isEditable">{{q.dimension}}</span>
+          <select v-else v-model="q.dimension" name="dimension">
+            <option value="E">E</option>
+            <option value="I">I</option>
+            <option value="N">N</option>
+            <option value="S">S</option>
+            <option value="T">T</option>
+            <option value="F">F</option>
+            <option value="P">P</option>
+            <option value="J">J</option>
+          </select>
+        </td> <!-- <input type="text" v-else  v-model="q.dimension" class="col-12"> -->
         <td><span v-if="!q.isEditable">{{q.text}}</span><input type="text" v-else  v-model="q.text" class="col-12"> </td>
         <td>
           <div class="d-flex">
@@ -132,8 +143,7 @@ const {
 form{
   width: 100%;
 }
-
-select{
+.create{
   min-width: 10px;
   height: 60px;
 }
@@ -154,7 +164,10 @@ button{
 .update:hover{
   background-color: lightgoldenrodyellow;
 }
-
+select{
+  height: 30px;
+  padding: 1px;
+}
 
 .dropdown-menu:hover > .dropdown-submenu{
   display: block;

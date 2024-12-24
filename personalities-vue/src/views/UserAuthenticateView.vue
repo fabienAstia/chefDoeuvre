@@ -38,7 +38,7 @@ const authenticate = async() => {
       console.log(jwt);
       localStorage.setItem('jwt', jwt); 
       alert('Congrats ! you are now login')
-      router.push('/home');
+      router.push('/');
     }else if(response.status === 401){
       alert('Bad Credentials');
     }else{

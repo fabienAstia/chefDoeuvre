@@ -17,7 +17,7 @@
         "operations":"Operations"
     },
     "register": {
-        "title": "Register",
+        "title": "Create an account",
         "email":"Email",
         "password":"Password",
         "submit":"Register"

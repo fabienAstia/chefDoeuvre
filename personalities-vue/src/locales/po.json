@@ -17,10 +17,10 @@
         "operations":"Operações"
     },
     "register": {
-        "title": "Registrar-se",
+        "title": "Criar uma conta",
         "email":"Email",
         "password":"Senha",
-        "submit":"Registrar-se"
+        "submit":"Registrar"
     },
     "login":{
         "title":"Entrar ?",

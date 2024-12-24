@@ -7,7 +7,7 @@ export function useQuestions(){
     
     //Nvelle question
     const addQuestion = async() => {
-        const url = 'http://localhost:8080/admin/questions'
+        const url = 'http://localhost:8080/questions'
         const options = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'}, 
@@ -36,7 +36,7 @@ export function useQuestions(){
     })
 
     async function loadQuestions() {
-        const url = 'http://localhost:8080/admin/questions';
+        const url = 'http://localhost:8080/questions';
         try{
           const response = await fetch(url);
           if(response.ok){
@@ -87,7 +87,7 @@ export function useQuestions(){
     async function updateQuestion(index){
         const updateQuestion = questions.value.find(q => q.id === index);
         
-        const url = `http://localhost:8080/admin/questions/${index}`;
+        const url = `http://localhost:8080/questions/${index}`;
         const options = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'}, 
@@ -97,6 +97,7 @@ export function useQuestions(){
             const response = await fetch(url, options);
             if(response.ok) {
             alert('You have modified the question');
+            editQuestion(index);
             } else {
                 alert('A client or server error has occured');
             }
@@ -108,7 +109,7 @@ export function useQuestions(){
     
     //Delete Question
     async function deleteQuestion(index) {
-      const url = `http://localhost:8080/admin/questions/${index}`;
+      const url = `http://localhost:8080/questions/${index}`;
       const options = {
         method: 'DELETE'
       }

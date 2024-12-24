@@ -19,7 +19,7 @@ const router = createRouter({
             component: () => import("@/views/UserAuthenticateView.vue")
         },
         {
-            path:"/admin/questions",
+            path:"/questions",
             name:"admin",
             component: () => import("@/views/AdminView.vue")
         },

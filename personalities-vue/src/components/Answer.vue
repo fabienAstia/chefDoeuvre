@@ -45,7 +45,7 @@ const addAnswer = async(idQuestion, buttonIndex) => {
     <!-- barre de progression -->
 
    
-     <div v-for= "(q, questionIndex) in questions" class=" my-5 py-4 border-bottom d-flex">
+      <div v-for= "(q, questionIndex) in questions" class=" my-5 py-4 border-bottom d-flex"> <!--export GET Questions -->
         
         <div class="container-fluid">
           <div class=" row fs-2 m-3 text-center ">
