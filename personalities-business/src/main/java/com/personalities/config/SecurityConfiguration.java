@@ -26,7 +26,7 @@ public class SecurityConfiguration {
     @Value("${cors.allowedOrigins}")
     private String allowedOrigins;
 
-    @Value("${encoder.round}")
+    @Value("${password.round}")
     private Integer round;
 
     @Value("${token.secret}")
@@ -56,7 +56,6 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
-                        //anonymous() = for non-authenticated visitors / permiALl() = evenIf you are authenticated
                         .requestMatchers("/test", "/users/**", "questions/**").permitAll()
                         .anyRequest().authenticated()
                 )

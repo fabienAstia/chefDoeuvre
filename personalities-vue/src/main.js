@@ -14,7 +14,6 @@ import router from './router'
 // Détection de la langue du navigateur
 const browserLanguage = navigator.language.startsWith('fr') ? 'fr' :
                         navigator.language.startsWith('en') ? 'en' : 'po'
-console.log(browserLanguage);
 
 
 const i18n = createI18n({

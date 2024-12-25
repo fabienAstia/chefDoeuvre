@@ -47,7 +47,7 @@ const {
       </div>
 
       <div class="col-12 col-sm-2 col-lg-1">
-        <button class="btn btn-success" type="submit" :disabled="question.text=='' || question.dimension===''">{{$t('admin.creation')}}</button>
+        <button class="btn btn-success" type="submit" :disabled="question.text==='' || question.dimension===''">{{$t('admin.creation')}}</button>
       </div>
     </div>
     

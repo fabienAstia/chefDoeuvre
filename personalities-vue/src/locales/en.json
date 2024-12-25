@@ -19,18 +19,26 @@
     "register": {
         "title": "Create an account",
         "email":"Email",
+        "emailValid":"Email must be valid",
         "password":"Password",
-        "submit":"Register"
+        "passwordLength":"Must be between 8 and 16 characters",
+        "passwordLowerUpperCase":"Must contain at least an uppercase and a lowercase",
+        "passwordDigit":"Must contain at least one digit",
+        "passwordSpecialChar":"Must contain at least one special character",
+        "submit":"Register",
+        "validInfos":""
     },
     "login":{
-        "title":"Log in ?",
+        "title":"Log in",
         "email":"Email",
+        "emailRequired":"Email is required",
         "password":"Password",
+        "passwordRequired":"Password is required",
         "submit":"Log in"
     },
     "answer": {
-        "disagree" : "Disagree",
-        "agree": "Agree"
+        "disagree" :"Disagree",
+        "agree":"Agree"
     }
 }
 

@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import {ref, watch} from 'vue';
+import {ref} from 'vue';
 import { RouterLink } from 'vue-router';
 import UserCreateView from '@/views/UserCreateView.vue';
 import clipBoard from '@/assets/clipBoard.svg';
@@ -67,11 +67,9 @@ const goToConnection = () => {
               </router-link>
             </li>
             <li v-if="registered && !logged" class="nav-item">
-              <!-- <a class="nav-link d-flex gap-1 justify-content-center" href="#login" data-bs-toggle="modal" aria-expanded="false"> -->
               <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-center">
                 <img :src="personGear" width="20px">
                 {{$t('header.authentication')}}
-              <!-- </a> -->
               </RouterLink>
             </li>
             <li v-if="logged" class="nav-item">

@@ -36,9 +36,10 @@ public class UserService {
 
     public Object authenticate(UserAuthenticate inputs) {
         String username = inputs.username();
+        System.out.println("inputs:" + inputs);
         User user = userRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new BadCredentialsException(username));
-
+        System.out.println(user.toString());
         if (!passwordEncoder.matches(inputs.password(), user.getPassword())) {
             throw new BadCredentialsException(username);
         }

@@ -19,13 +19,20 @@
     "register": {
         "title": "Criar uma conta",
         "email":"Email",
+        "emailValid":"O email deve ser valido",
         "password":"Senha",
+        "passwordLength":"Deve ter entre 8 e 16 caracteres",
+        "passwordLowerUpperCase":"Pelo menos uma letra maiuscula e uma minuscula",
+        "passwordDigit":"Pelo menos um numero",
+        "passwordSpecialChar":"Pelo menos um caractere especial",
         "submit":"Registrar"
     },
     "login":{
-        "title":"Entrar ?",
+        "title":"Entrar",
         "email":"Email",
+        "emailRequired":"O email é obrigatorio",
         "password":"Senha",
+        "passwordRequired":"O email é obrigatorio",
         "submit":"Entrar"
     },
     "answer": {

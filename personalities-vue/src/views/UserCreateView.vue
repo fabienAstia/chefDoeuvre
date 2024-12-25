@@ -5,11 +5,17 @@ import { useI18n } from 'vue-i18n';
 const {t} = useI18n;
 const router = useRouter();
 
+const props = defineProps(['registered']);
+const emit = defineEmits(['registered']);
+
 const createUserForm = ref({
         email: '',
         password:''
 })
 
+const isValidEmail = computed(() => {
+  return /^(?=.{1,64}@)\w+([\.-]?\w+)*@(?=.{4,252}$)\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(createUserForm.value.email);
+});
 const isValidLength = computed(() => {
   return createUserForm.value.password.length <= 20 && createUserForm.value.password.length >= 8;
 });
@@ -27,7 +33,8 @@ const containsSpecialChar = computed(() => {
 });
 
 const validateRegistration = computed(() => { 
-  return isValidLength.value 
+  return isValidEmail
+  && isValidLength.value 
   && containsUpperCase.value 
   && containsLowerCase.value 
   && containsDigit.value 
@@ -45,6 +52,7 @@ const newUser = async() => {
         const response = await fetch(url, options);
         if (response.ok){
             alert('you have created an account');
+            emit('registered');
             router.push('/authenticate');
         }else{
             alert('A client or server side error has occured');
@@ -54,7 +62,6 @@ const newUser = async() => {
         console.error('An expected error has occured', err);
     }
 }
-
 </script>
 
 
@@ -66,16 +73,19 @@ const newUser = async() => {
         <div class="form-group m-3">
           <label for="email" class="col-form-label">{{$t('register.email')}} <span>*</span> </label>
           <input type="email" class="form-control" id="email" v-model="createUserForm.email">
+          <ul class="validationInfos">
+            <li :class="{'valid': isValidEmail}">{{$t('register.emailValid')}}</li>
+          </ul>
         </div>
         <div class="form-group m-3">
           <label for="password" class="col-form-label">{{$t('register.password')}} <span>*</span></label>
           <input type="password" class="form-control" id="password" v-model="createUserForm.password">
           <input type="checkbox" class="form-control" id="checkbox">
           <ul class="validationInfos">
-            <li :class="{'valid': isValidLength}">Entre 8 et 16 caractères</li>
-            <li :class="{'valid': containsUpperCase && containsLowerCase}">Au moins une majuscule et une minuscule</li>
-            <li :class="{'valid': containsDigit}">Au moins un chiffre</li>
-            <li :class="{'valid': containsSpecialChar}">Au moins un caractère spécial (@, #, $, etc.)</li>
+            <li :class="{'valid': isValidLength}">{{$t('register.passwordLength')}}</li> 
+            <li :class="{'valid': containsUpperCase && containsLowerCase}">{{$t('register.passwordLowerUpperCase')}}</li>
+            <li :class="{'valid': containsDigit}">{{$t('register.passwordDigit')}}</li>
+            <li :class="{'valid': containsSpecialChar}">{{$t('register.passwordSpecialChar')}}</li>
           </ul>
         </div>
 
@@ -90,7 +100,7 @@ const newUser = async() => {
 
 
 <style scoped>
-  .container-md, h5{
+  .container-md{
     max-width: 576px;
   }
   span{
@@ -101,5 +111,6 @@ const newUser = async() => {
   }
   .valid{
     color: green;
+    list-style-type: '✓  ';
   }
 </style>
