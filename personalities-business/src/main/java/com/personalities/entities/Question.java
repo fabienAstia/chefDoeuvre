@@ -11,10 +11,11 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "text")
+    private String text;
 
     @ManyToOne
     @JoinColumn(name = "dimension_id")
@@ -24,12 +25,12 @@ public class Question {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getText() {
+        return text;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Dimension getDimension() {
@@ -38,9 +39,5 @@ public class Question {
 
     public void setDimension(Dimension dimension) {
         this.dimension = dimension;
-    }
-
-    public String getDimensionName() {
-        return dimension.getName();
     }
 }

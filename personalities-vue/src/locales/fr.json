@@ -17,16 +17,23 @@
         "operations":"Opérations"
     },
     "register": {
-        "title": "S'enregistrer",
-        "username":"Nom d'utilisateur",
+        "title": "Créer un compte",
         "email":"Email",
+        "emailValid":"L'email doit être valide",
         "password":"Mot de passe",
-        "submit":"S'enregistrer"
+        "passwordLength":"Entre 8 et 16 caractères",
+        "passwordLowerUpperCase":"Au moins une majuscule et une minuscule",
+        "passwordDigit":"Au moins un chiffre",
+        "passwordSpecialChar":"Au moins un caractère spécial",
+        "submit":"Créer",
+        "validInfos":""
     },
     "login":{
-        "title":"Se connecter ?",
+        "title":"Se connecter",
         "email":"Email",
+        "emailRequired":"L'email est requis",
         "password":"Mot de passe",
+        "passwordRequired":"Le mot de passe est requis",
         "submit":"Se connecter"
     },
     "answer": {
