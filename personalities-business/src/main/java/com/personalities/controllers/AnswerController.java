@@ -12,13 +12,13 @@ public class AnswerController {
 
     private final AnswerService answerService;
 
-    public AnswerController(AnswerService answerService){
+    public AnswerController(AnswerService answerService) {
         this.answerService = answerService;
     }
 
-//    @PostMapping
-//    public void createAnswer(@Valid @RequestBody AnswerCreate inputs){
-//        answerService.createAnswer(inputs);
-//    }
+    @PostMapping
+    public void createAnswer(@Valid @RequestBody AnswerCreate inputs) {
+        answerService.createAnswer(inputs);
+    }
 }
 

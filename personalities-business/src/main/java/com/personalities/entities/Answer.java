@@ -6,33 +6,47 @@ import jakarta.persistence.*;
 @Table(name = "t_answers")
 public class Answer {
 
-    public Answer (){
+    public Answer() {
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "session_id")
-    private Session session;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 
+    @ManyToOne
+    @JoinColumn(name = "score_id")
+    private Score score;
+
+    @Column(name = "rating")
     private int rating;
 
     public Long getId() {
         return id;
     }
 
-    public Session getSession() {
-        return session;
+    public User getUser() {
+        return user;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
     }
 
     public Question getQuestion() {

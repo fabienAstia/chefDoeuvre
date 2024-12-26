@@ -8,11 +8,11 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
-@Constraint(validatedBy = QuestionCreateUniqueNameValidator.class)
-public @interface QuestionCreateUniqueName {
-    String message() default "Cette question doit être unique";
+@Constraint(validatedBy = UserCreateUniqueUsernameValidator.class)
+public @interface UserCreateUniqueUsername {
+    String message() default "Cet email existe déjà";
 
     Class<?>[] groups() default {};
 
-    Class<?extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }
