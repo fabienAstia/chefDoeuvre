@@ -2,11 +2,26 @@
 import {ref} from 'vue';
 import { useI18n } from 'vue-i18n';
 import router from '@/router';
+import eye from '@/assets/eye.svg';
+import eyeSlash from '@/assets/eyeSlash.svg';
+import {useSharedState} from '@/composables/useState'
 
 const{t} = useI18n();
+const sharedState = useSharedState();
 
 //let jwt = ref('');
 const userCredentials = ref({email:'', password:''});
+
+const visibility = ref(false);
+const switchVisibility = () => {
+  visibility.value = !visibility.value;
+  const passwordField = document.querySelector('#password');
+  if (passwordField.getAttribute('type') === 'password') {
+    passwordField.setAttribute('type', 'text');
+  } else {
+    passwordField.setAttribute('type', 'password');
+  } 
+}
 
 const authenticate = async() => {
   const url ='http://localhost:8080/users/authenticate';
@@ -24,6 +39,7 @@ const authenticate = async() => {
       console.log(jwt);
       localStorage.setItem('jwt', jwt); 
       alert('Congrats ! you are now login')
+      sharedState.value = 'logged';
       router.push('/');
     }else if(response.status === 401){
       alert('Bad Credentials');
@@ -75,9 +91,14 @@ const authenticate = async() => {
           </ul>
         </div>
         <div class="form-group m-3">
-          <label for="password" class="col-form-label">{{$t('login.password')}} <span>*</span></label>
+          <label for="password" class="col-form-label">
+            {{$t('login.password')}} <span>*</span>
+            <button class="passwordVisibility" @click="switchVisibility" type="button">
+              <img v-if="visibility" :src="eye" width="20px">
+              <img v-else :src="eyeSlash" width="20px">
+            </button>
+          </label>
           <input type="password" class="form-control" id="password" v-model="userCredentials.password">
-          <input type="checkbox" class="form-control" id="checkbox">
           <ul class="validationInfos">
             <li :class="{'valid': userCredentials.password!==''}">{{$t('login.passwordRequired')}}</li>
           </ul>
@@ -107,5 +128,9 @@ const authenticate = async() => {
   .valid{
     color: green;
     list-style-type: '✓  ';
+  }
+  .passwordVisibility{
+    border: none;
+    background-color: #f8f9fa;
   }
 </style>

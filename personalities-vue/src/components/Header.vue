@@ -1,29 +1,20 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import {ref} from 'vue';
 import { RouterLink } from 'vue-router';
-import UserCreateView from '@/views/UserCreateView.vue';
 import clipBoard from '@/assets/clipBoard.svg';
 import filePerson from '@/assets/filePerson.svg';
 import book from '@/assets/book.svg';
 import personAdd from '@/assets/personAdd.svg';
 import personCheck from '@/assets/personCheck.svg';
 import personGear from '@/assets/personGear.svg';
-
-
-let registered = ref(false);
-let logged = ref(false);
+import {useSharedState} from '@/composables/useState'
 
 const { t, locale } = useI18n();
+const sharedState = useSharedState();
 
 const changeLanguage = (lang) => {
   locale.value = lang;
 };
-
-const goToConnection = () => {
-  registered.value = true;
-};
-
 </script>
 
 <template>
@@ -60,20 +51,20 @@ const goToConnection = () => {
         
   
           <ul class="navbar-nav">
-            <li v-if="!registered" class="nav-item ">
+            <li v-if="sharedState !== 'registered' && sharedState !=='logged'" class="nav-item ">
               <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-center">
                 <img :src="personAdd" width="20px">
                 {{$t('header.registration')}}
               </router-link>
             </li>
-            <li v-if="registered && !logged" class="nav-item">
+            <li v-if="sharedState === 'registered' && sharedState !=='logged'" class="nav-item">
               <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-center">
                 <img :src="personGear" width="20px">
                 {{$t('header.authentication')}}
               </RouterLink>
             </li>
-            <li v-if="logged" class="nav-item">
-              <a class="nav-link d-flex gap-1 justify-content-center" href="#login" data-bs-toggle="modal" aria-expanded="false">
+            <li v-if="sharedState === 'logged'" class="nav-item">
+              <a class="nav-link d-flex gap-1 justify-content-center" href="#login" aria-expanded="false">
                 <img :src="personCheck" width="20px">
                 {{$t('header.welcome')}}  
               </a>

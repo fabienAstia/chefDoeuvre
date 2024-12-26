@@ -2,11 +2,13 @@
 import {computed, ref} from 'vue';
 import{useRouter} from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import eyeSlash from '@/assets/eyeSlash.svg';
+import eye from '@/assets/eye.svg';
+import {useSharedState} from '@/composables/useState'
+
 const {t} = useI18n;
 const router = useRouter();
-
-const props = defineProps(['registered']);
-const emit = defineEmits(['registered']);
+const sharedState = useSharedState();
 
 const createUserForm = ref({
         email: '',
@@ -33,13 +35,24 @@ const containsSpecialChar = computed(() => {
 });
 
 const validateRegistration = computed(() => { 
-  return isValidEmail
+  return isValidEmail.value
   && isValidLength.value 
   && containsUpperCase.value 
   && containsLowerCase.value 
   && containsDigit.value 
   && containsSpecialChar.value;
 });
+
+const visibility = ref(false);
+const switchVisibility = () => {
+  visibility.value = !visibility.value;
+  const passwordField = document.querySelector('#password');
+  if (passwordField.getAttribute('type') === 'password') {
+    passwordField.setAttribute('type', 'text');
+  } else {
+    passwordField.setAttribute('type', 'password');
+  } 
+}
      
 const newUser = async() => {
     const url = 'http://localhost:8080/users'
@@ -52,7 +65,7 @@ const newUser = async() => {
         const response = await fetch(url, options);
         if (response.ok){
             alert('you have created an account');
-            emit('registered');
+            sharedState.value = 'registered';
             router.push('/authenticate');
         }else{
             alert('A client or server side error has occured');
@@ -78,9 +91,14 @@ const newUser = async() => {
           </ul>
         </div>
         <div class="form-group m-3">
-          <label for="password" class="col-form-label">{{$t('register.password')}} <span>*</span></label>
+          <label for="password" class="col-form-label">
+            {{$t('register.password')}} <span>* </span>
+            <button class="passwordVisibility" @click="switchVisibility" type="button">
+              <img v-if="visibility" :src="eye" width="20px">
+              <img v-else :src="eyeSlash" width="20px">
+            </button>
+          </label>
           <input type="password" class="form-control" id="password" v-model="createUserForm.password">
-          <input type="checkbox" class="form-control" id="checkbox">
           <ul class="validationInfos">
             <li :class="{'valid': isValidLength}">{{$t('register.passwordLength')}}</li> 
             <li :class="{'valid': containsUpperCase && containsLowerCase}">{{$t('register.passwordLowerUpperCase')}}</li>
@@ -95,7 +113,6 @@ const newUser = async() => {
     </form>
 
   </div>
-
 </template> 
 
 
@@ -112,5 +129,9 @@ const newUser = async() => {
   .valid{
     color: green;
     list-style-type: '✓  ';
+  }
+  .passwordVisibility{
+    border: none;
+    background-color: #f8f9fa;
   }
 </style>
