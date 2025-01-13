@@ -9,8 +9,11 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -35,6 +38,9 @@ public class SecurityConfiguration {
     @Value("${token.expiration}")
     private Integer expiration;
 
+    @Value("${token.issuer}")
+    private String issuer;
+
     @Bean
     WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -55,11 +61,13 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
-                        .requestMatchers("/test", "/users/**", "questions/**").permitAll()
+                        .requestMatchers("/users", "users/authenticate", "/answers", "/questions/paginated").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/questions").permitAll()
+                        .requestMatchers("/questions/**").hasRole("ADMIN")
+                        //.requestMatchers(HttpMethod.POST, "/answers").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
                 )
-                // .oauth2ResourceServer(server -> server.jwt((Customizer.withDefaults())))
+                .oauth2ResourceServer(server -> server.jwt((Customizer.withDefaults())))
                 .build();
     }
 
@@ -71,15 +79,24 @@ public class SecurityConfiguration {
     @Bean
     JwtProvider jwtProvider() {
         Algorithm algorithm = Algorithm.HMAC256(secret);
-        return new JwtProvider(algorithm, expiration);
+        return new JwtProvider(algorithm, expiration, issuer);
     }
 
     @Bean
     JwtDecoder jwtDecoder() {
         SecretKey secretKey = new SecretKeySpec(secret.getBytes(),
                 "HMACSHA256");
-        NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(secretKey)
-                .macAlgorithm(MacAlgorithm.HS256).build();
+        NimbusJwtDecoder decoder = NimbusJwtDecoder
+                .withSecretKey(secretKey)
+                .macAlgorithm(MacAlgorithm.HS256)
+                .build();
+        OAuth2TokenValidator<Jwt> validator = JwtValidators.createDefaultWithIssuer(issuer);
+        decoder.setJwtValidator(validator);
         return decoder;
+    }
+
+    @Bean
+    public SecurityHelper securityHelper() {
+        return new SecurityHelper();
     }
 }

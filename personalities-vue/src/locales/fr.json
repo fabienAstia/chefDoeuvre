@@ -3,7 +3,7 @@
         "test": "Test",
         "personalities": "Personnalités",
         "documentation": "Articles",
-        "registration": "S'enregistrer",
+        "registration": "S'inscrire",
         "authentication": "Se connecter",
         "welcome":"Bienvenue",
         "languages": "Langues"
@@ -12,7 +12,7 @@
         "questionLabel": "Nouvelle Question",
         "creation":"créer",
         "placeholder":"Ecrivez une question",
-        "filter":"Filtre",
+        "axis":"Axe",
         "dimension":"Dimension",
         "operations":"Opérations"
     },
@@ -25,7 +25,7 @@
         "passwordLowerUpperCase":"Au moins une majuscule et une minuscule",
         "passwordDigit":"Au moins un chiffre",
         "passwordSpecialChar":"Au moins un caractère spécial",
-        "submit":"Créer",
+        "submit":"S'inscrire",
         "validInfos":""
     },
     "login":{

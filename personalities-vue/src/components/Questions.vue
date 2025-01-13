@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue';
+// import {ref} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useQuestions } from '@/components/useQuestions';
 import bluePencil from '@/assets/bluePencil.svg';
@@ -54,41 +54,21 @@ const {
   </form>
 
 
-  <table class="table table-hover">
-    <thead class="table-dark">
-      <tr data-bs-theme="dark">
+  <table class="table table-hover" >
+    <thead>
+      <tr>  
         <th class="col-1" @click="loadQuestions">#</th>
-        <th class="col-1"> 
-
-          <div class="dropdown list-unstyled ">
-            <a class="dropdown-item dropdown-toggle" data-bs-auto-close="ouside" data-bs-toggle="dropdown" role="button" aria-expanded="false">{{$t('admin.filter')}}</a>
-            <ul class="dropdown-menu">
-
-              <li class="dropdown-item dropdown-submenu">
-                <a class="dropdown-item dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Axe</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" @click="sortAxe('IE')">I/E</a></li>
-                  <li><a class="dropdown-item" @click="sortAxe('NS')">N/S</a></li>
-                  <li><a class="dropdown-item" @click="sortAxe('TF')">T/F</a></li>
-                  <li><a class="dropdown-item" @click="sortAxe('PJ')">P/J</a></li>
-                </ul>
-              </li>
-
-              <li class="dropdown-item dropdown-submenu">
-                <a class="dropdown-item dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Dimension</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" @click="sortDim('I')">I</a></li>
-                  <li><a class="dropdown-item" @click="sortDim('E')">E</a></li>
-                  <li><a class="dropdown-item" @click="sortDim('N')">N</a></li>
-                  <li><a class="dropdown-item" @click="sortDim('S')">S</a></li>
-                  <li><a class="dropdown-item" @click="sortDim('T')">T</a></li>
-                  <li><a class="dropdown-item" @click="sortDim('F')">F</a></li>
-                  <li><a class="dropdown-item" @click="sortDim('P')">P</a></li>
-                  <li><a class="dropdown-item" @click="sortDim('J')">J</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+        
+        <th class="col-1">
+          <div class="dropdown list-unstyled col-1">
+              <a class="dropdown-item dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">{{$t('admin.axis')}}</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" @click="sortAxe('IE')">I/E</a></li>
+                <li><a class="dropdown-item" @click="sortAxe('NS')">N/S</a></li>
+                <li><a class="dropdown-item" @click="sortAxe('TF')">T/F</a></li>
+                <li><a class="dropdown-item" @click="sortAxe('PJ')">P/J</a></li>
+              </ul>
+            </div>
         </th>
 
         <th class="col-9">
@@ -171,6 +151,9 @@ select{
 
 .dropdown-menu:hover > .dropdown-submenu{
   display: block;
+}
+table thead tr > th{
+  background-color: #addee4;  
 }
 
 </style>

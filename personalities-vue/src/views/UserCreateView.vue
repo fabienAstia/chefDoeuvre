@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import eyeSlash from '@/assets/eyeSlash.svg';
 import eye from '@/assets/eye.svg';
 import {useSharedState} from '@/composables/useState'
+import axios from 'axios';
 
 const {t} = useI18n;
 const router = useRouter();
@@ -53,26 +54,25 @@ const switchVisibility = () => {
     passwordField.setAttribute('type', 'password');
   } 
 }
-     
+
 const newUser = async() => {
-    const url = 'http://localhost:8080/users'
-    const options = {
-        method:'POST',
-        headers:{'Content-type':'application/json'},
-        body:JSON.stringify(createUserForm.value)
-    }
     try {
-        const response = await fetch(url, options);
-        if (response.ok){
-            alert('you have created an account');
-            sharedState.value = 'registered';
-            router.push('/authenticate');
-        }else{
-            alert('A client or server side error has occured');
-        }
+      await axios.post('http://localhost:8080/users', createUserForm.value);
+        alert('you have created an account');
+        sharedState.value = 'registered';
+        router.push('/authenticate');
     } catch(err) {
+      if(err.response){
+        const statusCode = err.response.status;
+        if(statusCode >= 400 && statusCode < 500) {
+          alert(err.response.data.fieldsErrors.username, err.response.data.fieldsErrors.password)
+        } else if (statusCode >= 500 && statusCode < 600) {
+          alert('A server error has occured')
+        }
+      } else {
         alert('An expected error has occured');
-        console.error('An expected error has occured', err);
+        console.error('An unexpected error has occured', err);
+      }
     }
 }
 </script>

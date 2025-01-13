@@ -22,10 +22,6 @@ public class Answer {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne
-    @JoinColumn(name = "score_id")
-    private Score score;
-
     @Column(name = "rating")
     private int rating;
 
@@ -39,14 +35,6 @@ public class Answer {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Score getScore() {
-        return score;
-    }
-
-    public void setScore(Score score) {
-        this.score = score;
     }
 
     public Question getQuestion() {

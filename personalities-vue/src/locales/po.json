@@ -12,7 +12,7 @@
         "questionLabel": "Nova Pergunta",
         "creation":"criar",
         "placeholder":"Ecreva uma pergunta",
-        "filter":"Filtro",
+        "axis":"Eixo",
         "dimension":"Dimensão",
         "operations":"Operações"
     },

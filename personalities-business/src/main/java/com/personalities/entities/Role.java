@@ -2,8 +2,8 @@ package com.personalities.entities;
 
 public enum Role {
 
-    GUEST,
-    USER,
-    ADMIN;
+    ROLE_GUEST,
+    ROLE_USER,
+    ROLE_ADMIN;
 
 }

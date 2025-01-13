@@ -7,6 +7,9 @@ import com.personalities.entities.Question;
 import com.personalities.entities.Dimension;
 import com.personalities.repositories.DimensionRepository;
 import com.personalities.repositories.QuestionRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +27,13 @@ public class QuestionService {
         this.dimensionRepository = dimensionRepository;
     }
 
-    public void createQuestion(QuestionCreate questionCreate) {
+    public ResponseEntity<Object> createQuestion(QuestionCreate questionCreate) {
         Question question = new Question();
         Dimension dimension = dimensionRepository.findByNameIgnoreCase(questionCreate.dimension());
         question.setText(questionCreate.text());
         question.setDimension(dimension);
         questionRepository.save(question);
+        return null;
     }
 
     public Set<QuestionView> getQuestions() {
@@ -37,6 +41,10 @@ public class QuestionService {
         return questionList.stream().map(question -> new QuestionView(
                         question.getId(), question.getText(), question.getDimension().getName()))
                 .collect(Collectors.toSet());
+    }
+
+    public Page<Question> getPaginatedQuestions(Pageable pageable) {
+        return questionRepository.findAll(pageable);
     }
 
     public void deleteQuestion(Long id) {

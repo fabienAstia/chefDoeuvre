@@ -5,11 +5,12 @@ import router from '@/router';
 import eye from '@/assets/eye.svg';
 import eyeSlash from '@/assets/eyeSlash.svg';
 import {useSharedState} from '@/composables/useState'
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 const{t} = useI18n();
 const sharedState = useSharedState();
 
-//let jwt = ref('');
 const userCredentials = ref({email:'', password:''});
 
 const visibility = ref(false);
@@ -24,56 +25,34 @@ const switchVisibility = () => {
 }
 
 const authenticate = async() => {
-  const url ='http://localhost:8080/users/authenticate';
-  const options = {
-    method:'POST',
-    headers:{
-      'Content-type':'application/json',
-    },
-    body:JSON.stringify(userCredentials.value)
-  }
   try{
-    const response = await fetch(url, options);
-    if(response.ok){
-      let jwt = await response.text();
-      console.log(jwt);
+    const response = await axios.post('http://localhost:8080/users/authenticate', userCredentials.value);
+      let jwt = response.data;
       localStorage.setItem('jwt', jwt); 
       alert('Congrats ! you are now login')
       sharedState.value = 'logged';
-      router.push('/');
-    }else if(response.status === 401){
-      alert('Bad Credentials');
-    }else{
-      alert('A client or server side has occured');
-    }
+      const decodedToken = jwtDecode(jwt);
+      if(decodedToken.role === 'ROLE_ADMIN'){
+        router.push('/questions');
+      } else {
+        router.push('/');
+      } 
   }catch(err){
-    alert('an unexpected error has occured');
-    console.error('an expected error has occured', err);
+    if(err.response){
+      const statusCode = err.response.status;
+      if(statusCode === 401){
+        alert('Bad Credentials');
+      }else if(statusCode >=400 && statusCode <500){
+        alert('A client error has occurred!')
+      }else if(statusCode >=500 && statusCode <600){
+        alert('A server error has occurred!')
+      }
+    }else{
+      alert('An unexpected error has occured');
+      console.error('An unexpected error has occured', err);
+    }
   }
 }
-
-// async accessToken(){
-//             const jwt = localStorage.getItem("jwt").trim();
-//             console.log("jwt token :" + jwt)
-//             const options= {
-//                 method:'GET',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'Authorization' : `Bearer ${jwt}`
-//                 }
-//             }
-//             try{
-//                 const response = await fetch('http://localhost:8080/accounts', options);
-//                 if(response.ok){
-//                     alert('good')
-//                 }else{
-//                     alert('problem')
-//                 }
-//             }catch(err){
-//                 console.error(err);
-//                 alert('bad')
-//             }
-        // }
 
 </script>
 

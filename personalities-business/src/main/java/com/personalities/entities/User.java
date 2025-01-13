@@ -11,7 +11,7 @@ public class User extends AbstractEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email") //username as email with SpringSecurity
+    @Column(name = "email")
     private String username;
 
     @Column(name = "password")
@@ -58,7 +58,7 @@ public class User extends AbstractEntity {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password=[PROTECTED]" + password + '\'' +
+                ", password=[PROTECTED]" + '\'' +
                 ", role=" + role +
                 '}';
     }

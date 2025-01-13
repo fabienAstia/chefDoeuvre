@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 @Constraint(validatedBy = UserCreateUniqueUsernameValidator.class)
 public @interface UserCreateUniqueUsername {
-    String message() default "Cet email existe déjà";
+    String message() default "This email already exists";
 
     Class<?>[] groups() default {};
 

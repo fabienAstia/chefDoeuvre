@@ -3,8 +3,8 @@
         "test": "Test",
         "personalities": "Personnalities",
         "documentation": "Documentation",
-        "registration": "Register",
-        "authentication": "Log in",
+        "registration": "Sign up",
+        "authentication": "Sign in",
         "welcome":"Welcome",
         "languages": "Languages"
     },
@@ -12,7 +12,7 @@
         "questionLabel": "New Question",
         "creation":"create",
         "placeholder":"Write a question",
-        "filter":"Filter",
+        "axis":"Axis",
         "dimension":"Dimension",
         "operations":"Operations"
     },
@@ -25,16 +25,16 @@
         "passwordLowerUpperCase":"Must contain at least an uppercase and a lowercase",
         "passwordDigit":"Must contain at least one digit",
         "passwordSpecialChar":"Must contain at least one special character",
-        "submit":"Register",
+        "submit":"Sign up",
         "validInfos":""
     },
     "login":{
-        "title":"Log in",
+        "title":"Sign in",
         "email":"Email",
         "emailRequired":"Email is required",
         "password":"Password",
         "passwordRequired":"Password is required",
-        "submit":"Log in"
+        "submit":"Sign in"
     },
     "answer": {
         "disagree" :"Disagree",

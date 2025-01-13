@@ -1,13 +1,15 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
+import {useSharedState} from '@/composables/useState'
+import{computed} from 'vue';
+
 import clipBoard from '@/assets/clipBoard.svg';
 import filePerson from '@/assets/filePerson.svg';
 import book from '@/assets/book.svg';
 import personAdd from '@/assets/personAdd.svg';
 import personCheck from '@/assets/personCheck.svg';
 import personGear from '@/assets/personGear.svg';
-import {useSharedState} from '@/composables/useState'
 
 const { t, locale } = useI18n();
 const sharedState = useSharedState();
@@ -15,10 +17,19 @@ const sharedState = useSharedState();
 const changeLanguage = (lang) => {
   locale.value = lang;
 };
+
+const isLoggedIn = computed(() => {
+  const token = localStorage.getItem('jwt');
+  if (token) {
+    sharedState.value = 'logged'; 
+    return true;
+  }
+  return false;
+});
 </script>
 
 <template>
-    <nav id="navbar" class="navbar navbar-expand-sm bg-body-tertiary fs-5" data-bs-theme="dark">
+     <nav id="navbar" class="navbar navbar-expand-sm fs-5" >
       <div class="container-fluid">
         <router-link to="/" class="navbar-brand p-0">
           <img id="logo" src="../assets/images/logo.JPG" alt="logo" class="header">
@@ -30,19 +41,19 @@ const changeLanguage = (lang) => {
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav me-auto gap-1">
             <li class="nav-item">
-              <router-link to="/test" class="nav-link d-flex gap-1 justify-content-center">
+              <router-link to="/test" class="nav-link d-flex gap-1 justify-content-center fw-bold">
                 <img :src="clipBoard" width="20px">
                 {{$t('header.test')}}
               </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex gap-1 justify-content-center" href="#">
+              <a class="nav-link d-flex gap-1 justify-content-center fw-bold" href="#">
                 <img :src="filePerson" width="20px">
                 {{$t('header.personalities')}}
               </a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link d-flex gap-1 justify-content-center" href="#">
+              <a class="nav-link d-flex gap-1 justify-content-center fw-bold" href="#">
                 <img :src="book" width="20px">
                 {{$t('header.documentation')}}
               </a>
@@ -50,9 +61,9 @@ const changeLanguage = (lang) => {
           </ul>
         
   
-          <ul class="navbar-nav">
-            <li v-if="sharedState !== 'registered' && sharedState !=='logged'" class="nav-item ">
-              <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-center">
+          <ul class="navbar-nav ms-auto">
+            <li v-if="!isLoggedIn && sharedState !== 'registered' && sharedState !=='logged'" class="nav-item ">
+              <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-center fw-bold">
                 <img :src="personAdd" width="20px">
                 {{$t('header.registration')}}
               </router-link>
@@ -95,7 +106,7 @@ const changeLanguage = (lang) => {
                 </li>
               </ul>
             </li>
-
+            <!-- #A1D6C1; -->
           </ul>
         </div>
       </div>
@@ -117,10 +128,12 @@ const changeLanguage = (lang) => {
   position: sticky;
   top: 0;
   z-index: 1050; 
+  background-color: #addee4;
   }
 
   .dropdown-menu {
     z-index: 1070; 
+    background-color: #addee4; 
   }
  
   </style> 

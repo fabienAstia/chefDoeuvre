@@ -6,6 +6,8 @@ import com.personalities.dto.UserCreate;
 import com.personalities.entities.Role;
 import com.personalities.entities.User;
 import com.personalities.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,31 +20,38 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final String adminUsername;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       JwtProvider jwtProvider, @Value("${admin.username}") String adminUsername) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtProvider = jwtProvider;
+        this.adminUsername = adminUsername;
     }
 
     @Transactional
-    public void create(UserCreate inputs) {
+    public ResponseEntity<Object> create(UserCreate inputs) {
         User user = new User();
         user.setUsername(inputs.username());
         user.setPassword(passwordEncoder.encode(inputs.password()));
-        user.setRole(Role.USER);
+        if (user.getUsername().equals(adminUsername)) {
+            user.setRole(Role.ROLE_ADMIN);
+        } else {
+            user.setRole(Role.ROLE_USER);
+        }
         userRepository.save(user);
+        return null;
     }
 
     public Object authenticate(UserAuthenticate inputs) {
         String username = inputs.username();
-        System.out.println("inputs:" + inputs);
         User user = userRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new BadCredentialsException(username));
-        System.out.println(user.toString());
         if (!passwordEncoder.matches(inputs.password(), user.getPassword())) {
             throw new BadCredentialsException(username);
         }
-        return jwtProvider.create(username);
+        String role = user.getRole().toString();
+        return jwtProvider.create(username, role);
     }
 }

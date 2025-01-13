@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory} from "vue-router";
+import { adminRole, userRole } from "@/guards/auth-guard";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -21,7 +22,8 @@ const router = createRouter({
         {
             path:"/questions",
             name:"admin",
-            component: () => import("@/views/AdminView.vue")
+            component: () => import("@/views/AdminView.vue"),
+            beforeEnter: adminRole
         },
         {
             path:"/test",

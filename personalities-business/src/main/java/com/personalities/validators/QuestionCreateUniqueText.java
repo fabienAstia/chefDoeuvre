@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 @Constraint(validatedBy = QuestionCreateUniqueTextValidator.class)
 public @interface QuestionCreateUniqueText {
-    String message() default "Cette question doit être unique";
+    String message() default "This question already exists";
 
     Class<?>[] groups() default {};
 
