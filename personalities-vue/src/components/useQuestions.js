@@ -5,9 +5,12 @@ export function useQuestions(){
   const questions = ref([])
   const allQuestions = ref([])
   const paginatedQuestions = ref([])
-  const question = ref({id:'', text:'', dimension:'', isEditable: false})
+  const question = ref({id:'', label:'', psychPref:'', isEditable: false})
   const jwt = localStorage.getItem('jwt');
-    
+  const pageNumber = ref(0);
+  const pageSize = ref(8);  
+  const totalPages = ref(0);
+
   //Nvelle question
   const addQuestion = async() => {
     try{
@@ -15,15 +18,15 @@ export function useQuestions(){
         question.value,
         {headers: {'Authorization': `Bearer ${jwt}`}});
           alert('You have created a new question.')
-          questions.value.push({id: '', text: question.value.text, dimension: question.value.dimension});
-          question.value.text= '';
-          question.value.dimension= ''; 
+          questions.value.push({id: '', label: question.value.label, psychPref: question.value.psychPref});
+          question.value.label= '';
+          question.value.psychPref= ''; 
           loadQuestions();
     }catch(err){
         if(err.response){
           const statusCode = err.response.status;
           if(statusCode >=400 && statusCode <500){
-            alert(err.response.data.fieldsErrors.text)
+            alert(err.response.data.fieldsErrors.label) //retrouver le chemin 
           }else if(statusCode >=500 && statusCode <600){
             alert('A server error has occurred!')
           }
@@ -40,6 +43,7 @@ export function useQuestions(){
   })
 
   async function loadQuestions() {
+    console.log("pagenumber = "+pageNumber.value)
     try {
       const response = await axios.get('http://localhost:8080/questions');
       allQuestions.value = response.data;
@@ -62,7 +66,33 @@ export function useQuestions(){
 
   async function getPaginatedQuestions() {
     try {
-      const response = await axios.get('http://localhost:8080/questions/paginated');
+      const url =`http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`;
+      const response = await axios.get(url);
+      paginatedQuestions.value = response.data.content;
+      totalPages.value = response.data.page.totalPages;
+      pageSize.value = response.data.page.size;
+      paginatedQuestions.value.forEach((question) => {
+        console.log("ID:", question.id, "psychPref:", question.psychPref, "Label:", question.label);
+      });
+    }catch(err){
+      if(err.response){
+        const statusCode = err.response.status;
+        if(statusCode >=400 && statusCode <500){
+          alert('A client error has occurred!')
+        }else if(statusCode >=500 && statusCode <600){
+          alert('A server error has occurred!')
+        }
+      }else{
+        alert('an unexpected error has occured');
+        console.error('an unexpected error has occured', err);
+      }
+    }
+  }
+
+  async function getNextPage() {
+    try {
+      pageNumber.value++
+      const response = await axios.get(`http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`);
       paginatedQuestions.value = response.data.content;
     }catch(err){
       if(err.response){
@@ -83,22 +113,22 @@ export function useQuestions(){
   function sortAxe(axe){
       switch (axe) {
           case 'IE' :
-            questions.value = allQuestions.value.filter(q => q.dimension === 'I' || q.dimension === 'E');
+            questions.value = allQuestions.value.filter(q => q.psychPref === 'I' || q.psychPref === 'E');
               break;
           case 'NS' :
-            questions.value = allQuestions.value.filter(q => q.dimension === 'N' || q.dimension === 'S');
+            questions.value = allQuestions.value.filter(q => q.psychPref === 'N' || q.psychPref === 'S');
               break;
           case 'TF' :
-            questions.value = allQuestions.value.filter(q => q.dimension === 'T' || q.dimension === 'F');
+            questions.value = allQuestions.value.filter(q => q.psychPref === 'T' || q.psychPref === 'F');
               break;
           case 'PJ' :
-            questions.value = allQuestions.value.filter(q => q.dimension === 'P' || q.dimension === 'J');
+            questions.value = allQuestions.value.filter(q => q.psychPref === 'P' || q.psychPref === 'J');
               break;
       }     
   }
 
   function sortDim(dim){ 
-      questions.value = allQuestions.value.filter(q => q.dimension === dim);
+      questions.value = allQuestions.value.filter(q => q.psychPref === dim);
   }     
   
   //Edit Question
@@ -112,7 +142,7 @@ export function useQuestions(){
     const updateQuestion = questions.value.find(q => q.id === index);
     try {
       await axios.put(`http://localhost:8080/questions/${index}`, 
-        {id: '', text: updateQuestion.text, dimension: updateQuestion.dimension},
+        {id: '', label: updateQuestion.label, psychPref: updateQuestion.psychPref},
         { headers: {
           'Authorization': `Bearer ${jwt}`
       }});
@@ -123,7 +153,7 @@ export function useQuestions(){
         const statusCode = err.response.status;
         console.log(err.response.data)
         if(statusCode >=400 && statusCode <500){
-          alert(err.response.data.fieldsErrors.text)
+          alert(err.response.data.fieldsErrors.label)
         }else if(statusCode >=500 && statusCode <600){
           alert('A server error has occurred!')
         }
@@ -163,6 +193,10 @@ export function useQuestions(){
       addQuestion,
       loadQuestions,
       getPaginatedQuestions,
+      getNextPage,
+      pageNumber,
+      pageSize,
+      totalPages,
       paginatedQuestions,
       editQuestion,
       updateQuestion,

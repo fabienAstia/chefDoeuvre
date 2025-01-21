@@ -13,13 +13,13 @@
         "creation":"create",
         "placeholder":"Write a question",
         "axis":"Axis",
-        "dimension":"Dimension",
+        "psychPref":"PsychPref",
         "operations":"Operations"
     },
     "register": {
         "title": "Create an account",
-        "email":"Email",
-        "emailValid":"Email must be valid",
+        "username":"Email",
+        "usernameValid":"Email must be valid",
         "password":"Password",
         "passwordLength":"Must be between 8 and 16 characters",
         "passwordLowerUpperCase":"Must contain at least an uppercase and a lowercase",
@@ -30,8 +30,8 @@
     },
     "login":{
         "title":"Sign in",
-        "email":"Email",
-        "emailRequired":"Email is required",
+        "username":"Email",
+        "usernameRequired":"Email is required",
         "password":"Password",
         "passwordRequired":"Password is required",
         "submit":"Sign in"

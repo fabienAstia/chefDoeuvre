@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
 public record UserAuthenticate(
-        @JsonProperty("email")
+        @JsonProperty("username")
         @NotBlank
         String username,
 

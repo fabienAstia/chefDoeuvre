@@ -30,11 +30,11 @@ const {
     <div class="row g-3 mb-3 align-items-end">
       <div class="col-12 col-sm-8 col-lg-10">
         <label>{{$t('admin.questionLabel')}}</label>
-        <textarea class="form-control" v-model="question.text" placeholder="Ecrivez-une question"></textarea>
+        <textarea class="form-control" v-model="question.label" placeholder="Ecrivez-une question"></textarea>
       </div>
 
       <div class="col-12 col-sm-2 col-lg-1">
-        <select class="form-select create col" v-model="question.dimension" aria-placeholder="Dimension">
+        <select class="form-select create col" v-model="question.psychPref" aria-placeholder="psychological preferences">
           <option value="E">E</option>
           <option value="I">I</option>
           <option value="N">N</option>
@@ -47,7 +47,7 @@ const {
       </div>
 
       <div class="col-12 col-sm-2 col-lg-1">
-        <button class="btn btn-success" type="submit" :disabled="question.text==='' || question.dimension===''">{{$t('admin.creation')}}</button>
+        <button class="btn btn-success" type="submit" :disabled="question.label==='' || question.psychPref===''">{{$t('admin.creation')}}</button>
       </div>
     </div>
     
@@ -73,7 +73,7 @@ const {
 
         <th class="col-9">
           <div class="dropdown list-unstyled col-9">
-              <a class="dropdown-item dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">{{$t('admin.dimension')}}</a>
+              <a class="dropdown-item dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">{{$t('admin.psychPref')}}</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" @click="sortDim('I')">I</a></li>
                 <li><a class="dropdown-item" @click="sortDim('E')">E</a></li>
@@ -93,8 +93,8 @@ const {
     <tbody>
       <tr v-for="(q, index) in questions" :key="q.id" >
         <td>{{index+1}} </td>
-        <td><span v-if="!q.isEditable">{{q.dimension}}</span>
-          <select v-else v-model="q.dimension" name="dimension">
+        <td><span v-if="!q.isEditable">{{q.psychPref}}</span>
+          <select v-else v-model="q.psychPref" name="psychPref">
             <option value="E">E</option>
             <option value="I">I</option>
             <option value="N">N</option>
@@ -104,8 +104,8 @@ const {
             <option value="P">P</option>
             <option value="J">J</option>
           </select>
-        </td> <!-- <input type="text" v-else  v-model="q.dimension" class="col-12"> -->
-        <td><span v-if="!q.isEditable">{{q.text}}</span><input type="text" v-else  v-model="q.text" class="col-12"> </td>
+        </td> <!-- <input type="text" v-else  v-model="q.psychPref" class="col-12"> -->
+        <td><span v-if="!q.isEditable">{{q.label}}</span><input type="text" v-else  v-model="q.label" class="col-12"> </td>
         <td>
           <div class="d-flex">
             <button @click="editQuestion(q.id)" class="btn edit"><img :src="bluePencil" width="25px"></button> <!--mouseover--> 

@@ -5,6 +5,7 @@ import com.personalities.dto.UserAuthenticate;
 import com.personalities.dto.UserCreate;
 import com.personalities.entities.Role;
 import com.personalities.entities.User;
+import com.personalities.repositories.RoleRepository;
 import com.personalities.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,12 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final String adminUsername;
+    private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder,
                        JwtProvider jwtProvider, @Value("${admin.username}") String adminUsername) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtProvider = jwtProvider;
         this.adminUsername = adminUsername;
@@ -36,9 +39,11 @@ public class UserService {
         user.setUsername(inputs.username());
         user.setPassword(passwordEncoder.encode(inputs.password()));
         if (user.getUsername().equals(adminUsername)) {
-            user.setRole(Role.ROLE_ADMIN);
+            Role roleAdmin = roleRepository.findByRole("ROLE_ADMIN");
+            user.setRole(roleAdmin);
         } else {
-            user.setRole(Role.ROLE_USER);
+            Role roleUser = roleRepository.findByRole("ROLE_USER");
+            user.setRole(roleUser);
         }
         userRepository.save(user);
         return null;
@@ -51,7 +56,7 @@ public class UserService {
         if (!passwordEncoder.matches(inputs.password(), user.getPassword())) {
             throw new BadCredentialsException(username);
         }
-        String role = user.getRole().toString();
+        String role = user.getRole().getRole();
         return jwtProvider.create(username, role);
     }
 }

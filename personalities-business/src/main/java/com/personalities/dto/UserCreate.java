@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 public record UserCreate(
 
-        @JsonProperty("email")
+        @JsonProperty("username")
         @NotBlank
         @UserCreateUniqueUsername
         @Pattern(regexp = "^(?=.{1,64}@)[\\w-]+([.-]?[\\w-]+)*@(?=.{4,252}$)[\\w-]+([.-]?[\\w-]+)*(\\.[a-zA-Z]{2,4})+$",

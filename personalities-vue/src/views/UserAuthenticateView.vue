@@ -11,7 +11,7 @@ import axios from 'axios';
 const{t} = useI18n();
 const sharedState = useSharedState();
 
-const userCredentials = ref({email:'', password:''});
+const userCredentials = ref({username:'', password:''});
 
 const visibility = ref(false);
 const switchVisibility = () => {
@@ -28,6 +28,7 @@ const authenticate = async() => {
   try{
     const response = await axios.post('http://localhost:8080/users/authenticate', userCredentials.value);
       let jwt = response.data;
+      console.log(jwt)
       localStorage.setItem('jwt', jwt); 
       alert('Congrats ! you are now login')
       sharedState.value = 'logged';
@@ -63,10 +64,10 @@ const authenticate = async() => {
     <form @submit.prevent="authenticate" class="bg-light fs-5">
      
         <div class="form-group m-3">
-          <label for="email" class="col-form-label">{{$t('login.email')}} <span>*</span> </label>
-          <input type="email" class="form-control" id="email" v-model="userCredentials.email">
+          <label for="username" class="col-form-label">{{$t('login.username')}} <span>*</span> </label>
+          <input type="email" class="form-control" id="username" v-model="userCredentials.username">
           <ul class="validationInfos">
-            <li :class="{'valid': userCredentials.email!==''}">{{$t('login.emailRequired')}}</li>
+            <li :class="{'valid': userCredentials.username!==''}">{{$t('login.usernameRequired')}}</li>
           </ul>
         </div>
         <div class="form-group m-3">
@@ -84,7 +85,7 @@ const authenticate = async() => {
         </div>
 
         <div class="text-bg- text-center m-3">
-          <button type="submit" class="btn btn-success m-3 fs-5" :disabled="userCredentials.email==='' || userCredentials.password===''">{{$t('login.submit')}}</button>
+          <button type="submit" class="btn btn-success m-3 fs-5" :disabled="userCredentials.username==='' || userCredentials.password===''">{{$t('login.submit')}}</button>
         </div>
     </form>
 

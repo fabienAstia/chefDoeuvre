@@ -26,9 +26,9 @@ const router = createRouter({
             beforeEnter: adminRole
         },
         {
-            path:"/test",
-            name:"test",
-            component: () => import("@/views/Test.vue")
+            path:"/answers",
+            name:"answers",
+            component: () => import("@/views/Test.vue") //need to rename component
         }, 
         {
             path:"/:pathMatch(.*)*", component: () => import('@/views/404.vue')

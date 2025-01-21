@@ -2,31 +2,23 @@ package com.personalities.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "t_users")
 public class User extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "email")
+    @Column(name = "username")
     private String username;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     public User() {
-    }
-
-    @Override
-    public Long getId() {
-        return id;
     }
 
     public String getUsername() {
@@ -54,9 +46,23 @@ public class User extends AbstractEntity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return o instanceof User user
+                && Objects.equals(username, user.username)
+                && Objects.equals(password, user.password)
+                && Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, role);
+    }
+
+    @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + super.toString() +
                 ", username='" + username + '\'' +
                 ", password=[PROTECTED]" + '\'' +
                 ", role=" + role +

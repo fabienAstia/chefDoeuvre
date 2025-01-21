@@ -13,13 +13,13 @@
         "creation":"criar",
         "placeholder":"Ecreva uma pergunta",
         "axis":"Eixo",
-        "dimension":"Dimensão",
+        "psychPref":"PsychPref",
         "operations":"Operações"
     },
     "register": {
         "title": "Criar uma conta",
-        "email":"Email",
-        "emailValid":"O email deve ser valido",
+        "username":"Email",
+        "usernameValid":"O email deve ser valido",
         "password":"Senha",
         "passwordLength":"Deve ter entre 8 e 16 caracteres",
         "passwordLowerUpperCase":"Pelo menos uma letra maiuscula e uma minuscula",
@@ -29,8 +29,8 @@
     },
     "login":{
         "title":"Entrar",
-        "email":"Email",
-        "emailRequired":"O email é obrigatorio",
+        "username":"Email",
+        "usernameRequired":"O email é obrigatorio",
         "password":"Senha",
         "passwordRequired":"O email é obrigatorio",
         "submit":"Entrar"

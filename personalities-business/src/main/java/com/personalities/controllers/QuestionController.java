@@ -3,17 +3,13 @@ package com.personalities.controllers;
 import com.personalities.dto.QuestionCreate;
 import com.personalities.dto.QuestionUpdate;
 import com.personalities.dto.QuestionView;
-import com.personalities.entities.Question;
 import com.personalities.services.QuestionService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -44,12 +40,12 @@ public class QuestionController {
     }
 
     @GetMapping("/paginated")
-    public Page<Question> getPaginatedQuestions(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size
+    public Page<QuestionView> getPaginatedQuestions(
+            @RequestParam(value = "pageNum", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "8") int size
     ) {
-        Pageable pageable = PageRequest.of(page, size);
-        return service.getPaginatedQuestions(pageable);
+        System.out.println("pages = " + service.getPaginatedQuestions(page, size).getContent());
+        return service.getPaginatedQuestions(page, size);
     }
 
     @DeleteMapping("/{id}")

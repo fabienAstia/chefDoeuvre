@@ -4,11 +4,11 @@ import com.personalities.repositories.QuestionRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class QuestionCreateUniqueTextValidator implements ConstraintValidator<QuestionCreateUniqueText, String> {
+public class QuestionUpdateUniqueLabelValidator implements ConstraintValidator<QuestionUpdateUniqueLabel, String> {
 
     private final QuestionRepository questionRepository;
 
-    public QuestionCreateUniqueTextValidator(QuestionRepository questionRepository) {
+    public QuestionUpdateUniqueLabelValidator(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
@@ -17,6 +17,7 @@ public class QuestionCreateUniqueTextValidator implements ConstraintValidator<Qu
         if (name == null) {
             return true;
         }
-        return !questionRepository.existsByTextIgnoreCase(name);
+        Long id = ValidationUtils.pathVariableAsLong("id");
+        return !questionRepository.existsByLabelIgnoreCaseAndIdNot(name, id);
     }
 }

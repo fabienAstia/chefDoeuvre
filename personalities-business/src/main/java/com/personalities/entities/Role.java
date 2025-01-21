@@ -1,9 +1,45 @@
 package com.personalities.entities;
 
-public enum Role {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-    ROLE_GUEST,
-    ROLE_USER,
-    ROLE_ADMIN;
+import java.util.Objects;
 
+@Entity
+@Table(name = "t_roles")
+public class Role extends AbstractEntity {
+
+    public Role() {
+    }
+
+    @Column(name = "role")
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return o instanceof Role role1
+                && Objects.equals(role, role1.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(role);
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "role='" + role + '\'' +
+                "} " + super.toString();
+    }
 }

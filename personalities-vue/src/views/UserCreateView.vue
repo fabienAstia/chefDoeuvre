@@ -12,12 +12,12 @@ const router = useRouter();
 const sharedState = useSharedState();
 
 const createUserForm = ref({
-        email: '',
+        username: '',
         password:''
 })
 
-const isValidEmail = computed(() => {
-  return /^(?=.{1,64}@)\w+([\.-]?\w+)*@(?=.{4,252}$)\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(createUserForm.value.email);
+const isValidUsername = computed(() => {
+  return /^(?=.{1,64}@)\w+([\.-]?\w+)*@(?=.{4,252}$)\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(createUserForm.value.username);
 });
 const isValidLength = computed(() => {
   return createUserForm.value.password.length <= 20 && createUserForm.value.password.length >= 8;
@@ -36,7 +36,7 @@ const containsSpecialChar = computed(() => {
 });
 
 const validateRegistration = computed(() => { 
-  return isValidEmail.value
+  return isValidUsername.value
   && isValidLength.value 
   && containsUpperCase.value 
   && containsLowerCase.value 
@@ -84,10 +84,10 @@ const newUser = async() => {
     <form @submit.prevent="newUser" class="bg-light fs-5">
      
         <div class="form-group m-3">
-          <label for="email" class="col-form-label">{{$t('register.email')}} <span>*</span> </label>
-          <input type="email" class="form-control" id="email" v-model="createUserForm.email">
+          <label for="username" class="col-form-label">{{$t('register.username')}} <span>*</span> </label>
+          <input type="email" class="form-control" id="username" v-model="createUserForm.username">
           <ul class="validationInfos">
-            <li :class="{'valid': isValidEmail}">{{$t('register.emailValid')}}</li>
+            <li :class="{'valid': isValidUsername}">{{$t('register.usernameValid')}}</li>
           </ul>
         </div>
         <div class="form-group m-3">

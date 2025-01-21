@@ -8,8 +8,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
-@Constraint(validatedBy = QuestionUpdateUniqueTextValidator.class)
-public @interface QuestionUpdateUniqueText {
+@Constraint(validatedBy = QuestionUpdateUniqueLabelValidator.class)
+public @interface QuestionUpdateUniqueLabel {
     String message() default "This question already exists";
 
     Class<?>[] groups() default {};

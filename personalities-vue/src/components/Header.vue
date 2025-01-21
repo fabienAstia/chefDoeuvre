@@ -29,7 +29,7 @@ const isLoggedIn = computed(() => {
 </script>
 
 <template>
-     <nav id="navbar" class="navbar navbar-expand-sm fs-5" >
+     <nav id="navbar" class="navbar nav navbar-expand-sm" >
       <div class="container-fluid">
         <router-link to="/" class="navbar-brand p-0">
           <img id="logo" src="../assets/images/logo.JPG" alt="logo" class="header">
@@ -38,22 +38,22 @@ const isLoggedIn = computed(() => {
           <span class="navbar-toggler-icon"></span>
         </button>
   
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse  fs-sm-6 fs-md-5 " id="navbarNavDropdown">
           <ul class="navbar-nav me-auto gap-1">
             <li class="nav-item">
-              <router-link to="/test" class="nav-link d-flex gap-1 justify-content-center fw-bold">
+              <router-link to="/answers" class="nav-link d-flex gap-1 justify-content-start fw-bold">
                 <img :src="clipBoard" width="20px">
                 {{$t('header.test')}}
               </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex gap-1 justify-content-center fw-bold" href="#">
+              <a class="nav-link d-flex gap-1 justify-content-start fw-bold " href="#">
                 <img :src="filePerson" width="20px">
                 {{$t('header.personalities')}}
               </a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link d-flex gap-1 justify-content-center fw-bold" href="#">
+              <a class="nav-link d-flex gap-1 justify-content-start fw-bold" href="#">
                 <img :src="book" width="20px">
                 {{$t('header.documentation')}}
               </a>
@@ -63,19 +63,19 @@ const isLoggedIn = computed(() => {
   
           <ul class="navbar-nav ms-auto">
             <li v-if="!isLoggedIn && sharedState !== 'registered' && sharedState !=='logged'" class="nav-item ">
-              <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-center fw-bold">
+              <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-start fw-bold">
                 <img :src="personAdd" width="20px">
                 {{$t('header.registration')}}
               </router-link>
             </li>
             <li v-if="sharedState === 'registered' && sharedState !=='logged'" class="nav-item">
-              <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-center">
+              <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-start">
                 <img :src="personGear" width="20px">
                 {{$t('header.authentication')}}
               </RouterLink>
             </li>
             <li v-if="sharedState === 'logged'" class="nav-item">
-              <a class="nav-link d-flex gap-1 justify-content-center" href="#login" aria-expanded="false">
+              <a class="nav-link d-flex gap-1 justify-content-start" href="#login" aria-expanded="false">
                 <img :src="personCheck" width="20px">
                 {{$t('header.welcome')}}  
               </a>
@@ -90,23 +90,22 @@ const isLoggedIn = computed(() => {
           
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
                 <li>
-                  <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('fr')">
+                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('fr')">
                     <img src="@/assets/images/frFlag.svg.png" width="20px" alt="french_flag" class="flag"> FR 
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('en')">
+                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('en')">
                     <img src="@/assets/images/ukFlag.svg" width="20px" alt="uk_flag" class="flag"> EN 
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('po')">
+                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('po')">
                     <img src="@/assets/images/Flag_of_Portugal.svg.png" width="20px" alt="portugal_flag" class="flag"> PO 
                   </a>
                 </li>
               </ul>
             </li>
-            <!-- #A1D6C1; -->
           </ul>
         </div>
       </div>
@@ -134,6 +133,10 @@ const isLoggedIn = computed(() => {
   .dropdown-menu {
     z-index: 1070; 
     background-color: #addee4; 
+  }
+  .small{
+    /* font-size: 80%; */
+    /* justify-self: center; */
   }
  
   </style> 
