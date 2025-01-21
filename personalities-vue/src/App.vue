@@ -6,7 +6,7 @@ import Header from '@/components/Header.vue';
 <template>
   <Header/> 
   <div class="container">
-    <router-view/> 
+    <router-view /> 
   </div> 
 
 
@@ -17,4 +17,6 @@ import Header from '@/components/Header.vue';
   margin: 2rem auto; 
   max-width: 95%;
 } 
+
+
 </style>

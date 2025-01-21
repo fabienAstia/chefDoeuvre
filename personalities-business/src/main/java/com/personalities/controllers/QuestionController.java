@@ -5,13 +5,15 @@ import com.personalities.dto.QuestionUpdate;
 import com.personalities.dto.QuestionView;
 import com.personalities.services.QuestionService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/admin/questions")
-@CrossOrigin("*")
+@RequestMapping("/questions")
 public class QuestionController {
 
     private final QuestionService service;
@@ -21,23 +23,33 @@ public class QuestionController {
     }
 
     @PostMapping
-    public void createQuestion(@Valid @RequestBody QuestionCreate question) {
-        service.createQuestion(question);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Object> createQuestion(@Valid @RequestBody QuestionCreate question) {
+        return service.createQuestion(question);
     }
 
     @PutMapping("/{id}")
-    public void updateQuestion(@PathVariable ("id") Long id,
-                               @Valid @RequestBody QuestionUpdate inputs){
+    public void updateQuestion(@PathVariable("id") Long id,
+                               @Valid @RequestBody QuestionUpdate inputs) {
         service.updateQuestion(id, inputs);
     }
 
     @GetMapping
-    public List<QuestionView> getQuestions (){
+    public Set<QuestionView> getQuestions() {
         return service.getQuestions();
     }
 
+    @GetMapping("/paginated")
+    public Page<QuestionView> getPaginatedQuestions(
+            @RequestParam(value = "pageNum", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "8") int size
+    ) {
+        System.out.println("pages = " + service.getPaginatedQuestions(page, size).getContent());
+        return service.getPaginatedQuestions(page, size);
+    }
+
     @DeleteMapping("/{id}")
-    public void deleteQuestion(@PathVariable ("id") Long id){
+    public void deleteQuestion(@PathVariable("id") Long id) {
         service.deleteQuestion(id);
     }
 

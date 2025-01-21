@@ -1,0 +1,44 @@
+{
+    "header": {
+        "test": "Test",
+        "personalities": "Personnalités",
+        "documentation": "Articles",
+        "registration": "S'inscrire",
+        "authentication": "Se connecter",
+        "welcome":"Bienvenue",
+        "languages": "Langues"
+    },
+    "admin": {
+        "questionLabel": "Nouvelle Question",
+        "creation":"créer",
+        "placeholder":"Ecrivez une question",
+        "axis":"Axe",
+        "psychPref":"PrefPsych",
+        "operations":"Opérations"
+    },
+    "register": {
+        "title": "Créer un compte",
+        "username":"Email",
+        "usernameValid":"L'email doit être valide",
+        "password":"Mot de passe",
+        "passwordLength":"Entre 8 et 16 caractères",
+        "passwordLowerUpperCase":"Au moins une majuscule et une minuscule",
+        "passwordDigit":"Au moins un chiffre",
+        "passwordSpecialChar":"Au moins un caractère spécial",
+        "submit":"S'inscrire",
+        "validInfos":""
+    },
+    "login":{
+        "title":"Se connecter",
+        "username":"Email",
+        "usernameRequired":"L'email est requis",
+        "password":"Mot de passe",
+        "passwordRequired":"Le mot de passe est requis",
+        "submit":"Se connecter"
+    },
+    "answer": {
+        "disagree" : "En désaccord",
+        "agree": "D'accord"
+    }
+}
+

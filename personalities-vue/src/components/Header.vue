@@ -1,37 +1,35 @@
-<script setup lang="ts">
-import {ref, watch} from 'vue';
+<script setup>
+import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
-import Modal from '../../node_modules/bootstrap/js/src/modal'; 
-import Register from '@/components/Register.vue';
-import Login from '@/components/Login.vue'
+import {useSharedState} from '@/composables/useState'
+import{computed} from 'vue';
 
-let registered = ref(false);
+import clipBoard from '@/assets/clipBoard.svg';
+import filePerson from '@/assets/filePerson.svg';
+import book from '@/assets/book.svg';
+import personAdd from '@/assets/personAdd.svg';
+import personCheck from '@/assets/personCheck.svg';
+import personGear from '@/assets/personGear.svg';
 
+const { t, locale } = useI18n();
+const sharedState = useSharedState();
 
-const goToConnection = () => {
-  registered.value = true;
+const changeLanguage = (lang) => {
+  locale.value = lang;
 };
 
-watch(registered, (newVal) => {
-  if (newVal) {
-    const myModal =  Modal.getInstance(document.getElementById('register'));
-    if(myModal) {
-      myModal.hide();
-    }
-    const backdrops = document.querySelectorAll('.modal-backdrop');
-    backdrops.forEach(backdrop => backdrop.remove());
-      
-  
-    setTimeout(() => {
-      const loginModal = new Modal(document.getElementById('login'));
-      loginModal.show();
-    }, 50);
+const isLoggedIn = computed(() => {
+  const token = localStorage.getItem('jwt');
+  if (token) {
+    sharedState.value = 'logged'; 
+    return true;
   }
+  return false;
 });
 </script>
 
 <template>
-    <nav id="navbar" class="navbar navbar-expand-sm bg-body-tertiary fs-5" data-bs-theme="dark">
+     <nav id="navbar" class="navbar nav navbar-expand-sm" >
       <div class="container-fluid">
         <router-link to="/" class="navbar-brand p-0">
           <img id="logo" src="../assets/images/logo.JPG" alt="logo" class="header">
@@ -40,48 +38,78 @@ watch(registered, (newVal) => {
           <span class="navbar-toggler-icon"></span>
         </button>
   
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav me-auto">
+        <div class="collapse navbar-collapse  fs-sm-6 fs-md-5 " id="navbarNavDropdown">
+          <ul class="navbar-nav me-auto gap-1">
             <li class="nav-item">
-              <router-link to="/test" class="nav-link active">Test</router-link>
+              <router-link to="/answers" class="nav-link d-flex gap-1 justify-content-start fw-bold">
+                <img :src="clipBoard" width="20px">
+                {{$t('header.test')}}
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Personnalités</a>
+              <a class="nav-link d-flex gap-1 justify-content-start fw-bold " href="#">
+                <img :src="filePerson" width="20px">
+                {{$t('header.personalities')}}
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Articles</a>
+            <li class="nav-item ">
+              <a class="nav-link d-flex gap-1 justify-content-start fw-bold" href="#">
+                <img :src="book" width="20px">
+                {{$t('header.documentation')}}
+              </a>
             </li>
           </ul>
         
   
-          <ul class="navbar-nav">
-            <li v-if="!registered" class="nav-item ">
-              <a class="nav-link" href="#register" data-bs-toggle="modal" aria-expanded="false">
-                S'enregistrer
-              </a>
+          <ul class="navbar-nav ms-auto">
+            <li v-if="!isLoggedIn && sharedState !== 'registered' && sharedState !=='logged'" class="nav-item ">
+              <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-start fw-bold">
+                <img :src="personAdd" width="20px">
+                {{$t('header.registration')}}
+              </router-link>
             </li>
-            <li v-else class="nav-item">
-              <a class="nav-link" href="#login" data-bs-toggle="modal" aria-expanded="false">
-                Se connecter
+            <li v-if="sharedState === 'registered' && sharedState !=='logged'" class="nav-item">
+              <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-start">
+                <img :src="personGear" width="20px">
+                {{$t('header.authentication')}}
+              </RouterLink>
+            </li>
+            <li v-if="sharedState === 'logged'" class="nav-item">
+              <a class="nav-link d-flex gap-1 justify-content-start" href="#login" aria-expanded="false">
+                <img :src="personCheck" width="20px">
+                {{$t('header.welcome')}}  
               </a>
             </li>
 
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Langues<!-- Flag icon can be inserted here if needed -->
+            <li class="nav-item dropdown d-flex">
+              <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img v-if="locale === 'fr'" src="@/assets/images/frFlag.svg.png" width="35px" class="flag"> 
+                <img v-if="locale === 'en'" src="@/assets/images/ukFlag.svg" width="35px" class="flag">
+                <img v-if="locale === 'po'" src="@/assets/images/Flag_of_Portugal.svg.png" width="35px" class="flag">
               </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">FR</a></li>
-                <li><a class="dropdown-item" href="#">UK</a></li>
+          
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
+                <li>
+                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('fr')">
+                    <img src="@/assets/images/frFlag.svg.png" width="20px" alt="french_flag" class="flag"> FR 
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('en')">
+                    <img src="@/assets/images/ukFlag.svg" width="20px" alt="uk_flag" class="flag"> EN 
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('po')">
+                    <img src="@/assets/images/Flag_of_Portugal.svg.png" width="20px" alt="portugal_flag" class="flag"> PO 
+                  </a>
+                </li>
               </ul>
             </li>
-
           </ul>
         </div>
       </div>
     </nav>
-    <Register @registered="goToConnection" v-if="!registered"/>
-    <Login v-if="registered"/>
 </template>
   
   <style scoped>
@@ -92,4 +120,23 @@ watch(registered, (newVal) => {
     max-width: 100%;
     max-height: 100%;
   }
+  .flag{
+    border: 1px solid grey;
+  }
+  #navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1050; 
+  background-color: #addee4;
+  }
+
+  .dropdown-menu {
+    z-index: 1070; 
+    background-color: #addee4; 
+  }
+  .small{
+    /* font-size: 80%; */
+    /* justify-self: center; */
+  }
+ 
   </style> 

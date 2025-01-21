@@ -1,0 +1,44 @@
+{
+    "header": {
+        "test": "Test",
+        "personalities": "Personnalities",
+        "documentation": "Documentation",
+        "registration": "Sign up",
+        "authentication": "Sign in",
+        "welcome":"Welcome",
+        "languages": "Languages"
+    },
+    "admin": {
+        "questionLabel": "New Question",
+        "creation":"create",
+        "placeholder":"Write a question",
+        "axis":"Axis",
+        "psychPref":"PsychPref",
+        "operations":"Operations"
+    },
+    "register": {
+        "title": "Create an account",
+        "username":"Email",
+        "usernameValid":"Email must be valid",
+        "password":"Password",
+        "passwordLength":"Must be between 8 and 16 characters",
+        "passwordLowerUpperCase":"Must contain at least an uppercase and a lowercase",
+        "passwordDigit":"Must contain at least one digit",
+        "passwordSpecialChar":"Must contain at least one special character",
+        "submit":"Sign up",
+        "validInfos":""
+    },
+    "login":{
+        "title":"Sign in",
+        "username":"Email",
+        "usernameRequired":"Email is required",
+        "password":"Password",
+        "passwordRequired":"Password is required",
+        "submit":"Sign in"
+    },
+    "answer": {
+        "disagree" :"Disagree",
+        "agree":"Agree"
+    }
+}
+

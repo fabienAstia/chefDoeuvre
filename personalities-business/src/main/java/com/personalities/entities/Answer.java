@@ -2,37 +2,32 @@ package com.personalities.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "t_answers")
-public class Answer {
+public class Answer extends AbstractEntity {
 
-    public Answer (){
+    public Answer() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne
-    @JoinColumn(name = "session_id")
-    private Session session;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 
+    @Column(name = "rating")
     private int rating;
 
-    public Long getId() {
-        return id;
+    public User getUser() {
+        return user;
     }
 
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Question getQuestion() {
@@ -49,5 +44,28 @@ public class Answer {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return o instanceof Answer answer
+                && rating == answer.rating
+                && Objects.equals(user, answer.user)
+                && Objects.equals(question, answer.question);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, question, rating);
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "user=" + user +
+                ", question=" + question +
+                ", rating=" + rating +
+                "} " + super.toString();
     }
 }
