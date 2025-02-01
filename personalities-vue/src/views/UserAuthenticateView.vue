@@ -2,8 +2,8 @@
 import {ref} from 'vue';
 import { useI18n } from 'vue-i18n';
 import router from '@/router';
-import eye from '@/assets/eye.svg';
-import eyeSlash from '@/assets/eyeSlash.svg';
+import eye from '@/assets/pictos/eye.svg';
+import eyeSlash from '@/assets/pictos/eyeSlash.svg';
 import {useSharedState} from '@/composables/useState'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
@@ -35,7 +35,9 @@ const authenticate = async() => {
       const decodedToken = jwtDecode(jwt);
       if(decodedToken.role === 'ROLE_ADMIN'){
         router.push('/questions');
-      } else {
+      } else if (decodedToken.role === 'ROLE_USER'){
+        router.push('/answers')
+      }else{
         router.push('/');
       } 
   }catch(err){

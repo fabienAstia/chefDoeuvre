@@ -1,14 +1,13 @@
 <script setup>
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import{useI18n} from 'vue-i18n';
 const{t} = useI18n;
 import { useQuestions } from './useQuestions';
 import axios from 'axios';
 
-const {paginatedQuestions, pageNumber, totalPages, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
+const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
 const hover = ref(false);
-const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? 'blue' : 'purple';
-// const answer = ref({questionId:'', rating:'', clicked: false});
+const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? '#0077b6' : '#7b2cbf';
 const answers = ref ([]);
 
 const jwt = localStorage.getItem('jwt');
@@ -27,6 +26,7 @@ const addAnswer = (idQuestion, buttonIndex) => {
   }else{
     answers.value.push({questionId: idQuestion, rating: buttonIndex, clicked: true});
   }
+  console.log("answersLength= "+answers.value.length) ;
   return true;
 }
 
@@ -34,6 +34,7 @@ const addAnswers = async() => {
   answers.value.forEach((answer) => {
     console.log("id:"+answer.questionId, "rating:"+answer.rating, "clicked:"+answer.clicked);
   })
+
   try {
     await axios.post('http://localhost:8080/answers', 
     answers.value,
@@ -61,32 +62,36 @@ const scroll = (questionIndex) => {
 const scrollToTop = () => {
   globalThis.scrollTo({ top: 0, left: 0}); 
 }
+
 const answered = (idQuestion, buttonIndex) => {
   return answers.value.find(
     (answer) => answer.clicked === true && answer.questionId === idQuestion && answer.rating === buttonIndex
    );
 };
 
-const progression = () => {
 
-}
 </script>
 
+
+<!-- sticky-top -->
 <template>
-    <!-- barre de progression -->
-    <div class="progress progressWidth " role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-      <div class="progress-bar bg-danger" style="width: 50%"></div>
+    <!-- barre de progression --> 
+    <div id="sticky" class="progressWidth p-3">
+      <div  class="progress"  role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+        <div id="opacity" class="progress-bar bg-danger" :style="{width: `${(answers.length*100)/totalElements}%`}"></div> 
+      </div>
     </div>
+   
     
       <div v-for= "(q, questionIndex) in paginatedQuestions" class=" my-5 py-4 border-bottom d-flex"> 
         <div class="container-fluid" :id="questionIndex">
           <div class=" row fs-2 m-3 text-center ">
-            <b>  {{questionIndex+1+(pageNumber*6)}}. {{q.id}} {{q.psychPref}} {{q.label}}</b>
+            <b>{{q.label}}</b>  <!-- {{questionIndex+1+(pageNumber*6)}}. {{q.id}} {{q.psychPref}} -->
           </div>
           
           <div class="row fs-5 m-3 p-3 d-flex justify-content-center align-items-center" >
-            <div class="col-md-2 d-none d-md-block justify-content-end text-end me-3" :style="{color:'purple'}">
-              <b>{{$t('answer.agree')}}</b>
+            <div class="col-md-2 d-none d-md-block justify-content-end text-end me-3" :style="{color:'#7b2cbf'}">
+              <b>{{$t('answer.disagree')}}</b>
             </div>
             <div class="col-12 col-sm-8 col-md-8 buttons d-flex justify-content-center align-items-center m-0 p-0 gap-3">
               <button
@@ -108,18 +113,18 @@ const progression = () => {
               </button>
             </div>
 
-            <div class="col-md-2 d-none d-md-block ms-3" :style="{color:'blue'}">
-              <b>{{$t('answer.disagree')}}</b>
+            <div class="col-md-2 d-none d-md-block ms-3" :style="{color:'#0077b6'}">
+              <b>{{$t('answer.agree')}}</b>
             </div>
 
           </div>
 
           <div class="row d-md-none d-flex justify-content-between w-100 text-center" >
-              <div class="col-6 " :style="{color:'purple'}">
-                <b>{{$t('answer.agree')}}</b>
-              </div>
-              <div class="col-6 text-center" :style="{color:'blue'}">
+              <div class="col-6 " :style="{color:'#7b2cbf'}">
                 <b>{{$t('answer.disagree')}}</b>
+              </div>
+              <div class="col-6 text-center" :style="{color:'#0077b6'}">
+                <b>{{$t('answer.agree')}}</b>
               </div>
           </div>
 
@@ -158,6 +163,18 @@ const progression = () => {
 .progressWidth{
   max-width: 1028px;
   margin: auto;
+  position: sticky;
+  top:60;
+opacity: 1;
+}
+
+#sticky{
+  z-index: 1200;
+  position: sticky;
+  top: 100px;
+}
+#opacity{
+  opacity: 0.5;
 }
 
 </style>

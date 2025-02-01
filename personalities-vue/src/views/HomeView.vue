@@ -1,5 +1,5 @@
 <script setup>
-import arrowCircle from '@/assets/arrowCircle.svg';
+import arrowCircle from '@/assets/pictos/arrowCircle.svg';
 </script>
 
 <template>

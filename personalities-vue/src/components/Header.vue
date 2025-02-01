@@ -4,12 +4,12 @@ import { RouterLink } from 'vue-router';
 import {useSharedState} from '@/composables/useState'
 import{computed} from 'vue';
 
-import clipBoard from '@/assets/clipBoard.svg';
-import filePerson from '@/assets/filePerson.svg';
-import book from '@/assets/book.svg';
-import personAdd from '@/assets/personAdd.svg';
-import personCheck from '@/assets/personCheck.svg';
-import personGear from '@/assets/personGear.svg';
+import clipBoard from '@/assets/pictos/clipBoard.svg';
+import filePerson from '@/assets/pictos/filePerson.svg';
+import book from '@/assets/pictos/book.svg';
+import personAdd from '@/assets/pictos/personAdd.svg';
+import personCheck from '@/assets/pictos/personCheck.svg';
+import personGear from '@/assets/pictos/personGear.svg';
 
 const { t, locale } = useI18n();
 const sharedState = useSharedState();
@@ -129,14 +129,9 @@ const isLoggedIn = computed(() => {
   z-index: 1050; 
   background-color: #addee4;
   }
-
   .dropdown-menu {
     z-index: 1070; 
     background-color: #addee4; 
-  }
-  .small{
-    /* font-size: 80%; */
-    /* justify-self: center; */
   }
  
   </style> 
