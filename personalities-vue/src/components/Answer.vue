@@ -2,7 +2,7 @@
 import {ref, onMounted, computed} from 'vue';
 import{useI18n} from 'vue-i18n';
 const{t} = useI18n;
-import { useQuestions } from './useQuestions';
+import { useQuestions } from '../composables/useQuestions';
 import axios from 'axios';
 
 const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
@@ -29,6 +29,10 @@ const addAnswer = (idQuestion, buttonIndex) => {
   console.log("answersLength= "+answers.value.length) ;
   return true;
 }
+
+const isCompleted = () => {
+  
+} 
 
 const addAnswers = async() => {
   answers.value.forEach((answer) => {

@@ -15,7 +15,7 @@ import arrowCircle from '@/assets/pictos/arrowCircle.svg';
             <div class=" d-flex justify-content-center">
                 <router-link to="/test" class="btn btn-success">
                     <span class="d-flex gap-2 fs-5">
-                        <b>Passer le test  </b>
+                        Passer le test 
                         <img :src="arrowCircle">
                     </span>
                 </router-link>
@@ -28,6 +28,6 @@ import arrowCircle from '@/assets/pictos/arrowCircle.svg';
 
 <style scoped>
     .container{
-        max-width: 780px;
+        max-width: 800px;
     }
 </style>

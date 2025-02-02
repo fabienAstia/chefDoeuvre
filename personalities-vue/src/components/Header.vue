@@ -69,13 +69,13 @@ const isLoggedIn = computed(() => {
               </router-link>
             </li>
             <li v-if="sharedState === 'registered' && sharedState !=='logged'" class="nav-item">
-              <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-start">
+              <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-start fw-bold">
                 <img :src="personGear" width="20px">
                 {{$t('header.authentication')}}
               </RouterLink>
             </li>
             <li v-if="sharedState === 'logged'" class="nav-item">
-              <a class="nav-link d-flex gap-1 justify-content-start" href="#login" aria-expanded="false">
+              <a class="nav-link d-flex gap-1 justify-content-start fw-bold" href="#login" aria-expanded="false">
                 <img :src="personCheck" width="20px">
                 {{$t('header.welcome')}}  
               </a>

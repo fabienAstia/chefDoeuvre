@@ -1,7 +1,7 @@
 <script setup>
 // import {ref} from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useQuestions } from '@/components/useQuestions';
+import { useQuestions } from '@/composables/useQuestions';
 import bluePencil from '@/assets/pictos/bluePencil.svg';
 import orangeArrows from '@/assets/pictos/orangeArrows.svg';
 import redTrash from '@/assets/pictos/redTrash.svg';
