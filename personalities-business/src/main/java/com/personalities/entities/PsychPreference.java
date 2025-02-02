@@ -40,4 +40,5 @@ public class PsychPreference extends AbstractEntity {
                 "prefCode='" + code + '\'' +
                 "} " + super.toString();
     }
+    
 }

@@ -25,7 +25,5 @@ public class AnswerController {
     public void createAnswers(@Valid @RequestBody List<AnswerCreate> inputs) {
         answerService.createAnswers(inputs);
     }
-
-    
 }
 
