@@ -10,6 +10,7 @@ export function useQuestions(){
   const pageNumber = ref(0);
   const pageSize = ref(8);  
   const totalPages = ref(0);
+  const totalElements = ref(0);
 
   //Nvelle question
   const addQuestion = async() => {
@@ -70,6 +71,8 @@ export function useQuestions(){
       const response = await axios.get(url);
       paginatedQuestions.value = response.data.content;
       totalPages.value = response.data.page.totalPages;
+      totalElements.value = response.data.page.totalElements;
+      console.log("totalElements="+totalElements.value)
       pageSize.value = response.data.page.size;
       paginatedQuestions.value.forEach((question) => {
         console.log("ID:", question.id, "psychPref:", question.psychPref, "Label:", question.label);
@@ -197,6 +200,7 @@ export function useQuestions(){
       pageNumber,
       pageSize,
       totalPages,
+      totalElements,
       paginatedQuestions,
       editQuestion,
       updateQuestion,

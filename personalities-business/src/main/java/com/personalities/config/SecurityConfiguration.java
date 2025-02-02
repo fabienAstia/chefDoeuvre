@@ -51,7 +51,8 @@ public class SecurityConfiguration {
                 registry
                         .addMapping("/**")
                         .allowedOrigins(allowedOrigins)
-                        .allowedMethods("POST", "GET", "PUT", "PATCH", "DELETE");
+                        .allowedHeaders("*")
+                        .allowedMethods("POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS");
             }
         };
     }

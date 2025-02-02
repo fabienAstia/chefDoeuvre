@@ -2,8 +2,8 @@
 import {computed, ref} from 'vue';
 import{useRouter} from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import eyeSlash from '@/assets/eyeSlash.svg';
-import eye from '@/assets/eye.svg';
+import eyeSlash from '@/assets/pictos/eyeSlash.svg';
+import eye from '@/assets/pictos/eye.svg';
 import {useSharedState} from '@/composables/useState'
 import axios from 'axios';
 
