@@ -126,7 +126,7 @@ const isLoggedIn = computed(() => {
   #navbar {
   position: sticky;
   top: 0;
-  z-index: 1050; 
+  z-index: 1250; 
   background-color: #addee4;
   }
   .dropdown-menu {

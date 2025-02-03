@@ -31,7 +31,7 @@ const addAnswer = (idQuestion, buttonIndex) => {
 }
 
 const isCompleted = () => {
-  answers.value.length === (pageNumber.value +1) * 8 
+  answers.value.length === (pageNumber.value +1) * pageSize.value 
   ? getNextPage() && scrollToTop()
   : alert("You must answer all questions!")
 } 
@@ -75,12 +75,11 @@ const answered = (idQuestion, buttonIndex) => {
    );
 };
 
-
 </script>
 
 
-<!-- sticky-top -->
 <template>
+
     <!-- barre de progression --> 
     <div id="sticky" class="progressWidth p-3">
       <div class="progress"  role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
@@ -92,7 +91,7 @@ const answered = (idQuestion, buttonIndex) => {
       <div v-for= "(q, questionIndex) in paginatedQuestions" class="mt-3 p-4 border-bottom d-flex"> 
         <div class="container-fluid" :id="questionIndex">
           <div class=" row fs-2 m-3 text-center ">
-            <b>{{q.label}}</b>  <!-- {{questionIndex+1+(pageNumber*6)}}. {{q.id}} {{q.psychPref}} -->
+            <b>{{q.label}}</b>
           </div>
           
           <div class="row fs-5 m-3 p-3 d-flex justify-content-center align-items-center" >
@@ -147,15 +146,6 @@ const answered = (idQuestion, buttonIndex) => {
         </form> 
       </div>
 
-    <!-- <form @submit.prevent="addAnswers" class="bg-light fs-5">
-
-      <div v-if="pageNumber<(totalPages-1)" class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-outline-primary btn-lg m-5" @click="isCompleted()">Next page</button>
-      </div>
-      <div v-else="pageNumber===(totalPages-1)" class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-outline-danger btn-lg" @click=" scrollToTop()">Submit</button>
-      </div>
-    </form> -->
 </template>
 
 <style scoped>
@@ -181,11 +171,10 @@ const answered = (idQuestion, buttonIndex) => {
   margin: auto;
   position: sticky;
   top:60;
-  background: rgba(255, 255, 255, 0.2); /* Rend le fond légèrement transparent */
-  backdrop-filter: blur(8px); /* Applique un effet de flou */
-  border-radius: 10px; /* Ajoute un contour arrondi */
+  background: rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(8px); 
+  border-radius: 10px; 
 }
-
 #sticky{
   z-index: 1200;
   position: sticky;
@@ -193,8 +182,8 @@ const answered = (idQuestion, buttonIndex) => {
   opacity: 0.5;
 }
 .progress-bar {
-  background-color: rgba(220, 53, 69, 1); /* Garde la barre bien opaque */
-  box-shadow: 0px 0px 10px rgba(220, 53, 69, 0.8); /* Ajoute un halo autour de la barre */
+  background-color: rgba(220, 53, 69, 1); 
+  box-shadow: 0px 0px 10px rgba(220, 53, 69, 0.8); 
 }
 
 </style>
