@@ -2,7 +2,6 @@ package com.personalities.services;
 
 import com.personalities.config.SecurityHelper;
 import com.personalities.dto.AnswerCreate;
-import com.personalities.dto.AnswerUpdate;
 import com.personalities.entities.Answer;
 import com.personalities.entities.Question;
 import com.personalities.entities.User;
@@ -28,7 +27,46 @@ public class AnswerService {
         this.userRepository = userRepository;
     }
 
-    public void createAnswers(List<AnswerCreate> inputs) {
+    public String createAnswersAndGetResult(List<AnswerCreate> inputs) {
+        createAnswers(inputs);
+        return getMbtiType(inputs);
+    }
+
+    private String getMbtiType(List<AnswerCreate> inputs) {
+        HashMap<String, List<Integer>> ratingByPsych = getRatingByPsych(inputs);
+        HashMap<String, Integer> scoreByPsych = getScoreByPsych(ratingByPsych);
+        String userPref1 = (scoreByPsych.get("E") >= scoreByPsych.get("I")) ? "E" : "I";
+        String userPref2 = (scoreByPsych.get("N") >= scoreByPsych.get("S")) ? "N" : "S";
+        String userPref3 = (scoreByPsych.get("T") >= scoreByPsych.get("F")) ? "T" : "F";
+        String userPref4 = (scoreByPsych.get("P") >= scoreByPsych.get("J")) ? "P" : "J";
+        return userPref1 + userPref2 + userPref3 + userPref4;
+    }
+
+    public HashMap<String, List<Integer>> getRatingByPsych(List<AnswerCreate> answers) {
+        HashMap<String, List<Integer>> ratingByPsych = new HashMap<>();
+        List<Question> questions = questionRepository.findAll();
+        questions.forEach(question -> {
+            Optional<AnswerCreate> answer = answers.stream()
+                    .filter(a -> a.questionId().equals(question.getId()))
+                    .findFirst();
+            answer.ifPresent(a -> {
+                ratingByPsych.putIfAbsent(question.getPsychPreference().getCode(), new ArrayList<>());
+                ratingByPsych.get(question.getPsychPreference().getCode()).add(a.rating());
+            });
+        });
+        return ratingByPsych;
+    }
+
+    public HashMap<String, Integer> getScoreByPsych(HashMap<String, List<Integer>> ratingByPsych) {
+        HashMap<String, Integer> scoreByPsych = new HashMap<>();
+        ratingByPsych.forEach((key, value) -> {
+            Integer psychScore = value.stream().mapToInt(i -> i).sum();
+            scoreByPsych.put(key, psychScore);
+        });
+        return scoreByPsych;
+    }
+
+    private void createAnswers(List<AnswerCreate> inputs) {
         String username = securityHelper.principal();
         Optional<User> user = userRepository.findByUsernameIgnoreCase(username);
         List<Answer> previousAnswers = answerRepository.findAllByUserId(user.get().getId());

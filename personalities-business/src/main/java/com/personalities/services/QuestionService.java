@@ -53,11 +53,6 @@ public class QuestionService {
                 .collect(Collectors.toSet());
     }
 
-//    public Page<Question> getPaginatedQuestions(int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        return questionRepository.findAll(pageable);
-//    }
-
     public Page<QuestionView> getPaginatedQuestions(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Question> questions = questionRepository.findAll(pageable);
