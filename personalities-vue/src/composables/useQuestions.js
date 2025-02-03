@@ -9,7 +9,7 @@ export function useQuestions(){
   const jwt = localStorage.getItem('jwt');
   const pageNumber = ref(0);
   const pageSize = ref(8);  
-  const totalPages = ref(3);
+  const totalPages = ref(0);
   const totalElements = ref(0);
 
   //Nvelle question
