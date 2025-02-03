@@ -1,7 +1,6 @@
 package com.personalities.controllers;
 
 import com.personalities.dto.AnswerCreate;
-import com.personalities.dto.AnswerUpdate;
 import com.personalities.services.AnswerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,8 +21,8 @@ public class AnswerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createAnswers(@Valid @RequestBody List<AnswerCreate> inputs) {
-        answerService.createAnswers(inputs);
+    public String createAnswersAndGetResult(@Valid @RequestBody List<AnswerCreate> inputs) {
+        return answerService.createAnswersAndGetResult(inputs);
     }
 }
 

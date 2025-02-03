@@ -9,7 +9,7 @@ export function useQuestions(){
   const jwt = localStorage.getItem('jwt');
   const pageNumber = ref(0);
   const pageSize = ref(8);  
-  const totalPages = ref(0);
+  const totalPages = ref(3);
   const totalElements = ref(0);
 
   //Nvelle question
@@ -72,7 +72,6 @@ export function useQuestions(){
       paginatedQuestions.value = response.data.content;
       totalPages.value = response.data.page.totalPages;
       totalElements.value = response.data.page.totalElements;
-      console.log("totalElements="+totalElements.value)
       pageSize.value = response.data.page.size;
       paginatedQuestions.value.forEach((question) => {
         console.log("ID:", question.id, "psychPref:", question.psychPref, "Label:", question.label);
