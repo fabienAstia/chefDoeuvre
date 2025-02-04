@@ -64,7 +64,8 @@ export function useQuestions(){
       }
     }
   }
-
+  
+//Questios PAGIEES
   async function getPaginatedQuestions() {
     try {
       const url =`http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`;

@@ -1,16 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/main.scss'
 import'./assets/main.css'
-// import{Button, Collapse, Dropdown, Toast} from 'bootstrap'
+import{Button, Collapse, Dropdown, Toast} from 'bootstrap'
 
-import '../node_modules/bootstrap/dist/js/bootstrap.bundle'
+// import '../node_modules/bootstrap/dist/js/bootstrap.bundle'
 
 import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 import FR from './locales/fr.json'
 import EN from './locales/en.json'
 import PO from './locales/po.json'
-
 
 import App from './App.vue'
 import router from './router'
