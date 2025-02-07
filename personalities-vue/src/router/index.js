@@ -28,7 +28,13 @@ const router = createRouter({
         {
             path:"/answers",
             name:"answers",
-            component: () => import("@/views/Test.vue") //need to rename component
+            component: () => import("@/views/Test.vue"),
+            beforeEnter: userRole
+        }, 
+        {
+            path:"/result",
+            name:"result",
+            component: () => import("@/views/ResultView.vue"),
         }, 
         {
             path:"/:pathMatch(.*)*", component: () => import('@/views/404.vue')

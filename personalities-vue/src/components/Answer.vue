@@ -4,6 +4,7 @@ import{useI18n} from 'vue-i18n';
 const{t} = useI18n;
 import { useQuestions } from '../composables/useQuestions';
 import axios from 'axios';
+import {useRouter} from 'vue-router';
 
 const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
 const hover = ref(false);
@@ -11,6 +12,7 @@ const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex
 const answers = ref ([]);
 
 const jwt = localStorage.getItem('jwt');
+const router = useRouter();
 
 onMounted(async() => {
     await getPaginatedQuestions();
@@ -42,9 +44,12 @@ const addAnswers = async() => {
   })
 
   try {
-    await axios.post('http://localhost:8080/answers', 
+    const response = await axios.post('http://localhost:8080/answers', 
     answers.value,
     {headers:{'Content-Type':'application/json', 'Authorization':`Bearer ${jwt}`}});    
+    let mbtiType = response.data;
+    console.log("mbtiType =" + mbtiType)
+    router.push({name:'result', query:{mbtiType:JSON.stringify(mbtiType)}})
   } catch(err) {
       if(err.response){
           const statusCode = err.response.status;
@@ -80,13 +85,11 @@ const answered = (idQuestion, buttonIndex) => {
 
 <template>
 
-    <!-- barre de progression --> 
     <div id="sticky" class="progressWidth p-3">
       <div class="progress"  role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
         <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/totalElements}%`}"></div> 
       </div>
     </div>
-   
     
       <div v-for= "(q, questionIndex) in paginatedQuestions" class="mt-3 p-4 border-bottom d-flex"> 
         <div class="container-fluid" :id="questionIndex">
