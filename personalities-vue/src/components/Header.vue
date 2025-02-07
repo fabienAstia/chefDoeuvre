@@ -40,19 +40,19 @@ const isLoggedIn = computed(() => {
   
         <div class="collapse navbar-collapse  fs-sm-6 fs-md-5 " id="navbarNavDropdown">
           <ul class="navbar-nav me-auto gap-1">
-            <li class="nav-item">
-              <router-link to="/answers" class="nav-link d-flex gap-1 justify-content-start fw-bold">
+            <li class="nav-item hover">
+              <router-link to="/answers" class=" nav-link d-flex gap-1 justify-content-start fw-bold">
                 <img :src="clipBoard" width="20px">
                 {{$t('header.test')}}
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item hover">
               <a class="nav-link d-flex gap-1 justify-content-start fw-bold " href="#">
                 <img :src="filePerson" width="20px">
                 {{$t('header.personalities')}}
               </a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item hover">
               <a class="nav-link d-flex gap-1 justify-content-start fw-bold" href="#">
                 <img :src="book" width="20px">
                 {{$t('header.documentation')}}
@@ -62,19 +62,19 @@ const isLoggedIn = computed(() => {
         
   
           <ul class="navbar-nav ms-auto">
-            <li v-if="!isLoggedIn && sharedState !== 'registered' && sharedState !=='logged'" class="nav-item ">
+            <li v-if="!isLoggedIn && sharedState !== 'registered' && sharedState !=='logged'" class="nav-item hover">
               <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-start fw-bold">
                 <img :src="personAdd" width="20px">
                 {{$t('header.registration')}}
               </router-link>
             </li>
-            <li v-if="sharedState === 'registered' && sharedState !=='logged'" class="nav-item">
+            <li v-if="sharedState === 'registered' && sharedState !=='logged'" class="nav-item hover">
               <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-start fw-bold">
                 <img :src="personGear" width="20px">
                 {{$t('header.authentication')}}
               </RouterLink>
             </li>
-            <li v-if="sharedState === 'logged'" class="nav-item">
+            <li v-if="sharedState === 'logged'" class="nav-item hover">
               <a class="nav-link d-flex gap-1 justify-content-start fw-bold" href="#login" aria-expanded="false">
                 <img :src="personCheck" width="20px">
                 {{$t('header.welcome')}}  
@@ -133,8 +133,9 @@ const isLoggedIn = computed(() => {
     z-index: 1070; 
     background-color: #addee4; 
   }
-  .nav-item :hover{
+  .hover :hover{
     background-color: #0077b6;
+    color: white;
   }
  
   </style> 
