@@ -19,12 +19,26 @@ export function adminRole(to, from, next){
     }
 }
 
-export function userRole(to){
+export function userRole(to, from, next){
     let token = localStorage.getItem('jwt');
-    const decodedToken = jwtDecode(token);
-    if(token){
-        return decodedToken.role === 'ROLE_USER';
+    if(!token){
+        alert('You need to sign up first or sign in')
+        return next('/');
     }
-
-    router.push('/')
+    try {
+        const decodedToken = jwtDecode(token);
+        console.log('decodedToken =' + decodedToken);
+        const current_time = new Date().getTime() / 1000;
+        if((decodedToken.role === 'ROLE_USER' || decodedToken.role === 'ROLE_ADMIN') 
+            && current_time < decodedToken.exp ){
+            next();
+        } else if(current_time > decodedToken.exp){
+            alert('You need to sign in')
+            next('/')
+        }
+    } catch(error) {
+        console.error('invalid token', error);
+        next('/');
+    }
 }
+

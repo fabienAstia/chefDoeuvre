@@ -133,5 +133,8 @@ const isLoggedIn = computed(() => {
     z-index: 1070; 
     background-color: #addee4; 
   }
+  .nav-item :hover{
+    background-color: #0077b6;
+  }
  
   </style> 
