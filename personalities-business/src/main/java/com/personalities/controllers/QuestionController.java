@@ -1,8 +1,9 @@
 package com.personalities.controllers;
 
+import com.personalities.dto.AdminQuestionView;
 import com.personalities.dto.QuestionCreate;
 import com.personalities.dto.QuestionUpdate;
-import com.personalities.dto.QuestionView;
+import com.personalities.dto.UserQuestionView;
 import com.personalities.services.QuestionService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -35,12 +36,12 @@ public class QuestionController {
     }
 
     @GetMapping
-    public Set<QuestionView> getQuestions() {
+    public Set<AdminQuestionView> getQuestions() {
         return service.getQuestions();
     }
 
     @GetMapping("/paginated")
-    public Page<QuestionView> getPaginatedQuestions(
+    public Page<UserQuestionView> getPaginatedQuestions(
             @RequestParam(value = "pageNum", defaultValue = "0") int page,
             @RequestParam(value = "pageSize", defaultValue = "8") int size
     ) {

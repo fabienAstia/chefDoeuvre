@@ -104,7 +104,7 @@ const {
             <option value="P">P</option>
             <option value="J">J</option>
           </select>
-        </td> <!-- <input type="text" v-else  v-model="q.psychPref" class="col-12"> -->
+        </td> 
         <td><span v-if="!q.isEditable">{{q.label}}</span><input type="text" v-else  v-model="q.label" class="col-12"> </td>
         <td>
           <div class="d-flex">

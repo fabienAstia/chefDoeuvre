@@ -1,8 +1,9 @@
 package com.personalities.services;
 
+import com.personalities.dto.AdminQuestionView;
 import com.personalities.dto.QuestionCreate;
 import com.personalities.dto.QuestionUpdate;
-import com.personalities.dto.QuestionView;
+import com.personalities.dto.UserQuestionView;
 import com.personalities.entities.Constraint;
 import com.personalities.entities.Question;
 import com.personalities.entities.PsychPreference;
@@ -10,14 +11,11 @@ import com.personalities.repositories.ConstraintRepository;
 import com.personalities.repositories.PsychPreferenceRepository;
 import com.personalities.repositories.QuestionRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,19 +44,20 @@ public class QuestionService {
         return null;
     }
 
-    public Set<QuestionView> getQuestions() {
+    public Set<AdminQuestionView> getQuestions() {
         List<Question> questionList = questionRepository.findAllProjectedBy();
-        return questionList.stream().map(question -> new QuestionView(
+        return questionList.stream().map(question -> new AdminQuestionView(
                         question.getId(), question.getLabel(), question.getPsychPreference().getCode()))
                 .collect(Collectors.toSet());
     }
 
-    public Page<QuestionView> getPaginatedQuestions(int page, int size) {
+    public Page<UserQuestionView> getPaginatedQuestions(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Question> questions = questionRepository.findAll(pageable);
-        return questions.map(question -> new QuestionView(
+        Page<Question> questions = questionRepository.findAllByOrderByQuestionOrder(pageable);
+        return questions.map(question -> new UserQuestionView(
                 question.getId(),
                 question.getLabel(),
+                question.getQuestionOrder(),
                 question.getPsychPreference().getCode()));
     }
 

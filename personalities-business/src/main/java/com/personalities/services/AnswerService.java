@@ -2,10 +2,12 @@ package com.personalities.services;
 
 import com.personalities.config.SecurityHelper;
 import com.personalities.dto.AnswerCreate;
+import com.personalities.dto.MbtiTypeView;
 import com.personalities.entities.Answer;
 import com.personalities.entities.Question;
 import com.personalities.entities.User;
 import com.personalities.repositories.AnswerRepository;
+import com.personalities.repositories.MbtiTypeRepository;
 import com.personalities.repositories.QuestionRepository;
 import com.personalities.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -19,17 +21,20 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
     private final SecurityHelper securityHelper;
     private final UserRepository userRepository;
+    private final MbtiTypeRepository mbtiTypeRepository;
 
-    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, SecurityHelper securityHelper, UserRepository userRepository) {
+    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, SecurityHelper securityHelper, UserRepository userRepository, MbtiTypeRepository mbtiTypeRepository) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.securityHelper = securityHelper;
         this.userRepository = userRepository;
+        this.mbtiTypeRepository = mbtiTypeRepository;
     }
 
-    public String createAnswersAndGetResult(List<AnswerCreate> inputs) {
+    public MbtiTypeView createAnswersAndGetResult(List<AnswerCreate> inputs) {
         createAnswers(inputs);
-        return getMbtiType(inputs);
+        String mbtiCode = getMbtiType(inputs);
+        return mbtiTypeRepository.findProjectedByCode(mbtiCode);
     }
 
     private String getMbtiType(List<AnswerCreate> inputs) {
