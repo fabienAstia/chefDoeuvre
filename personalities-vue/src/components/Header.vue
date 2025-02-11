@@ -90,17 +90,17 @@ const isLoggedIn = computed(() => {
           
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
                 <li>
-                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('fr')">
+                  <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('fr')">
                     <img src="@/assets/images/frFlag.svg.png" width="20px" alt="french_flag" class="flag"> FR 
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('en')">
+                  <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('en')">
                     <img src="@/assets/images/ukFlag.svg" width="20px" alt="uk_flag" class="flag"> EN 
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item d-flex align-items-start gap-2" href="#" @click="changeLanguage('po')">
+                  <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('po')">
                     <img src="@/assets/images/Flag_of_Portugal.svg.png" width="20px" alt="portugal_flag" class="flag"> PO 
                   </a>
                 </li>
