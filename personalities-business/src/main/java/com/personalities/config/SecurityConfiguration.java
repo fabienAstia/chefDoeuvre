@@ -63,10 +63,10 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/users", "users/authenticate", "/answers", "/questions/paginated").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/questions").permitAll()
+                        .requestMatchers("/users", "users/authenticate", "/questions/paginated").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/questions", "/images/**").permitAll()
+                        .requestMatchers("/answers").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/questions/**").hasRole("ADMIN")
-                        //.requestMatchers(HttpMethod.POST, "/answers").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(server -> server.jwt((Customizer.withDefaults())))

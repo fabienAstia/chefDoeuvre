@@ -10,6 +10,7 @@ const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getP
 const hover = ref(false);
 const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? '#0077b6' : '#7b2cbf';
 const answers = ref ([]);
+const totalPAGES = 3;
 
 const jwt = localStorage.getItem('jwt');
 const router = useRouter();
@@ -32,13 +33,23 @@ const addAnswer = (idQuestion, buttonIndex) => {
   return true;
 }
 
-const isCompleted = () => {
-  answers.value.length === (pageNumber.value +1) * pageSize.value 
-  ? getNextPage() && scrollToTop()
-  : alert("You must answer all questions!")
+const isPageCompleted = () => {
+    answers.value.length === (pageNumber.value +1) * pageSize.value 
+    ? getNextPage() && scrollToTop()
+    : alert("You must answer all questions!")
 } 
 
-const addAnswers = async() => {
+const isTestCompleted = () => {
+  return (answers.value.length === (totalPAGES) * pageSize.value)
+} 
+
+const handleSubmit = () => {
+  isTestCompleted() 
+  ? sendAnswers()
+  : alert("You must answer all questions")
+}
+
+const sendAnswers = async() => {
   answers.value.forEach((answer) => {
     console.log("id:"+answer.questionId, "rating:"+answer.rating, "clicked:"+answer.clicked);
   })
@@ -87,7 +98,9 @@ const answered = (idQuestion, buttonIndex) => {
 
     <div id="sticky" class="progressWidth p-3">
       <div class="progress"  role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-        <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/totalElements}%`}"></div> 
+        <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/24}%`}"></div> 
+        <!-- <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/totalElements}%`}"></div>  -->
+
       </div>
     </div>
     
@@ -140,12 +153,12 @@ const answered = (idQuestion, buttonIndex) => {
       </div>
 
 
-      <div v-if="pageNumber<(totalPages-1)" class="d-flex justify-content-center bg-light fs-5">
-        <button type="submit" class="btn btn-outline-primary btn-lg m-5" @click="isCompleted()">Next page</button>
+      <div v-if="pageNumber<(totalPAGES-1)" class="d-flex justify-content-center bg-light fs-5">
+        <button type="submit" class="btn btn-outline-primary btn-lg m-5" @click="isPageCompleted()">Next page</button>
       </div>
-      <div v-else="pageNumber===(totalPages-1)" class="d-flex justify-content-center bg-light fs-5">
-        <form @submit.prevent="addAnswers" class="bg-light fs-5">
-          <button type="submit" class="btn btn-outline-danger btn-lg m-5" @click=" scrollToTop()">Submit</button>
+      <div v-else="pageNumber===(totalPAGES-1)" class="d-flex justify-content-center bg-light fs-5">
+        <form @submit.prevent="handleSubmit" class="bg-light fs-5">
+          <button type="submit" class="btn btn-outline-danger btn-lg m-5">Submit</button>
         </form> 
       </div>
 

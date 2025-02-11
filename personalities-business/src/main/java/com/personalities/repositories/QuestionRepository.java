@@ -1,6 +1,5 @@
 package com.personalities.repositories;
 
-import com.personalities.dto.QuestionView;
 import com.personalities.entities.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +13,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findAllProjectedBy();
 
-    Page<Question> findAll(Pageable pageable);
+    Page<Question> findAllByOrderByQuestionOrder(Pageable pageable);
 
     @Override
     void deleteById(Long aLong);

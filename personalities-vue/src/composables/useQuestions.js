@@ -27,7 +27,7 @@ export function useQuestions(){
         if(err.response){
           const statusCode = err.response.status;
           if(statusCode >=400 && statusCode <500){
-            alert(err.response.data.fieldsErrors.label) //retrouver le chemin 
+            alert(err.response.data.fieldsErrors.label) 
           }else if(statusCode >=500 && statusCode <600){
             alert('A server error has occurred!')
           }
