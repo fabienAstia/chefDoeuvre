@@ -1,11 +1,10 @@
 <script setup>
-    //import {Chart, RadarController, LineElement, PointElement, RadialLinearScale} from 'chart.js';
     import Chart from 'chart.js/auto';
-    import { onMounted } from 'vue';
-    import { useRoute } from 'vue-router';
+    import { onMounted, computed } from 'vue';
+    import { useMbtiStore } from '@/stores/mbtiStore';
 
-    const route = useRoute();
-    const mbtiType = JSON.parse(route.query.mbtiType);     
+    const mbtiStore = useMbtiStore();
+    const mbtiType = computed(() => mbtiStore.result);
 
     const data = {
         labels: [
@@ -35,6 +34,11 @@
         type: 'radar',
         data: data,
         options: {
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
             elements: {
                 line: {
                     borderWidth: 3
@@ -42,23 +46,17 @@
             }
         },
     };
-    //myChart.options.legend.display = false;
-    
 
     onMounted(async() => {
         const context = document.getElementById('myChart'); 
         const myChart = new Chart(context, config);
-        myChart.options.legend.display = false;
     })
-
-
-  
 
 </script>
 
 
 <template>
-        <h1 class="text-center"><b class="style">{{ mbtiType.code }}</b></h1>
+        <h1 class="text-center"><b class="style">{{ mbtiType.code}}</b></h1>
         <div class="d-flex justify-content-center">
             <img :src="`http://localhost:8080${mbtiType.image}`" class="mb-4" alt="mbtiType image">
         </div>
@@ -67,10 +65,6 @@
         <div class="chart-container d-flex">
             <canvas id="myChart" style="width: 400px; height: 400px;"></canvas>
         </div>
-        <!-- <div class="d-flex">
-            <img :src="`http://localhost:8080${mbtiType.image}`" class="mb-4" alt="mbtiType image">
-            <canvas id="myChart" style="width: 400px; height: 400px;"></canvas>
-        </div> -->
 </template>
 
 <style scoped>

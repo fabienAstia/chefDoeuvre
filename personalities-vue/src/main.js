@@ -2,11 +2,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/main.scss'
 import'./assets/main.css'
 import{Button, Collapse, Dropdown, Toast} from 'bootstrap'
-
-// import '../node_modules/bootstrap/dist/js/bootstrap.bundle'
-
 import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
+import {createPinia} from 'pinia'
+
 import FR from './locales/fr.json'
 import EN from './locales/en.json'
 import PO from './locales/po.json'
@@ -30,7 +29,10 @@ const i18n = createI18n({
     }
 });
 
+const pinia = createPinia();
+
 const app = createApp(App)
 app.use(router)
 app.use(i18n)
+app.use(pinia)
 app.mount('#app')
