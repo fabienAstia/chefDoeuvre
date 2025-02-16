@@ -5,15 +5,17 @@ const{t} = useI18n;
 import { useQuestions } from '../composables/useQuestions';
 import axios from 'axios';
 import {useRouter} from 'vue-router';
+import {useMbtiStore} from '@/stores/mbtiStore'
 
 const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
 const hover = ref(false);
 const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? '#0077b6' : '#7b2cbf';
 const answers = ref ([]);
-const totalPAGES = 3;
+const totalPAGES = 3; //for DEMO
 
 const jwt = localStorage.getItem('jwt');
 const router = useRouter();
+const mbtiStore = useMbtiStore();
 
 onMounted(async() => {
     await getPaginatedQuestions();
@@ -58,9 +60,8 @@ const sendAnswers = async() => {
     const response = await axios.post('http://localhost:8080/answers', 
     answers.value,
     {headers:{'Content-Type':'application/json', 'Authorization':`Bearer ${jwt}`}});    
-    let mbtiType = response.data;
-    console.log("mbtiType =" + mbtiType)
-    router.push({name:'result', query:{mbtiType:JSON.stringify(mbtiType)}})
+    mbtiStore.setResult(response.data);
+    router.push({name:'result'});
   } catch(err) {
       if(err.response){
           const statusCode = err.response.status;
@@ -98,7 +99,7 @@ const answered = (idQuestion, buttonIndex) => {
 
     <div id="sticky" class="progressWidth p-3">
       <div class="progress"  role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-        <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/24}%`}"></div> 
+        <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/24}%`}"></div> <!-- for DEMO -->
         <!-- <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/totalElements}%`}"></div>  -->
 
       </div>
@@ -152,7 +153,7 @@ const answered = (idQuestion, buttonIndex) => {
         </div>
       </div>
 
-
+      
       <div v-if="pageNumber<(totalPAGES-1)" class="d-flex justify-content-center bg-light fs-5">
         <button type="submit" class="btn btn-outline-primary btn-lg m-5" @click="isPageCompleted()">Next page</button>
       </div>
