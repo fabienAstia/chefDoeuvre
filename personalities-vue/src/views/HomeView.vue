@@ -13,7 +13,7 @@ import arrowCircle from '@/assets/pictos/arrowCircle.svg';
             </p>
 
             <div class=" d-flex justify-content-center">
-                <router-link to="/test" class="btn btn-success">
+                <router-link to="/answers" class="btn btn-success">
                     <span class="d-flex gap-2 fs-5">
                         Passer le test 
                         <img :src="arrowCircle">
