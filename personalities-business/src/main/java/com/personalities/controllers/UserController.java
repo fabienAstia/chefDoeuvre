@@ -1,7 +1,7 @@
 package com.personalities.controllers;
 
-import com.personalities.dto.UserAuthenticate;
-import com.personalities.dto.UserCreate;
+import com.personalities.dtos.UserAuthenticate;
+import com.personalities.dtos.UserCreate;
 import com.personalities.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> create(@Valid @RequestBody UserCreate inputs) {
-        return userService.create(inputs);
+    public void create(@Valid @RequestBody UserCreate inputs) {
+        userService.create(inputs);
     }
 
     @PostMapping("/authenticate")

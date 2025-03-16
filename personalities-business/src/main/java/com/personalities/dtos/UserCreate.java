@@ -1,4 +1,4 @@
-package com.personalities.dto;
+package com.personalities.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.personalities.validators.UserCreateUniqueUsername;

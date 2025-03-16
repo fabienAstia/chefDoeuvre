@@ -13,7 +13,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findAllProjectedBy();
 
-    Page<Question> findAllByOrderByQuestionOrder(Pageable pageable);
+    Page<Question> findAllByOrderByOrder(Pageable pageable);
 
     @Override
     void deleteById(Long aLong);

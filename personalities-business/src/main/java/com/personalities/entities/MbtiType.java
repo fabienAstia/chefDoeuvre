@@ -1,9 +1,8 @@
 package com.personalities.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,11 +15,69 @@ public class MbtiType extends AbstractEntity {
     @Column(name = "code")
     private String code;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "description")
     private String description;
 
+    @Column(name = "population_percentage")
+    private double populationPercentage;
+
+    @Column(name = "interesting_fact")
+    private String interestingFact;
+
     @Column(name = "image")
     private String image;
+
+    @ManyToMany
+    @JoinTable(
+            name = "t_matches",
+
+            joinColumns = @JoinColumn(name = "mbti_type_id"),
+            inverseJoinColumns = @JoinColumn(name = "profession_id"))
+    private List<Profession> professions;
+
+    @ManyToMany
+    @JoinTable(
+            name = "t_includes",
+
+            joinColumns = @JoinColumn(name = "mbti_type_id"),
+            inverseJoinColumns = @JoinColumn(name = "personality_trait_id"))
+    private List<PersonalityTrait> personalityTraits;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return o instanceof MbtiType mbtiType
+                && Objects.equals(code, mbtiType.code)
+                && Objects.equals(name, mbtiType.name)
+                && Objects.equals(description, mbtiType.description)
+                && Objects.equals(populationPercentage, mbtiType.populationPercentage)
+                && Objects.equals(interestingFact, mbtiType.interestingFact)
+                && Objects.equals(image, mbtiType.image)
+                && Objects.equals(professions, mbtiType.professions)
+                && Objects.equals(personalityTraits, mbtiType.personalityTraits);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name, description, populationPercentage, image, interestingFact, professions, personalityTraits);
+    }
+
+    @Override
+    public String toString() {
+        return "MbtiType{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", populationPercentage=" + populationPercentage +
+                ", interestingFact='" + interestingFact + '\'' +
+                ", image='" + image + '\'' +
+                ", professions=" + professions +
+                ", personalityTraits=" + personalityTraits +
+                "} " + super.toString();
+    }
 
     public String getCode() {
         return code;
@@ -28,6 +85,14 @@ public class MbtiType extends AbstractEntity {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -38,6 +103,22 @@ public class MbtiType extends AbstractEntity {
         this.description = description;
     }
 
+    public double getPopulationPercentage() {
+        return populationPercentage;
+    }
+
+    public void setPopulationPercentage(double populationPercentage) {
+        this.populationPercentage = populationPercentage;
+    }
+
+    public String getInterestingFact() {
+        return interestingFact;
+    }
+
+    public void setInterestingFact(String interestingFact) {
+        this.interestingFact = interestingFact;
+    }
+
     public String getImage() {
         return image;
     }
@@ -46,26 +127,19 @@ public class MbtiType extends AbstractEntity {
         this.image = image;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        return o instanceof MbtiType mbtiType
-                && Objects.equals(code, mbtiType.code)
-                && Objects.equals(description, mbtiType.description)
-                && Objects.equals(image, mbtiType.image);
+    public List<Profession> getProfessions() {
+        return professions;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(code, description, image);
+    public void setProfessions(List<Profession> professions) {
+        this.professions = professions;
     }
 
-    @Override
-    public String toString() {
-        return "MbtiType{" +
-                "typeCode='" + code + '\'' +
-                ", description='" + description + '\'' +
-                ", image='" + image + '\'' +
-                "} " + super.toString();
+    public List<PersonalityTrait> getPersonalityTraits() {
+        return personalityTraits;
+    }
+
+    public void setPersonalityTraits(List<PersonalityTrait> personalityTraits) {
+        this.personalityTraits = personalityTraits;
     }
 }
