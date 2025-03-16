@@ -1,9 +1,9 @@
 package com.personalities.services;
 
-import com.personalities.dto.AdminQuestionView;
-import com.personalities.dto.QuestionCreate;
-import com.personalities.dto.QuestionUpdate;
-import com.personalities.dto.UserQuestionView;
+import com.personalities.dtos.AdminQuestionView;
+import com.personalities.dtos.QuestionCreate;
+import com.personalities.dtos.QuestionUpdate;
+import com.personalities.dtos.UserQuestionView;
 import com.personalities.entities.Constraint;
 import com.personalities.entities.Question;
 import com.personalities.entities.PsychPreference;
@@ -53,11 +53,11 @@ public class QuestionService {
 
     public Page<UserQuestionView> getPaginatedQuestions(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Question> questions = questionRepository.findAllByOrderByQuestionOrder(pageable);
+        Page<Question> questions = questionRepository.findAllByOrderByOrder(pageable);
         return questions.map(question -> new UserQuestionView(
                 question.getId(),
                 question.getLabel(),
-                question.getQuestionOrder(),
+                question.getOrder(),
                 question.getPsychPreference().getCode()));
     }
 

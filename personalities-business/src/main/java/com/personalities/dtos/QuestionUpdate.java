@@ -1,4 +1,4 @@
-package com.personalities.dto;
+package com.personalities.dtos;
 
 import com.personalities.validators.QuestionUpdateUniqueLabel;
 import jakarta.validation.constraints.NotBlank;

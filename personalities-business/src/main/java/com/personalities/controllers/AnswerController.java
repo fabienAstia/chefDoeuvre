@@ -1,7 +1,7 @@
 package com.personalities.controllers;
 
-import com.personalities.dto.AnswerCreate;
-import com.personalities.dto.MbtiTypeView;
+import com.personalities.dtos.AnswerCreate;
+import com.personalities.dtos.MbtiTypeView;
 import com.personalities.services.AnswerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,10 @@ public class AnswerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MbtiTypeView createAnswersAndGetResult(@Valid @RequestBody List<AnswerCreate> inputs) {
-        return answerService.createAnswersAndGetResult(inputs);
+//        return answerService.createAnswersAndGetResult(inputs);
+        MbtiTypeView m = answerService.createAnswersAndGetResult(inputs);
+        System.out.println("mbtiType" + answerService.createAnswersAndGetResult(inputs).toString());
+        return m;
     }
 }
 

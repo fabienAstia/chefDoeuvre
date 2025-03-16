@@ -1,4 +1,4 @@
-package com.personalities.dto;
+package com.personalities.dtos;
 
 public record UserQuestionView(
         Long id,

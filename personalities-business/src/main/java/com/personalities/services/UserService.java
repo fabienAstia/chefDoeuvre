@@ -1,8 +1,8 @@
 package com.personalities.services;
 
 import com.personalities.config.JwtProvider;
-import com.personalities.dto.UserAuthenticate;
-import com.personalities.dto.UserCreate;
+import com.personalities.dtos.UserAuthenticate;
+import com.personalities.dtos.UserCreate;
 import com.personalities.entities.Role;
 import com.personalities.entities.User;
 import com.personalities.repositories.RoleRepository;
@@ -34,7 +34,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<Object> create(UserCreate inputs) {
+    public void create(UserCreate inputs) {
         User user = new User();
         user.setUsername(inputs.username());
         user.setPassword(passwordEncoder.encode(inputs.password()));
@@ -46,7 +46,6 @@ public class UserService {
             user.setRole(roleUser);
         }
         userRepository.save(user);
-        return null;
     }
 
     public Object authenticate(UserAuthenticate inputs) {

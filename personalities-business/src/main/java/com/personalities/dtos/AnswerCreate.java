@@ -1,4 +1,4 @@
-package com.personalities.dto;
+package com.personalities.dtos;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

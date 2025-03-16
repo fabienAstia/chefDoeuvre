@@ -10,7 +10,7 @@ public abstract class AbstractEntity {
     @Column(name = "id")
     private Long id;
 
-    protected AbstractEntity(){
+    protected AbstractEntity() {
     }
 
     public Long getId() {
