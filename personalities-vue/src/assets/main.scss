@@ -12,7 +12,6 @@ $focus-ring-color: rgba(#0077b6, 50%);
 $focus-ring-width: .10rem;
 $input-focus-border-color : #0077b6;
 
-
 // scss-docs-start import-stack
 // Configuration
 @import "../../node_modules/bootstrap/scss/functions";
@@ -22,6 +21,13 @@ $input-focus-border-color : #0077b6;
 @import "../../node_modules/bootstrap/scss/maps";
 @import "../../node_modules/bootstrap/scss/mixins";
 @import "../../node_modules/bootstrap/scss/utilities";
+$utilities: map-merge(
+  $utilities,
+  ("font-size": map-merge(
+      map-get($utilities, "font-size"),
+      (responsive: true)
+    ))
+);
 
 // Layout & components
 @import "../../node_modules/bootstrap/scss/nav";
