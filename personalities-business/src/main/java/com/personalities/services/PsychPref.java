@@ -1,22 +1,28 @@
 package com.personalities.services;
 
 public enum PsychPref {
-    EXTRAVERSION("E"),
-    INTROVERSION("I"),
-    INTUITION("N"),
-    SENSATION("S"),
-    THINKING("T"),
-    FEELING("F"),
-    PERCEPTION("P"),
-    JUDGMENT("J");
+    EXTRAVERSION("E", "I"),
+    INTROVERSION("I", "E"),
+    INTUITION("N", "S"),
+    SENSATION("S", "N"),
+    THINKING("T", "F"),
+    FEELING("F", "T"),
+    PERCEPTION("P", "J"),
+    JUDGMENT("J", "P");
 
-    private String prefCode;
+    private String code;
+    private String complementary;
 
-    PsychPref(String prefCode) {
-        this.prefCode = prefCode;
+    PsychPref(String code, String complementary) {
+        this.code = code;
+        this.complementary = complementary;
     }
 
-    public String getPrefCode() {
-        return prefCode;
+    public String getCode() {
+        return code;
+    }
+
+    public String getComplementary() {
+        return complementary;
     }
 }

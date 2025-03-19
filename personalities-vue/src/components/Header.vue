@@ -32,7 +32,7 @@ const isLoggedIn = computed(() => {
      <nav id="navbar" class="navbar nav navbar-expand-sm" >
       <div class="container-fluid">
         <router-link to="/" class="navbar-brand p-0">
-          <img id="logo" src="../assets/images/logo.JPG" alt="logo" class="header">
+          <img id="logo" src="../assets/images/autres-images/logo.png" alt="logo" class="header">
         </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
