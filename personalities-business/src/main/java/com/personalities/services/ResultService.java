@@ -44,11 +44,11 @@ public class ResultService {
                 mbtiType.getInterestingFact(),
                 mbtiType.getImage(),
                 mbtiType.getProfessions().stream().map(Profession::getName).toList(),
-                buildPersonalityTraitsWithEval(mbtiType),
+                buildPersonalityTraitsWithEvaluation(mbtiType),
                 percentageByPsych);
     }
 
-    public Map<String, String> buildPersonalityTraitsWithEval(MbtiType mbtiType) {
+    public Map<String, String> buildPersonalityTraitsWithEvaluation(MbtiType mbtiType) {
         Map<String, String> traitsWithEval = new HashMap<>();
         mbtiType.getPersonalityTraits().forEach(personalityTrait -> {
             traitsWithEval.putIfAbsent(personalityTrait.getTrait(), personalityTrait.getEvaluation().getLabel());
@@ -66,7 +66,9 @@ public class ResultService {
                     Map.Entry<String, Integer> complementary = scoreByPsych.entrySet().stream()
                             .filter(entry -> entry.getKey().equals(getComplementaryPsychPref(psychPref).getCode()))
                             .toList().getFirst();
-                    percentageByPsychPref.put(psychPref.getCode(), getPercentage(psychPrefPercentage, complementary));
+                    percentageByPsychPref.put(
+                            psychPref.getCode(),
+                            getPercentage(psychPrefPercentage, complementary));
                 });
         return percentageByPsychPref;
     }

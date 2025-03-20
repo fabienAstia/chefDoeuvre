@@ -8,6 +8,8 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
@@ -25,6 +27,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 
     @Value("${cors.allowedOrigins}")
@@ -61,13 +64,15 @@ public class SecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(req -> req
-                        .requestMatchers("/users", "users/authenticate", "/questions/paginated").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/questions", "/images/**").permitAll()
-                        .requestMatchers("/answers").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/questions/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req -> {
+                            req
+                                    .requestMatchers("/users", "users/authenticate", "/questions/paginated").permitAll()
+                                    .requestMatchers(HttpMethod.GET, "/questions", "/images/**").permitAll()
+                                    .requestMatchers("/answers").hasAnyRole("USER", "ADMIN")
+                                    .requestMatchers("/questions/**").hasRole("ADMIN")
+                                    .anyRequest().authenticated();
+                        }
                 )
                 .oauth2ResourceServer(server -> server.jwt((Customizer.withDefaults())))
                 .build();
