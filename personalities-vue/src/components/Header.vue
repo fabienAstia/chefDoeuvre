@@ -47,10 +47,10 @@ const isLoggedIn = computed(() => {
               </router-link>
             </li>
             <li class="nav-item hover">
-              <a class="nav-link d-flex gap-1 justify-content-start fw-bold " href="#">
+              <router-link to="/personalities" class="nav-link d-flex gap-1 justify-content-start fw-bold">
                 <img :src="filePerson" width="20px">
                 {{$t('header.personalities')}}
-              </a>
+              </router-link>
             </li>
             <li class="nav-item hover">
               <a class="nav-link d-flex gap-1 justify-content-start fw-bold" href="#">

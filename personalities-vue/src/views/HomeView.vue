@@ -1,8 +1,84 @@
 <script setup>
 import arrowCircle from '@/assets/pictos/arrowCircle.svg';
+
+
+
+//http://localhost:8080/jobs
+import { onMounted, ref } from 'vue';
+import axios from 'axios'
+
+onMounted(() => {
+    getJobs();
+})
+const jobs = ref({});
+const specificJobs = ref({});
+
+const keyWords=ref('Développeur')
+
+const getSpecificJobs = async() => {
+    try {
+        const response = await axios.get(`http://localhost:8080/jobs/specific?motsCles=${keyWords.value}`) 
+        specificJobs.value = response.data.resultats[0].id;
+        console.log('specificJobs:'+specificJobs.value)
+    }catch(err) {
+        if(err.response){
+            const statusCode = err.response.status;
+            if(statusCode >= 400 && statusCode < 500){
+            alert('A client error has occurred!')
+            }else if(statusCode >= 500 && statusCode < 600){
+            alert('A server error has occurred!')
+            }
+        }else{
+            alert('an unexpected error has occured');
+            console.error('an unexpected error has occured', err);
+        }
+    }
+}
+const getJobs = async() => {
+    try {
+        const response = await axios.get('http://localhost:8080/jobs') 
+        jobs.value = response.data.resultats[0];
+        console.log('jobs:'+jobs.value)
+    }catch(err) {
+        if(err.response){
+            const statusCode = err.response.status;
+            if(statusCode >= 400 && statusCode < 500){
+            alert('A client error has occurred!')
+            }else if(statusCode >= 500 && statusCode < 600){
+            alert('A server error has occurred!')
+            }
+        }else{
+            alert('an unexpected error has occured');
+            console.error('an unexpected error has occured', err);
+        }
+    }
+}
+getSpecificJobs();
+
 </script>
 
+<!-- 
+`http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`
+https://api.pole-emploi.io/partenaire/offresdemploi/v2/offres/search
+https://api.pole-emploi.fr/offresdemploi/v2/offres/search?motsCles=développeur&typeContrat=CDI&departement=75
+motsCles : Permet de rechercher des offres contenant des mots-clés spécifiques.
+typeContrat : Filtre les offres selon le type de contrat (CDI, CDD, etc.).
+experience : Filtre selon le niveau d'expérience requis.
+dureeHebdo : Permet de spécifier la durée hebdomadaire du travail.
+commune : Filtre les offres par code INSEE de la commune.
+departement : Filtre par code du département.
+region : Filtre par code de la région.
+natureContrat : Permet de spécifier la nature du contrat (temps plein, temps partiel, etc.). -->
+
 <template>
+    <div>
+        <input type="text" v-model="keyWords">
+        <div>{{ keyWords }}</div>
+        <div><p>specific</p>{{ specificJobs }}</div>
+        <div>{{ jobs }}</div> 
+        
+    </div>
+
     <div class="d-flex justify-content-center body">
         <div class="container g-3 m-3">
 
@@ -20,7 +96,6 @@ import arrowCircle from '@/assets/pictos/arrowCircle.svg';
                     </span>
                 </router-link>
             </div>
-
         </div>
     </div>
 
@@ -31,3 +106,4 @@ import arrowCircle from '@/assets/pictos/arrowCircle.svg';
         max-width: 800px;
     }
 </style>
+
