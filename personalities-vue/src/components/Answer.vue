@@ -56,24 +56,24 @@ const sendAnswers = async() => {
     console.log("id:"+answer.questionId, "rating:"+answer.rating, "clicked:"+answer.clicked);
   })
 
-  try {
+try {
     const response = await axios.post('http://localhost:8080/answers', 
     answers.value,
     {headers:{'Content-Type':'application/json', 'Authorization':`Bearer ${jwt}`}});    
     mbtiStore.setResult(response.data);
     router.push({name:'result'});
-  } catch(err) {
-      if(err.response){
-          const statusCode = err.response.status;
-          if(statusCode >= 400 && statusCode < 500){
-            alert('A client error has occurred!')
-          }else if(statusCode >= 500 && statusCode < 600){
-            alert('A server error has occurred!')
-          }
-      }else{
-          alert('an unexpected error has occured');
-          console.error('an unexpected error has occured', err);
-      }
+}catch(err) {
+    if(err.response){
+        const statusCode = err.response.status;
+        if(statusCode >= 400 && statusCode < 500){
+          alert('A client error has occurred!')
+        }else if(statusCode >= 500 && statusCode < 600){
+          alert('A server error has occurred!')
+        }
+    }else{
+        alert('an unexpected error has occured');
+        console.error('an unexpected error has occured', err);
+    }
   }
 }
 
