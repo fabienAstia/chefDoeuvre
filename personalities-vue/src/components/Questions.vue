@@ -1,5 +1,4 @@
 <script setup>
-// import {ref} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useQuestions } from '@/composables/useQuestions';
 import bluePencil from '@/assets/pictos/bluePencil.svg';

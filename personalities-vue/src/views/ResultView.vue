@@ -8,7 +8,7 @@
 
     const sortedTraits = computed(() => {
         const traits = {force: [], faiblesse: []};
-        for(const[trait,evaluation] of Object.entries(mbtiType.value.personalityTraitsWithEval)){
+        for(const[trait,evaluation] of Object.entries(mbtiType.value.strengthAndWeaknesses)){
             if(evaluation === "Force"){
                 traits.force.push(trait);
             }else {
@@ -84,11 +84,11 @@
         },
     };
 
-    onMounted(async() => {
-        const context = document.getElementById('myChart'); 
-        const myChart = new Chart(context, config);
-        console.log("rateByPsych :" + Object.entries(mbtiType.value.rateByPsych))
-    })
+onMounted(async() => {
+    const context = document.getElementById('myChart'); 
+    const myChart = new Chart(context, config);
+    console.log("rateByPsych :" + Object.entries(mbtiType.value.rateByPsych))
+})
 
 </script>
 

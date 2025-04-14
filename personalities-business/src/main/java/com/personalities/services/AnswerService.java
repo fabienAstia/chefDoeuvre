@@ -2,7 +2,7 @@ package com.personalities.services;
 
 import com.personalities.config.SecurityHelper;
 import com.personalities.dtos.AnswerCreate;
-import com.personalities.dtos.MbtiTypeView;
+import com.personalities.dtos.ResultView;
 import com.personalities.entities.*;
 import com.personalities.repositories.AnswerRepository;
 import com.personalities.repositories.MbtiTypeRepository;
@@ -29,7 +29,7 @@ public class AnswerService {
         this.mbtiTypeRepository = mbtiTypeRepository;
     }
 
-    public MbtiTypeView createAnswersAndGetResult(List<AnswerCreate> inputs) {
+    public ResultView createAnswersAndGetResult(List<AnswerCreate> inputs) {
         createAnswers(inputs);
         ResultService resultService = new ResultService(questionRepository, mbtiTypeRepository);
         return resultService.getResult(inputs);
