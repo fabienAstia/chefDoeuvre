@@ -44,7 +44,7 @@ public class MbtiType extends AbstractEntity {
 
             joinColumns = @JoinColumn(name = "mbti_type_id"),
             inverseJoinColumns = @JoinColumn(name = "personality_trait_id"))
-    private List<PersonalityTrait> personalityTraits;
+    private List<PersonalityTrait> strengthAndWeaknesses;
 
     @Override
     public boolean equals(Object o) {
@@ -57,12 +57,12 @@ public class MbtiType extends AbstractEntity {
                 && Objects.equals(interestingFact, mbtiType.interestingFact)
                 && Objects.equals(image, mbtiType.image)
                 && Objects.equals(professions, mbtiType.professions)
-                && Objects.equals(personalityTraits, mbtiType.personalityTraits);
+                && Objects.equals(strengthAndWeaknesses, mbtiType.strengthAndWeaknesses);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, description, populationPercentage, image, interestingFact, professions, personalityTraits);
+        return Objects.hash(code, name, description, populationPercentage, image, interestingFact, professions, strengthAndWeaknesses);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MbtiType extends AbstractEntity {
                 ", interestingFact='" + interestingFact + '\'' +
                 ", image='" + image + '\'' +
                 ", professions=" + professions +
-                ", personalityTraits=" + personalityTraits +
+                ", personalityTraits=" + strengthAndWeaknesses +
                 "} " + super.toString();
     }
 
@@ -135,11 +135,11 @@ public class MbtiType extends AbstractEntity {
         this.professions = professions;
     }
 
-    public List<PersonalityTrait> getPersonalityTraits() {
-        return personalityTraits;
+    public List<PersonalityTrait> getStrengthAndWeaknesses() {
+        return strengthAndWeaknesses;
     }
 
-    public void setPersonalityTraits(List<PersonalityTrait> personalityTraits) {
-        this.personalityTraits = personalityTraits;
+    public void setStrengthAndWeaknesses(List<PersonalityTrait> strengthAndWeaknesses) {
+        this.strengthAndWeaknesses = strengthAndWeaknesses;
     }
 }

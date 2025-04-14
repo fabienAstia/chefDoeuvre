@@ -1,7 +1,7 @@
 package com.personalities.services;
 
 import com.personalities.dtos.AnswerCreate;
-import com.personalities.dtos.MbtiTypeView;
+import com.personalities.dtos.ResultView;
 import com.personalities.entities.MbtiType;
 import com.personalities.entities.Profession;
 import com.personalities.entities.Question;
@@ -26,7 +26,7 @@ public class ResultService {
         this.mbtiTypeRepository = mbtiTypeRepository;
     }
 
-    public MbtiTypeView getResult(List<AnswerCreate> inputs) {
+    public ResultView getResult(List<AnswerCreate> inputs) {
         Map<String, List<Integer>> ratingByPsych = getRatingByPsych(inputs);
         Map<String, Integer> scoreByPsych = getScoreByPsych(ratingByPsych);
         String mbtiCode = getMbtiTypeCode(scoreByPsych);
@@ -35,8 +35,8 @@ public class ResultService {
         return buildMbtiTypeView(mbtiType, percentageByPsych);
     }
 
-    public MbtiTypeView buildMbtiTypeView(MbtiType mbtiType, Map<String, Double> percentageByPsych) {
-        return new MbtiTypeView(
+    public ResultView buildMbtiTypeView(MbtiType mbtiType, Map<String, Double> percentageByPsych) {
+        return new ResultView(
                 mbtiType.getCode(),
                 mbtiType.getName(),
                 mbtiType.getDescription(),
@@ -44,13 +44,13 @@ public class ResultService {
                 mbtiType.getInterestingFact(),
                 mbtiType.getImage(),
                 mbtiType.getProfessions().stream().map(Profession::getName).toList(),
-                buildPersonalityTraitsWithEval(mbtiType),
+                buildStrengthAndWeaknesses(mbtiType),
                 percentageByPsych);
     }
 
-    public Map<String, String> buildPersonalityTraitsWithEval(MbtiType mbtiType) {
+    public Map<String, String> buildStrengthAndWeaknesses(MbtiType mbtiType) {
         Map<String, String> traitsWithEval = new HashMap<>();
-        mbtiType.getPersonalityTraits().forEach(personalityTrait -> {
+        mbtiType.getStrengthAndWeaknesses().forEach(personalityTrait -> {
             traitsWithEval.putIfAbsent(personalityTrait.getTrait(), personalityTrait.getEvaluation().getLabel());
         });
         return traitsWithEval;

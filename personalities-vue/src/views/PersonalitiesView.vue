@@ -1,12 +1,30 @@
 <script setup>
 import { useMbtiStore } from '@/stores/mbtiStore'
+import axios from 'axios'
 const idealistes = ['INFJ', 'INFP', 'ENFJ', 'ENFP']
 const rationnels = ['INTJ', 'INTP', 'ENTJ', 'ENTP']
 const gardiens = ['ISTJ', 'ISFJ', 'ESTJ', 'ESFJ']
 const artisans = ['ISTP', 'ISFP', 'ESTP', 'ESFP']
 const mbtiStore = useMbtiStore();
+
 async function addType(type){
-    mbtiStore.setResult(type);
+try{
+    const response = await axios.get(`http://localhost:8080/mbti/${type}`)
+    mbtiStore.setResult(response.data)
+    //router.push({name:'result'});
+}catch(err) {
+    if(err.response){
+        const statusCode = err.response.status;
+        if(statusCode >= 400 && statusCode < 500){
+          alert('A client error has occurred!')
+        }else if(statusCode >= 500 && statusCode < 600){
+          alert('A server error has occurred!')
+        }
+    }else{
+        alert('an unexpected error has occured');
+        console.error('an unexpected error has occured', err);
+    }
+  }
 }
 </script>
 
