@@ -25,7 +25,7 @@ const router = createRouter({
             component: () => import("@/views/PersonalitiesView.vue")
         },
         {
-            path:"/personality",
+            path:"/personality/:code",
             name:"personality",
             component: () => import("@/views/PersonalityView.vue")
         },
