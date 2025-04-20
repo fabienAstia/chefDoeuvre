@@ -33,10 +33,10 @@ public class MbtiTypeService {
     }
 
     public Map<String, String> buildStrengthAndWeaknesses(MbtiType mbtiType) {
-        Map<String, String> strengthAndWeaknesses = new HashMap<>();
-        mbtiType.getStrengthAndWeaknesses().forEach(personalityTrait -> {
-            strengthAndWeaknesses.putIfAbsent(personalityTrait.getTrait(), personalityTrait.getEvaluation().getLabel());
+        Map<String, String> strengthsAndWeaknesses = new HashMap<>();
+        mbtiType.getStrengthsAndWeaknesses().forEach(personalityTrait -> {
+            strengthsAndWeaknesses.putIfAbsent(personalityTrait.getTrait(), personalityTrait.getEvaluation().getLabel());
         });
-        return strengthAndWeaknesses;
+        return strengthsAndWeaknesses;
     }
 }

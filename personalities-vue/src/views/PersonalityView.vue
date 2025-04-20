@@ -1,26 +1,26 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import axios from 'axios'
 
 const route = useRoute();
 const code = route.params.code;
 const mbtiType = ref({})
+const specificJobs = ref({});
+const specificJobs2 = ref({intitule:'', description:'', lieuTravail:'', typeContrat:'', entreprise:'', salaire:'', urlOrigine:''})
+const keyWords=ref('Développeur')
+const isTruncated = ref(false)
 
 onMounted(async() => {
     getMbtiType()
-    sortedTraits()
-    // getSpecificJobs();
-    // truncateText();
+    sortedTraits
+    getSpecificJobs()
 })
 
 async function getMbtiType(){
     try{
         const response = await axios.get(`http://localhost:8080/mbti/${code}`)
-        console.log('name2', response.data)
-
         mbtiType.value = response.data;
-        console.log('strength', mbtiType.value.strengthAndWeaknesses)
     }catch(err) {
         if(err.response){
             const statusCode = err.response.status;
@@ -42,6 +42,7 @@ const image = computed(() => {
 
 const sortedTraits = computed(() => {
     const traits = {force: [], faiblesse: []};
+    if(!mbtiType.value.strengthAndWeaknesses) return traits;
     for(const[trait,evaluation] of Object.entries(mbtiType.value.strengthAndWeaknesses)){
         if(evaluation === "Force"){
             traits.force.push(trait);
@@ -49,22 +50,24 @@ const sortedTraits = computed(() => {
             traits.faiblesse.push(trait);
         }
     }
-    console.log("traits =" , traits)
     return traits;
 });
 
-//pôle Emploi
+const salaire = ref('')
+const formatSalaire = computed(() =>{
+    salaire.value = specificJobs2.value.salaire
+    
+    if(salaire.value){
+        const regex = /\d+\.\d+/g
+        const matches = salaire.value.match(regex)
 
-
-const specificJobs = ref({});
-const specificJobs2 = ref({intitule:'', description:'', lieuTravail:'', typeContrat:'', entreprise:'', salaire:''})
-const keyWords=ref('Développeur')
-
-function truncateText(){
-    const text = document.getElementById("truncate").innerHTML;
-    const truncated = text.substring(0, 50) + "...";
-    document.getElementById("truncate").innerHTML = truncated;
-}
+        matches.forEach(m => {
+            salaire.value = salaire.value.replace(m, Math.floor(parseFloat(m)))
+        })
+        const sal = salaire.value;
+        return sal
+    }
+})    
 
 const getSpecificJobs = async() => {
     try {
@@ -78,24 +81,71 @@ const getSpecificJobs = async() => {
         specificJobs2.value.horaires = response.data.resultats[0].contexteTravail.horaires[0];
         specificJobs2.value.entreprise = response.data.resultats[0].entreprise.nom;
         specificJobs2.value.salaire = response.data.resultats[0].salaire.libelle;
-
-
-        console.log('specificJobs:'+specificJobs.value)
+        specificJobs2.value.urlOrigine = response.data.resultats[0].origineOffre.urlOrigine
+        console.log('specificJobs:', specificJobs.value)
     }catch(err) {
         if(err.response){
             const statusCode = err.response.status;
             if(statusCode >= 400 && statusCode < 500){
-            alert('A client error has occurred!')
+                alert('A client error has occurred!')
             }else if(statusCode >= 500 && statusCode < 600){
-            alert('A server error has occurred!')
+                alert('A server error has occurred!')
             }
         }else{
             alert('an unexpected error has occured');
-            console.error('an unexpected error has occured', err);
         }
     }
 }
 
+watch(
+    () => specificJobs2.value.lieuTravail,
+    () => {
+        getAddress()
+    }
+)
+
+const address = ref('')
+const formatAddress = computed(() => {
+    const a = address.value
+    return `<small> ${a.house_number ?? ''}  ${a.road ?? ''} <br> 
+        ${a.suburb ?? ''} ${a.city ?? ''}, ${a.country ?? ''} ${a.postcode ?? ''}</small>`
+})
+
+const getAddress = async() => {
+    const lieu = specificJobs2.value.lieuTravail
+    try {
+        const response = await axios.get(`http://localhost:8080/address?lat=${lieu.latitude}&lon=${lieu.longitude}`)
+        address.value = response.data.address
+    }catch(err){
+        if(err.response){
+            const statusCode = err.response.status;
+            if(statusCode >= 400 && statusCode < 500){
+                alert('A client error has occurred!')
+            }else if(statusCode >= 500 && statusCode < 600){
+                alert('A server error has occurred!')
+            }
+        }else{
+            alert('an unexpected error has occured');
+        }
+    }
+}
+
+const truncatedDescription = computed(() => {
+    const description = specificJobs2.value.description
+    if(description){
+        console.log('description', description)
+        const text = `${description} `
+        return text.substring(0, 60) + "...";
+    }
+}) 
+
+const untruncatedDescription = computed(() => {
+    return specificJobs2.value.description
+})
+
+const untruncate = () => {
+    isTruncated.value = !isTruncated.value
+}
 
 </script>
 
@@ -122,7 +172,7 @@ const getSpecificJobs = async() => {
                 </div>
             </div>
 
-            <!-- <div class="row text-center mt-5 style">
+            <div class="row text-center mt-5 style">
                 <h3 class="text-shadow-light">Forces et Faiblesses</h3>
                 <div class="col-12 col-md-6">
                         <h5 class="text-shadow-light mb-3">Forces</h5>
@@ -132,7 +182,7 @@ const getSpecificJobs = async() => {
                         <h5 class="text-shadow-light mb-3">Faiblesses</h5>
                         <div class="mb-1" v-for="trait in sortedTraits.faiblesse" :key="trait">{{ trait }}</div>
                 </div>
-            </div> -->
+            </div>
 
             <div class="row mt-5 style">
                 <h3 class="text-center text-shadow-light">Métiers</h3>
@@ -146,12 +196,17 @@ const getSpecificJobs = async() => {
                 <div>{{ keyWords }}</div>
                 <div><p>specific</p>{{ specificJobs }}</div>
                 <hr>
-                <div>🏢{{ specificJobs2.entreprise }} 📍{{ specificJobs2.lieuTravail }}</div> 
-                <div>📌{{ specificJobs2.intitule }} {{ specificJobs2.typeContrat }}</div> 
-                <div>🕒{{ specificJobs2.horaires }} - {{ specificJobs2.salaire }}</div>
-                <div id="truncate">📝{{ specificJobs2.description }}</div> 
-                <button @click="truncateText()"></button>
-                <div></div> 
+                <div><b>{{ specificJobs2.intitule }}</b> - {{ specificJobs2.typeContrat }}</div> 
+                <div>{{ specificJobs2.entreprise }}</div> 
+                <div v-html="formatAddress"></div> 
+                <div>{{ specificJobs2.horaires }} </div>
+                <div>{{ formatSalaire }}</div>
+                <div>{{ specificJobs2.urlOrigine }}</div>
+                <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
+                <div v-else>{{ untruncatedDescription }}</div> 
+
+                <button @click="untruncate" v-if="!isTruncated">read more</button>
+                <button @click="untruncate" v-else>read less</button>
 
 
             </div>
@@ -235,8 +290,5 @@ h3{
 .no-bullet{
     list-style: none;
 }
-/* #text{
-
-} */
 
 </style>

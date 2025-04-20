@@ -50,7 +50,7 @@ public class ResultService {
 
     public Map<String, String> buildStrengthAndWeaknesses(MbtiType mbtiType) {
         Map<String, String> traitsWithEval = new HashMap<>();
-        mbtiType.getStrengthAndWeaknesses().forEach(personalityTrait -> {
+        mbtiType.getStrengthsAndWeaknesses().forEach(personalityTrait -> {
             traitsWithEval.putIfAbsent(personalityTrait.getTrait(), personalityTrait.getEvaluation().getLabel());
         });
         return traitsWithEval;
