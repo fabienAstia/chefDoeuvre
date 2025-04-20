@@ -44,7 +44,7 @@ public class MbtiType extends AbstractEntity {
 
             joinColumns = @JoinColumn(name = "mbti_type_id"),
             inverseJoinColumns = @JoinColumn(name = "personality_trait_id"))
-    private List<PersonalityTrait> strengthAndWeaknesses;
+    private List<StrengthAndWeakness> strengthAndWeaknesses;
 
     @Override
     public boolean equals(Object o) {
@@ -135,11 +135,11 @@ public class MbtiType extends AbstractEntity {
         this.professions = professions;
     }
 
-    public List<PersonalityTrait> getStrengthAndWeaknesses() {
+    public List<StrengthAndWeakness> getStrengthsAndWeaknesses() {
         return strengthAndWeaknesses;
     }
 
-    public void setStrengthAndWeaknesses(List<PersonalityTrait> strengthAndWeaknesses) {
+    public void setStrengthAndWeaknesses(List<StrengthAndWeakness> strengthAndWeaknesses) {
         this.strengthAndWeaknesses = strengthAndWeaknesses;
     }
 }

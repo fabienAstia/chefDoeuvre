@@ -19,7 +19,6 @@ public class MbtiTypeController {
 
     @GetMapping("/{code}")
     public MbtiTypeView getMbtiType(@PathVariable("code") String code) {
-        System.out.println("mbtiType" + mbtiTypeService.getMbtiType(code));
         return mbtiTypeService.getMbtiType(code);
     }
 

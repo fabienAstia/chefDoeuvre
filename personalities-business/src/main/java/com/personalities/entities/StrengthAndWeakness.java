@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "t_personality_traits")
-public class PersonalityTrait extends AbstractEntity {
+@Table(name = "t_strengths_and_weaknesses")
+public class StrengthAndWeakness extends AbstractEntity {
 
     @Column(name = "trait")
     private String trait;
@@ -15,7 +15,7 @@ public class PersonalityTrait extends AbstractEntity {
     @JoinColumn(name = "evaluation_id")
     private Evaluation evaluation;
 
-    public PersonalityTrait() {
+    public StrengthAndWeakness() {
     }
 
     public String getTrait() {
@@ -36,7 +36,7 @@ public class PersonalityTrait extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "PersonalityTrait{" +
+        return "StrengthAndWeakness{" +
                 "trait='" + trait + '\'' +
                 ", evaluation=" + evaluation +
                 "} " + super.toString();
@@ -45,9 +45,9 @@ public class PersonalityTrait extends AbstractEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        return o instanceof PersonalityTrait personalityTrait
-                && Objects.equals(trait, personalityTrait.trait)
-                && Objects.equals(evaluation, personalityTrait.evaluation);
+        return o instanceof StrengthAndWeakness strengthAndWeakness
+                && Objects.equals(trait, strengthAndWeakness.trait)
+                && Objects.equals(evaluation, strengthAndWeakness.evaluation);
     }
 
     @Override
