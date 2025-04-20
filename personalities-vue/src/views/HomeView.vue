@@ -3,7 +3,6 @@ import arrowCircle from '@/assets/pictos/arrowCircle.svg';
 
 
 
-//http://localhost:8080/jobs
 import { onMounted, ref } from 'vue';
 import axios from 'axios'
 
@@ -57,18 +56,6 @@ getSpecificJobs();
 
 </script>
 
-<!-- 
-`http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`
-https://api.pole-emploi.io/partenaire/offresdemploi/v2/offres/search
-https://api.pole-emploi.fr/offresdemploi/v2/offres/search?motsCles=développeur&typeContrat=CDI&departement=75
-motsCles : Permet de rechercher des offres contenant des mots-clés spécifiques.
-typeContrat : Filtre les offres selon le type de contrat (CDI, CDD, etc.).
-experience : Filtre selon le niveau d'expérience requis.
-dureeHebdo : Permet de spécifier la durée hebdomadaire du travail.
-commune : Filtre les offres par code INSEE de la commune.
-departement : Filtre par code du département.
-region : Filtre par code de la région.
-natureContrat : Permet de spécifier la nature du contrat (temps plein, temps partiel, etc.). -->
 
 <template>
     <div>

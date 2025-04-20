@@ -25,4 +25,12 @@ public class PoleEmploiController {
     public String getSpecificJobs(@RequestParam String motsCles) {
         return poleEmploiService.getSpecificJobs(motsCles);
     }
+
+//    @GetMapping("/paginated")
+//    public Page<> getPaginatedJobs(
+//            @RequestParam String motsCles,
+//            @RequestParam(value = "pageNum", defaultValue = "0") int page,
+//            @RequestParam(value = "pageSize", defaultValue = "5") int size) {
+//        return poleEmploiService.getPaginatedJobs(page, size);
+//    }
 }
