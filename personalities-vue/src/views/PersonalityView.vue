@@ -7,13 +7,12 @@ const route = useRoute();
 const code = route.params.code;
 const mbtiType = ref({})
 const specificJobs = ref({});
-const specificJobs2 = ref({intitule:'', description:'', lieuTravail:'', typeContrat:'', entreprise:'', salaire:'', urlOrigine:''})
+const specificJobs2 = ref({})
 const keyWords=ref('Développeur')
 const isTruncated = ref(false)
 
 onMounted(async() => {
     getMbtiType()
-    sortedTraits
     getSpecificJobs()
 })
 
@@ -53,36 +52,52 @@ const sortedTraits = computed(() => {
     return traits;
 });
 
-const salaire = ref('')
 const formatSalaire = computed(() =>{
-    salaire.value = specificJobs2.value.salaire
+    let salaire = specificJobs2.value.salaire
     
-    if(salaire.value){
+    if(salaire){
         const regex = /\d+\.\d+/g
-        const matches = salaire.value.match(regex)
+        const matches = salaire.match(regex)
 
         matches.forEach(m => {
-            salaire.value = salaire.value.replace(m, Math.floor(parseFloat(m)))
+            salaire = salaire.replace(m, Math.floor(parseFloat(m)))
         })
-        const sal = salaire.value;
-        return sal
+        return salaire
     }
+    return ''
 })    
 
+ 
+// `http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`
+// https://api.pole-emploi.io/partenaire/offresdemploi/v2/offres/search
+// https://api.pole-emploi.fr/offresdemploi/v2/offres/search?motsCles=développeur&typeContrat=CDI&departement=75
+// motsCles : Permet de rechercher des offres contenant des mots-clés spécifiques.
+// typeContrat : Filtre les offres selon le type de contrat (CDI, CDD, etc.).
+// experience : Filtre selon le niveau d'expérience requis.
+// dureeHebdo : Permet de spécifier la durée hebdomadaire du travail.
+// commune : Filtre les offres par code INSEE de la commune.
+// departement : Filtre par code du département.
+// region : Filtre par code de la région.
+// natureContrat : Permet de spécifier la nature du contrat (temps plein, temps partiel, etc.). 
 const getSpecificJobs = async() => {
     try {
         const response = await axios.get(`http://localhost:8080/jobs/specific?motsCles=${keyWords.value}`) 
         specificJobs.value = response.data.resultats[0];
+        console.log('paginated ?', response.data.resultats)
+        console.log("result length", response.data.resultats.length)
 
-        specificJobs2.value.intitule = response.data.resultats[0].intitule;
-        specificJobs2.value.description = response.data.resultats[0].description;
-        specificJobs2.value.lieuTravail = response.data.resultats[0].lieuTravail;
-        specificJobs2.value.typeContrat = response.data.resultats[0].typeContrat;
-        specificJobs2.value.horaires = response.data.resultats[0].contexteTravail.horaires[0];
-        specificJobs2.value.entreprise = response.data.resultats[0].entreprise.nom;
-        specificJobs2.value.salaire = response.data.resultats[0].salaire.libelle;
-        specificJobs2.value.urlOrigine = response.data.resultats[0].origineOffre.urlOrigine
-        console.log('specificJobs:', specificJobs.value)
+        specificJobs2.value = ({
+            intitule: response.data.resultats[0].intitule, 
+            description: response.data.resultats[0].description,
+            lieuTravail: response.data.resultats[0].lieuTravail, 
+            typeContrat: response.data.resultats[0].typeContrat,
+            horaires : response.data.resultats[0].contexteTravail.horaires[0], 
+            entreprise: response.data.resultats[0].entreprise.nom,
+            salaire: response.data.resultats[0].salaire.libelle,
+            urlOrigine: response.data.resultats[0].origineOffre.urlOrigine
+        })
+
+        // console.log('specificJobs:', specificJobs.value)
     }catch(err) {
         if(err.response){
             const statusCode = err.response.status;
@@ -194,8 +209,7 @@ const untruncate = () => {
             <div>
                 <input type="text" v-model="keyWords">
                 <div>{{ keyWords }}</div>
-                <div><p>specific</p>{{ specificJobs }}</div>
-                <hr>
+          
                 <div><b>{{ specificJobs2.intitule }}</b> - {{ specificJobs2.typeContrat }}</div> 
                 <div>{{ specificJobs2.entreprise }}</div> 
                 <div v-html="formatAddress"></div> 
@@ -208,6 +222,9 @@ const untruncate = () => {
                 <button @click="untruncate" v-if="!isTruncated">read more</button>
                 <button @click="untruncate" v-else>read less</button>
 
+                <hr>
+                <div><p>specific</p>{{ specificJobs }}</div>
+                
 
             </div>
 

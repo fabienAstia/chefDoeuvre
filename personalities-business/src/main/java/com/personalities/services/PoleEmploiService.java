@@ -1,9 +1,11 @@
 package com.personalities.services;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.awt.print.Pageable;
 import java.util.Map;
 
 @Service
@@ -65,4 +67,10 @@ public class PoleEmploiService {
                 .retrieve()
                 .body(String.class);
     }
+
+//    public Page<> getPaginatedJobs(int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<>
+//        return null;
+//    }
 }
