@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/address")
+@RequestMapping("/coordinates")
 public class ReverseGeocodingController {
 
     private final ReverseGeocodingService reverseGeocodingService;
@@ -18,6 +18,7 @@ public class ReverseGeocodingController {
 
     @GetMapping
     public String getAddress(@RequestParam String lat, @RequestParam String lon) {
+        System.out.println("address=" + reverseGeocodingService.getAddress(lat, lon));
         return reverseGeocodingService.getAddress(lat, lon);
     }
 }
