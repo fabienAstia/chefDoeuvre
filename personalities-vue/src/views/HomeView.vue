@@ -14,25 +14,25 @@ const specificJobs = ref({});
 
 const keyWords=ref('Développeur')
 
-const getSpecificJobs = async() => {
-    try {
-        const response = await axios.get(`http://localhost:8080/jobs/specific?motsCles=${keyWords.value}`) 
-        specificJobs.value = response.data.resultats[0].id;
-        console.log('specificJobs:'+specificJobs.value)
-    }catch(err) {
-        if(err.response){
-            const statusCode = err.response.status;
-            if(statusCode >= 400 && statusCode < 500){
-            alert('A client error has occurred!')
-            }else if(statusCode >= 500 && statusCode < 600){
-            alert('A server error has occurred!')
-            }
-        }else{
-            alert('an unexpected error has occured');
-            console.error('an unexpected error has occured', err);
-        }
-    }
-}
+// const getSpecificJobs = async() => {
+//     try {
+//         const response = await axios.get(`http://localhost:8080/jobs/specific?motsCles=${keyWords.value}`) 
+//         specificJobs.value = response.data.resultats[0].id;
+//         console.log('specificJobs:'+specificJobs.value)
+//     }catch(err) {
+//         if(err.response){
+//             const statusCode = err.response.status;
+//             if(statusCode >= 400 && statusCode < 500){
+//             alert('A client error has occurred!')
+//             }else if(statusCode >= 500 && statusCode < 600){
+//             alert('A server error has occurred!')
+//             }
+//         }else{
+//             alert('an unexpected error has occured');
+//             console.error('an unexpected error has occured', err);
+//         }
+//     }
+// }
 const getJobs = async() => {
     try {
         const response = await axios.get('http://localhost:8080/jobs') 

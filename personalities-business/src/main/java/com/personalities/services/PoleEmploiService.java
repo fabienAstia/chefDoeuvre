@@ -1,11 +1,14 @@
 package com.personalities.services;
 
+import com.personalities.dtos.CoordinatesView;
+import com.personalities.dtos.OfferJobView;
+import com.personalities.dtos.poleemploi.OfferJob;
+import com.personalities.dtos.poleemploi.PoleEmploiResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.awt.print.Pageable;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -57,20 +60,35 @@ public class PoleEmploiService {
                 .body(String.class);
     }
 
-    public String getSpecificJobs(String motsCles) {
+    public List<OfferJobView> getSpecificJobs(String motsCles) {
         String token = getAccessToken();
 
-        return restClient.get()
+        PoleEmploiResponse poleEmploiResponse = restClient.get()
                 .uri(uri + MOTS_CLES + motsCles)
                 .header("Authorization", "Bearer " + token)
                 .header("TypeAuth", "apiKey")
                 .retrieve()
-                .body(String.class);
+                .body(PoleEmploiResponse.class);
+        assert poleEmploiResponse != null;
+        return mapToOfferJobView(poleEmploiResponse.offerJobList());
     }
 
-//    public Page<> getPaginatedJobs(int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<>
-//        return null;
-//    }
+    public List<OfferJobView> mapToOfferJobView(List<OfferJob> offerJobList) {
+        return offerJobList.stream().map(offerJob -> {
+            return new OfferJobView(
+                    offerJob.title(),
+                    offerJob.contractType(),
+                    offerJob.experience(),
+                    offerJob.description(),
+                    offerJob.company().companyName(),
+                    new CoordinatesView(
+                            offerJob.coordinates().latitude(),
+                            offerJob.coordinates().longitude()
+                    ),
+                    offerJob.workingContext().workingHours().getFirst(),
+                    offerJob.salary().salary(),
+                    offerJob.offerOrigin().sourceUrl()
+            );
+        }).toList();
+    }
 }

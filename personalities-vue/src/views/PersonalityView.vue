@@ -53,7 +53,7 @@ const sortedTraits = computed(() => {
 });
 
 const formatSalaire = computed(() =>{
-    let salaire = specificJobs2.value.salaire
+    let salaire = specificJobs2.value.salary
     
     if(salaire){
         const regex = /\d+\.\d+/g
@@ -79,22 +79,57 @@ const formatSalaire = computed(() =>{
 // departement : Filtre par code du département.
 // region : Filtre par code de la région.
 // natureContrat : Permet de spécifier la nature du contrat (temps plein, temps partiel, etc.). 
+// const getSpecificJobs = async() => {
+//     try {
+//         const response = await axios.get(`http://localhost:8080/jobs/specific?motsCles=${keyWords.value}&page=${}&size=${}`) 
+//         specificJobs.value = response.data.resultats[0];
+//         console.log('paginated ?', response.data.resultats)
+//         console.log("result length", response.data.resultats.length)
+
+//         specificJobs2.value = ({
+//             intitule: response.data.resultats[0].intitule, 
+//             description: response.data.resultats[0].description,
+//             lieuTravail: response.data.resultats[0].lieuTravail, 
+//             typeContrat: response.data.resultats[0].typeContrat,
+//             horaires : response.data.resultats[0].contexteTravail.horaires[0], 
+//             entreprise: response.data.resultats[0].entreprise.nom,
+//             salaire: response.data.resultats[0].salaire.libelle,
+//             experience : response.data.resultats[0].experienceLibelle,
+//             urlOrigine: response.data.resultats[0].origineOffre.urlOrigine
+//         })
+
+//         // console.log('specificJobs:', specificJobs.value)
+//     }catch(err) {
+//         if(err.response){
+//             const statusCode = err.response.status;
+//             if(statusCode >= 400 && statusCode < 500){
+//                 alert('A client error has occurred!')
+//             }else if(statusCode >= 500 && statusCode < 600){
+//                 alert('A server error has occurred!')
+//             }
+//         }else{
+//             alert('an unexpected error has occured');
+//         }
+//     }
+// }
+
 const getSpecificJobs = async() => {
     try {
-        const response = await axios.get(`http://localhost:8080/jobs/specific?motsCles=${keyWords.value}`) 
-        specificJobs.value = response.data.resultats[0];
-        console.log('paginated ?', response.data.resultats)
-        console.log("result length", response.data.resultats.length)
+        const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${1}&size=${2}`) 
+        specificJobs.value = response.data.content[0]
+        console.log('content[0]', response.data.content[0])
+        console.log("result length", response.data.content.length)
 
         specificJobs2.value = ({
-            intitule: response.data.resultats[0].intitule, 
-            description: response.data.resultats[0].description,
-            lieuTravail: response.data.resultats[0].lieuTravail, 
-            typeContrat: response.data.resultats[0].typeContrat,
-            horaires : response.data.resultats[0].contexteTravail.horaires[0], 
-            entreprise: response.data.resultats[0].entreprise.nom,
-            salaire: response.data.resultats[0].salaire.libelle,
-            urlOrigine: response.data.resultats[0].origineOffre.urlOrigine
+            title: response.data.content[0].title, 
+            description: response.data.content[0].description,
+            coordinates: response.data.content[0].coordinates, 
+            contractType: response.data.content[0].contractType,
+            workingHours : response.data.content[0].workingHours, 
+            companyName: response.data.content[0].companyName,
+            salary: response.data.content[0].salary,
+            experience : response.data.content[0].experience,
+            sourceUrl: response.data.content[0].sourceUrl
         })
 
         // console.log('specificJobs:', specificJobs.value)
@@ -108,12 +143,13 @@ const getSpecificJobs = async() => {
             }
         }else{
             alert('an unexpected error has occured');
+            console.log('unexpected error')
         }
     }
 }
 
 watch(
-    () => specificJobs2.value.lieuTravail,
+    () => specificJobs2.value.coordinates,
     () => {
         getAddress()
     }
@@ -127,9 +163,13 @@ const formatAddress = computed(() => {
 })
 
 const getAddress = async() => {
-    const lieu = specificJobs2.value.lieuTravail
+    let place = specificJobs2.value.coordinates
+    console.log('place', specificJobs2.value.coordinates)
+    console.log('latitude', specificJobs2.value.coordinates.latitude)
+
     try {
-        const response = await axios.get(`http://localhost:8080/address?lat=${lieu.latitude}&lon=${lieu.longitude}`)
+        const response = await axios.get(`http://localhost:8080/address?lat=${place.latitude}&lon=${place.longitude}`)
+        console.log('address', response.data.address)
         address.value = response.data.address
     }catch(err){
         if(err.response){
@@ -141,6 +181,7 @@ const getAddress = async() => {
             }
         }else{
             alert('an unexpected error has occured');
+            console.log('unexpected error')
         }
     }
 }
@@ -210,12 +251,13 @@ const untruncate = () => {
                 <input type="text" v-model="keyWords">
                 <div>{{ keyWords }}</div>
           
-                <div><b>{{ specificJobs2.intitule }}</b> - {{ specificJobs2.typeContrat }}</div> 
-                <div>{{ specificJobs2.entreprise }}</div> 
+                <div><b>{{ specificJobs2.title }}</b> - {{ specificJobs2.contractType }}</div> 
+                <div>{{ specificJobs2.companyName }}</div> 
                 <div v-html="formatAddress"></div> 
-                <div>{{ specificJobs2.horaires }} </div>
+                <div>{{ specificJobs2.workingHours }} </div>
                 <div>{{ formatSalaire }}</div>
-                <div>{{ specificJobs2.urlOrigine }}</div>
+                <div>{{ specificJobs2.experience }}</div>
+                <div>{{ specificJobs2.sourceUrl }}</div>
                 <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
                 <div v-else>{{ untruncatedDescription }}</div> 
 
