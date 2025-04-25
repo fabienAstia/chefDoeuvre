@@ -80,38 +80,7 @@ const formatSalaire = computed(() =>{
 // region : Filtre par code de la région.
 // natureContrat : Permet de spécifier la nature du contrat (temps plein, temps partiel, etc.). 
 // const getSpecificJobs = async() => {
-//     try {
-//         const response = await axios.get(`http://localhost:8080/jobs/specific?motsCles=${keyWords.value}&page=${}&size=${}`) 
-//         specificJobs.value = response.data.resultats[0];
-//         console.log('paginated ?', response.data.resultats)
-//         console.log("result length", response.data.resultats.length)
 
-//         specificJobs2.value = ({
-//             intitule: response.data.resultats[0].intitule, 
-//             description: response.data.resultats[0].description,
-//             lieuTravail: response.data.resultats[0].lieuTravail, 
-//             typeContrat: response.data.resultats[0].typeContrat,
-//             horaires : response.data.resultats[0].contexteTravail.horaires[0], 
-//             entreprise: response.data.resultats[0].entreprise.nom,
-//             salaire: response.data.resultats[0].salaire.libelle,
-//             experience : response.data.resultats[0].experienceLibelle,
-//             urlOrigine: response.data.resultats[0].origineOffre.urlOrigine
-//         })
-
-//         // console.log('specificJobs:', specificJobs.value)
-//     }catch(err) {
-//         if(err.response){
-//             const statusCode = err.response.status;
-//             if(statusCode >= 400 && statusCode < 500){
-//                 alert('A client error has occurred!')
-//             }else if(statusCode >= 500 && statusCode < 600){
-//                 alert('A server error has occurred!')
-//             }
-//         }else{
-//             alert('an unexpected error has occured');
-//         }
-//     }
-// }
 
 const getSpecificJobs = async() => {
     try {
