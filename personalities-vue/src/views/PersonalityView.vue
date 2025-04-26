@@ -8,11 +8,11 @@ const code = route.params.code;
 const mbtiType = ref({})
 const specificJobs = ref({});
 const specificJobs2 = ref({})
+const keyWords=ref('')
 const isTruncated = ref(false)
 
 onMounted(async() => {
     getMbtiType()
-    getSpecificJobs()
 })
 
 async function getMbtiType(){
@@ -52,7 +52,7 @@ const sortedTraits = computed(() => {
 });
 
 const formatSalaire = computed(() =>{
-    let salaire = specificJobs2.value.salary
+    let salaire = specificJobs2.value?.salary
     
     if(salaire){
         const regex = /\d+\.\d+/g
@@ -66,41 +66,86 @@ const formatSalaire = computed(() =>{
     return ''
 })    
 
- 
-// `http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`
-// https://api.pole-emploi.io/partenaire/offresdemploi/v2/offres/search
-// https://api.pole-emploi.fr/offresdemploi/v2/offres/search?motsCles=développeur&typeContrat=CDI&departement=75
-// motsCles : Permet de rechercher des offres contenant des mots-clés spécifiques.
-// typeContrat : Filtre les offres selon le type de contrat (CDI, CDD, etc.).
-// experience : Filtre selon le niveau d'expérience requis.
-// dureeHebdo : Permet de spécifier la durée hebdomadaire du travail.
-// commune : Filtre les offres par code INSEE de la commune.
-// departement : Filtre par code du département.
-// region : Filtre par code de la région.
-// natureContrat : Permet de spécifier la nature du contrat (temps plein, temps partiel, etc.). 
 // const getSpecificJobs = async() => {
+//     try {
+//         const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${1}&size=${2}`) 
+//         specificJobs.value = response.data.data[0]
+//         console.log('content', response.data.data[0])
 
+//         if(specificJobs.value){
+//             specificJobs2.value = ({
+//             title: response.data.data[0].title, 
+//             description: response.data.data[0].description,
+//             coordinates: response.data.data[0].coordinates, 
+//             contractType: response.data.data[0].contractType,
+//             workingHours : response.data.data[0].workingHours, 
+//             companyName: response.data.data[0].companyName,
+//             salary: response.data.data[0].salary,
+//             experience : response.data.data[0].experience,
+//             sourceUrl: response.data.data[0].sourceUrl
+//             })
+//         }
+    
+
+//     }catch(err) {
+//         if(err.response){
+//             const statusCode = err.response.status;
+//             if(statusCode >= 400 && statusCode < 500){
+//                 alert('A client error has occurred!')
+//             }else if(statusCode >= 500 && statusCode < 600){
+//                 alert('A server error has occurred!')
+//             }
+//         }else{
+//             alert('an unexpected error has occured');
+//             console.log('unexpected error')
+//         }
+//     }
+// }
 
 const getSpecificJobs = async() => {
     try {
         const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${1}&size=${2}`) 
-        specificJobs.value = response.data.content[0]
-        console.log('content[0]', response.data.content[0])
-        console.log("result length", response.data.content.length)
+        specificJobs.value = response.data.data
+        console.log('content', response.data.data[0])
 
-        specificJobs2.value = ({
-            title: response.data.content[0].title, 
-            description: response.data.content[0].description,
-            coordinates: response.data.content[0].coordinates, 
-            contractType: response.data.content[0].contractType,
-            workingHours : response.data.content[0].workingHours, 
-            companyName: response.data.content[0].companyName,
-            salary: response.data.content[0].salary,
-            experience : response.data.content[0].experience,
-            sourceUrl: response.data.content[0].sourceUrl
-        })
+        let offerJobDiv = document.querySelector(".offersJob")
+        let offerJobPage = []
 
-        // console.log('specificJobs:', specificJobs.value)
+        if(specificJobs.value){
+           
+            for(let i = 0; i<specificJobs.value.length; i++){
+                specificJobs2.value = ({
+                    title: response.data.data[i].title, 
+                    description: response.data.data[i].description,
+                    coordinates: response.data.data[i].coordinates, 
+                    contractType: response.data.data[i].contractType,
+                    workingHours : response.data.data[i].workingHours, 
+                    companyName: response.data.data[i].companyName,
+                    salary: response.data.data[i].salary,
+                    experience : response.data.data[i].experience,
+                    sourceUrl: response.data.data[i].sourceUrl
+                })
+                const offerJob = ` <input type="text" v-model="keyWords">
+                    <div>{{ keyWords }}</div>
+            
+                    <div><b>${specificJobs2.value.title}</b> - ${specificJobs2.value.contractType}</div> 
+                    <div>${specificJobs2.value.companyName}</div> 
+                    <div v-html="formatAddress"></div> 
+                    <div>${specificJobs2.value.workingHours}</div>
+                    <div>${formatSalaire.value}</div>
+                    <div>${specificJobs2.value.experience}</div>
+                    <div>${specificJobs2.value.sourceUrl}</div>
+                    <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
+                    <div v-else>{{ untruncatedDescription }}</div> 
+
+                    <button @click="untruncate" v-if="!isTruncated">read more</button>
+                    <button @click="untruncate" v-else>read less</button> `
+                offerJobPage += offerJob
+            }
+            offerJobDiv.innerHTML = offerJobPage
+        }
+    
+
     }catch(err) {
         if(err.response){
             const statusCode = err.response.status;
@@ -116,6 +161,13 @@ const getSpecificJobs = async() => {
     }
 }
 
+
+watch(
+    keyWords,
+    () => {
+        getSpecificJobs()
+    }
+)
 watch(
     () => specificJobs2.value.coordinates,
     () => {
@@ -131,7 +183,7 @@ const formatAddress = computed(() => {
 })
 
 const getAddress = async() => {
-    let place = specificJobs2.value.coordinates
+    let place = specificJobs2.value?.coordinates
     console.log('place', specificJobs2.value.coordinates)
     console.log('latitude', specificJobs2.value.coordinates.latitude)
 
@@ -144,6 +196,7 @@ const getAddress = async() => {
             const statusCode = err.response.status;
             if(statusCode >= 400 && statusCode < 500){
                 alert('A client error has occurred!')
+                console.error('client error has occured', err);
             }else if(statusCode >= 500 && statusCode < 600){
                 alert('A server error has occurred!')
             }
@@ -170,7 +223,23 @@ const untruncatedDescription = computed(() => {
 const untruncate = () => {
     isTruncated.value = !isTruncated.value
 }
-const keyWords=ref('Développeur')
+
+const displayOffers = (job) => {
+    console.log('job', job)
+    keyWords.value = job;
+    console.log('keyWords', keyWords.value)
+}
+
+// function debounce(job, delay){
+//     var timer;
+//     return function(job){
+//         var args = arguments;
+//         clearTimeout(timer);
+//         timer = setTimeout(function(){
+//             displayOffers.apply(context, args);
+//         }, delay)
+//     }
+// }
 
 </script>
 
@@ -212,8 +281,12 @@ const keyWords=ref('Développeur')
             <div class="row mt-5 style">
                 <h3 class="text-center text-shadow-light">Métiers</h3>
                 <div class="col-12 col-md-6">
-                    <div class="text-center mb-1" v-for="job in mbtiType.professions">{{ job }}</div>
+                    <div class="text-center mb-1" v-for="job in mbtiType.professions" @click="displayOffers(job)" id="pointer">{{ job }}</div>
                 </div>
+                <div class="offersJob col-12 col-md-6">
+
+                </div>
+
                 <div class="col-12 col-md-6">
                     <input type="text" v-model="keyWords">
                     <div>{{ keyWords }}</div>
@@ -235,26 +308,8 @@ const keyWords=ref('Développeur')
             </div>
 
             <div>
-                <!-- <input type="text" v-model="keyWords">
-                <div>{{ keyWords }}</div>
-          
-                <div><b>{{ specificJobs2.title }}</b> - {{ specificJobs2.contractType }}</div> 
-                <div>{{ specificJobs2.companyName }}</div> 
-                <div v-html="formatAddress"></div> 
-                <div>{{ specificJobs2.workingHours }} </div>
-                <div>{{ formatSalaire }}</div>
-                <div>{{ specificJobs2.experience }}</div>
-                <div>{{ specificJobs2.sourceUrl }}</div>
-                <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
-                <div v-else>{{ untruncatedDescription }}</div> 
-
-                <button @click="untruncate" v-if="!isTruncated">read more</button>
-                <button @click="untruncate" v-else>read less</button> -->
-
                 <hr>
                 <div><p>specific</p>{{ specificJobs }}</div>
-                
-
             </div>
 
         </div>
@@ -335,6 +390,9 @@ h3{
 }
 .no-bullet{
     list-style: none;
+}
+#pointer{
+    cursor: pointer;
 }
 
 </style>
