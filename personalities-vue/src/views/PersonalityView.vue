@@ -8,7 +8,6 @@ const code = route.params.code;
 const mbtiType = ref({})
 const specificJobs = ref({});
 const specificJobs2 = ref({})
-const keyWords=ref('Développeur')
 const isTruncated = ref(false)
 
 onMounted(async() => {
@@ -171,6 +170,7 @@ const untruncatedDescription = computed(() => {
 const untruncate = () => {
     isTruncated.value = !isTruncated.value
 }
+const keyWords=ref('Développeur')
 
 </script>
 
@@ -211,13 +211,31 @@ const untruncate = () => {
 
             <div class="row mt-5 style">
                 <h3 class="text-center text-shadow-light">Métiers</h3>
-                <div class="col">
+                <div class="col-12 col-md-6">
                     <div class="text-center mb-1" v-for="job in mbtiType.professions">{{ job }}</div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <input type="text" v-model="keyWords">
+                    <div>{{ keyWords }}</div>
+            
+                    <div><b>{{ specificJobs2.title }}</b> - {{ specificJobs2.contractType }}</div> 
+                    <div>{{ specificJobs2.companyName }}</div> 
+                    <div v-html="formatAddress"></div> 
+                    <div>{{ specificJobs2.workingHours }} </div>
+                    <div>{{ formatSalaire }}</div>
+                    <div>{{ specificJobs2.experience }}</div>
+                    <div>{{ specificJobs2.sourceUrl }}</div>
+                    <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
+                    <div v-else>{{ untruncatedDescription }}</div> 
+
+                    <button @click="untruncate" v-if="!isTruncated">read more</button>
+                    <button @click="untruncate" v-else>read less</button>
+
                 </div>
             </div>
 
             <div>
-                <input type="text" v-model="keyWords">
+                <!-- <input type="text" v-model="keyWords">
                 <div>{{ keyWords }}</div>
           
                 <div><b>{{ specificJobs2.title }}</b> - {{ specificJobs2.contractType }}</div> 
@@ -231,7 +249,7 @@ const untruncate = () => {
                 <div v-else>{{ untruncatedDescription }}</div> 
 
                 <button @click="untruncate" v-if="!isTruncated">read more</button>
-                <button @click="untruncate" v-else>read less</button>
+                <button @click="untruncate" v-else>read less</button> -->
 
                 <hr>
                 <div><p>specific</p>{{ specificJobs }}</div>
