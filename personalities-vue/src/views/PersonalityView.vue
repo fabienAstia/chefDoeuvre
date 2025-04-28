@@ -7,7 +7,7 @@ const route = useRoute();
 const code = route.params.code;
 const mbtiType = ref({})
 const specificJobs = ref({});
-const specificJobs2 = ref({})
+const allCoordinates = ref({})
 const keyWords=ref('')
 const isTruncated = ref(false)
 
@@ -105,26 +105,13 @@ const formatSalaire = computed(() =>{
 const getSpecificJobs = async() => {
     try {
         const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${1}&size=${2}`) 
-        specificJobs.value = response.data.data
-        console.log('content', response.data.data[0])
+        specificJobs.value = response.data.data.paginatedOfferJobViews
+        allCoordinates.value = response.data.data.allCoordinates
 
-        // let offerJobDiv = document.querySelector(".offersJob")
-        // let offerJobPage = []
+        console.log('content', response.data.data.paginatedOfferJobViews)
+        console.log('coordinates', response.data.data.allCoordinates)
 
-        if(specificJobs.value){
-            specificJobs.value = ({
-                    title: response.data.data[i].title, 
-                    description: response.data.data[i].description,
-                    coordinates: response.data.data[i].coordinates, 
-                    contractType: response.data.data[i].contractType,
-                    workingHours : response.data.data[i].workingHours, 
-                    companyName: response.data.data[i].companyName,
-                    salary: response.data.data[i].salary,
-                    experience : response.data.data[i].experience,
-                    sourceUrl: response.data.data[i].sourceUrl
-                })
-            // for(let i = 0; i<specificJobs.value.length; i++){
-            //     specificJobs2.value = ({
+            // specificJobs.value = ({
             //         title: response.data.data[i].title, 
             //         description: response.data.data[i].description,
             //         coordinates: response.data.data[i].coordinates, 
@@ -135,26 +122,6 @@ const getSpecificJobs = async() => {
             //         experience : response.data.data[i].experience,
             //         sourceUrl: response.data.data[i].sourceUrl
             //     })
-            //     const offerJob = ` <input type="text" v-model="keyWords">
-            //         <div>{{ keyWords }}</div>
-            
-            //         <div><b>${specificJobs2.value.title}</b> - ${specificJobs2.value.contractType}</div> 
-            //         <div>${specificJobs2.value.companyName}</div> 
-            //         <div v-html="formatAddress"></div> 
-            //         <div>${specificJobs2.value.workingHours}</div>
-            //         <div>${formatSalaire.value}</div>
-            //         <div>${specificJobs2.value.experience}</div>
-            //         <div>${specificJobs2.value.sourceUrl}</div>
-            //         <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
-            //         <div v-else>{{ untruncatedDescription }}</div> 
-
-            //         <button @click="untruncate" v-if="!isTruncated">read more</button>
-            //         <button @click="untruncate" v-else>read less</button> `
-            //     offerJobPage += offerJob
-            // }
-            // offerJobDiv.innerHTML = offerJobPage
-        }
-    
 
     }catch(err) {
         if(err.response){
@@ -171,7 +138,6 @@ const getSpecificJobs = async() => {
     }
 }
 
-
 watch(
     keyWords,
     () => {
@@ -179,26 +145,21 @@ watch(
     }
 )
 watch(
-    () => specificJobs.value.coordinates,
+    specificJobs,//specificJobs || specificJobs.value?.coordinates
     () => {
         getAddress()
     }
 )
 
-const address = ref('')
-const formatAddress = computed(() => {
-    const a = address.value
-    return `<small> ${a.house_number ?? ''}  ${a.road ?? ''} <br> 
-        ${a.suburb ?? ''} ${a.city ?? ''}, ${a.country ?? ''} ${a.postcode ?? ''}</small>`
-})
-
 const getAddress = async() => {
-    let place = specificJobs.value?.coordinates
+    //let place = offerJob?.coordinates
     console.log('place', specificJobs.value.coordinates)
-    console.log('latitude', specificJobs.value.coordinates.latitude)
 
     try {
-        const response = await axios.get(`http://localhost:8080/address?lat=${place.latitude}&lon=${place.longitude}`)
+        const response = await axios.post(`http://localhost:8080/address`,
+            allCoordinates.value,
+            {headers:{'Content-Type':'application/json'}}); 
+        
         console.log('address', response.data.address)
         address.value = response.data.address
     }catch(err){
@@ -216,6 +177,13 @@ const getAddress = async() => {
         }
     }
 }
+
+const address = ref('')
+const formatAddress = computed(() => {
+    const a = address.value
+    return `<small> ${a.house_number ?? ''}  ${a.road ?? ''} <br> 
+        ${a.suburb ?? ''} ${a.city ?? ''}, ${a.country ?? ''} ${a.postcode ?? ''}</small>`
+})
 
 const truncatedDescription = computed(() => {
     const description = specificJobs.value.description
@@ -293,8 +261,24 @@ const displayOffers = (job) => {
                 <div class="col-12 col-md-6">
                     <div class="text-center mb-1" v-for="job in mbtiType.professions" @click="displayOffers(job)" id="pointer">{{ job }}</div>
                 </div>
-                <div class="offersJob col-12 col-md-6" v-for="offerJob in specificJobs">
+                <div class="offersJob col-12 col-md-6" v-for="offerJob in specificJobs" :key="offerJob">
                     <input type="text" v-model="keyWords">
+                    <div>{{ keyWords }}</div>
+            
+                    <div><b>{{ offerJob.title }}</b> - {{ offerJob.contractType }}</div> 
+                    <div>{{ offerJob.companyName }}</div> 
+                    <div v-html="formatAddress"></div> 
+                    <div>{{ offerJob.workingHours }} </div>
+                    <div>{{ formatSalaire }}</div>
+                    <div>{{ offerJob.experience }}</div>
+                    <div>{{ offerJob.sourceUrl }}</div>
+                    <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
+                    <div v-else>{{ untruncatedDescription }}</div> 
+
+                    <button @click="untruncate" v-if="!isTruncated">read more</button>
+                    <button @click="untruncate" v-else>read less</button>
+
+                    <!-- <input type="text" v-model="keyWords">
                     <div>{{ keyWords }}</div>
             
                     <div><b>{{ specificJobs.title }}</b> - {{ specificJobs.contractType }}</div> 
@@ -308,27 +292,8 @@ const displayOffers = (job) => {
                     <div v-else>{{ untruncatedDescription }}</div> 
 
                     <button @click="untruncate" v-if="!isTruncated">read more</button>
-                    <button @click="untruncate" v-else>read less</button>
+                    <button @click="untruncate" v-else>read less</button> -->
                 </div>
-<!-- 
-                <div class="col-12 col-md-6">
-                    <input type="text" v-model="keyWords">
-                    <div>{{ keyWords }}</div>
-            
-                    <div><b>{{ specificJobs.title }}</b> - {{ specificJobs.contractType }}</div> 
-                    <div>{{ specificJobs.companyName }}</div> 
-                    <div v-html="formatAddress"></div> 
-                    <div>{{ specificJobs.workingHours }} </div>
-                    <div>{{ formatSalaire }}</div>
-                    <div>{{ specificJobs.experience }}</div>
-                    <div>{{ specificJobs.sourceUrl }}</div>
-                    <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
-                    <div v-else>{{ untruncatedDescription }}</div> 
-
-                    <button @click="untruncate" v-if="!isTruncated">read more</button>
-                    <button @click="untruncate" v-else>read less</button>
-
-                </div> -->
             </div>
 
             <div>
