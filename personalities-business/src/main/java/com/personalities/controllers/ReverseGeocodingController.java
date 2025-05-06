@@ -1,6 +1,7 @@
 package com.personalities.controllers;
 
 import com.personalities.dtos.CoordinatesView;
+import com.personalities.dtos.reversegeocoding.GeoapifyAddress;
 import com.personalities.services.ReverseGeocodingService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,8 @@ public class ReverseGeocodingController {
         this.reverseGeocodingService = reverseGeocodingService;
     }
 
-//    @PostMapping
-//    public GeoapifyAdressesResponse getAllAddresses(@RequestBody List<CoordinatesView> allCoordinates) {
-//        System.out.println("allCoordinates=" + allCoordinates);
-//        return reverseGeocodingService.manageBatchGeocodingProcess(allCoordinates);
-//    }
-
-//    @PostMapping
-//    public String getAllAddresses(@RequestBody List<CoordinatesView> allCoordinates) {
-//        System.out.println("allCoordinates=" + allCoordinates);
-//        return reverseGeocodingService.getAllAddresses(allCoordinates);
-//    }
+    @PostMapping
+    public List<GeoapifyAddress> getAddressesChunk(@RequestBody List<CoordinatesView> coordinatesChunk) {
+        return reverseGeocodingService.getAddressesChunk(coordinatesChunk);
+    }
 }

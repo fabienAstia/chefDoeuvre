@@ -1,17 +1,21 @@
 package com.personalities.services;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.personalities.dtos.CoordinatesView;
-import com.personalities.dtos.reversegeocoding.GeoapifyAdressesResponse;
+import com.personalities.dtos.reversegeocoding.GeoapifyAddress;
+import com.personalities.dtos.reversegeocoding.GeoapifyResponseWrapper;
 import com.personalities.dtos.reversegeocoding.GeoapifyJobResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.personalities.utils.CoordinatesCleaner.fillMissingCoordinates;
 
@@ -27,19 +31,25 @@ public class ReverseGeocodingService {
         this.restClient = restClient;
     }
 
-//    public GeoapifyAdressesResponse manageBatchGeocodingProcess(List<CoordinatesView> allCoordinates) {
-//        GeoapifyJobResponse jobResponse = createBatchJob(allCoordinates);
-//        GeoapifyAdressesResponse allAddresses = getAllAddresses(jobResponse);
-//        System.out.println("allAddresses" + allAddresses);
-//        return allAddresses;
-//    }
+    private GeoapifyResponseWrapper wrapper = new GeoapifyResponseWrapper();
+    private int count;
 
-//    public String getAllAddresses(List<CoordinatesView> allCoordinates) {
-//        GeoapifyJobResponse jobResponse = createBatchJob(allCoordinates);
-//        String allAddresses = resultResponse(jobResponse);
-//        System.out.println("allAddresses" + allAddresses);
-//        return allAddresses;
-//    }
+    public List<GeoapifyAddress> getAddressesChunk(List<CoordinatesView> coordinatesChunk) {
+        GeoapifyJobResponse jobResponse = createBatchJob(coordinatesChunk);
+
+        ScheduledExecutorService scheduled = Executors.newSingleThreadScheduledExecutor();
+        scheduled.scheduleAtFixedRate(() -> {
+            wrapper = resultResponse(jobResponse);
+            count++;
+            System.out.println("WRAPPER=" + wrapper);
+
+            if (wrapper.getStatusCode().isSameCodeAs(HttpStatus.OK) || count >= 10) {
+                scheduled.close();
+            }
+        }, 3, 3, TimeUnit.SECONDS);
+
+        return wrapper.getAddresses();
+    }
 
     public GeoapifyJobResponse createBatchJob(List<CoordinatesView> allCoordinates) {
         List<CoordinatesView> filledMissingCoordinates = fillMissingCoordinates(allCoordinates);
@@ -52,36 +62,22 @@ public class ReverseGeocodingService {
                 .body(GeoapifyJobResponse.class);
     }
 
-    //    @Retryable
-    public GeoapifyAdressesResponse resultResponse(GeoapifyJobResponse responseJob) {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        return restClient.get()
-                .uri(responseJob.url() +
-                        "&format=json")
-//                .header("TypeAuth", "apiKey")
-//                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .body(GeoapifyAdressesResponse.class);
+    public GeoapifyResponseWrapper resultResponse(GeoapifyJobResponse jobResponse) {
+        try {
+            List<GeoapifyAddress> addresses = restClient.get()
+                    .uri(jobResponse.url() +
+                            "&format=json")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<List<GeoapifyAddress>>() {
+                    });
+            wrapper.setAddresses(addresses);
+            wrapper.setStatusCode(HttpStatus.OK);
+        } catch (Exception e) {
+            wrapper.setAddresses(Collections.emptyList());
+            wrapper.setStatusCode(HttpStatus.ACCEPTED);
+        }
+        System.out.println("addressesChunk" + wrapper.getAddresses().toString());
+        return wrapper;
     }
-
-//    public String resultResponse(GeoapifyJobResponse responseJob) {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//
-//        return restClient.get()
-//                .uri(responseJob.url() +
-//                        "&format=json")
-//                .exchange((resquest, response) -> {
-//                    if (response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200))) {
-//                        return objectMapper.readValue(response.getBody(), new TypeReference<>() {
-//                        });
-//                    }
-//                    return null;
-//                });
-//        //.header("TypeAuth", "apiKey")
-//        //.accept(MediaType.APPLICATION_JSON)
-////                .retrieve()
-////                .body(String.class);
-//        //.body(GeoapifyAdressesResponse.class);
-//    }
 }

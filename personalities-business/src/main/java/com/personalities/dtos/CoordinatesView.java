@@ -1,7 +1,5 @@
 package com.personalities.dtos;
 
-import java.util.Objects;
-
 public class CoordinatesView {
     String lon;
     String lat;
