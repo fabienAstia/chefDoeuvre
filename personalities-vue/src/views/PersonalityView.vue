@@ -10,6 +10,7 @@ const specificJobs = ref({});
 const allCoordinates = ref({})
 const keyWords=ref('')
 const isTruncated = ref(false)
+const addressesChunk = ref ([])
 
 onMounted(async() => {
     getMbtiType()
@@ -66,50 +67,15 @@ const formatSalaire = computed(() =>{
     return ''
 })    
 
-// const getSpecificJobs = async() => {
-//     try {
-//         const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${1}&size=${2}`) 
-//         specificJobs.value = response.data.data[0]
-//         console.log('content', response.data.data[0])
-
-//         if(specificJobs.value){
-//             specificJobs2.value = ({
-//             title: response.data.data[0].title, 
-//             description: response.data.data[0].description,
-//             coordinates: response.data.data[0].coordinates, 
-//             contractType: response.data.data[0].contractType,
-//             workingHours : response.data.data[0].workingHours, 
-//             companyName: response.data.data[0].companyName,
-//             salary: response.data.data[0].salary,
-//             experience : response.data.data[0].experience,
-//             sourceUrl: response.data.data[0].sourceUrl
-//             })
-//         }
-    
-
-//     }catch(err) {
-//         if(err.response){
-//             const statusCode = err.response.status;
-//             if(statusCode >= 400 && statusCode < 500){
-//                 alert('A client error has occurred!')
-//             }else if(statusCode >= 500 && statusCode < 600){
-//                 alert('A server error has occurred!')
-//             }
-//         }else{
-//             alert('an unexpected error has occured');
-//             console.log('unexpected error')
-//         }
-//     }
-// }
-
 const getSpecificJobs = async() => {
     try {
         const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${1}&size=${2}`) 
         specificJobs.value = response.data.data.paginatedOfferJobViews
         allCoordinates.value = response.data.data.allCoordinates
 
-        console.log('content', response.data.data.paginatedOfferJobViews)
-        console.log('coordinates', response.data.data.allCoordinates)
+        console.log("offerJobs", specificJobs.value)
+        console.log("allCoordinates", allCoordinates.value)
+
 
             // specificJobs.value = ({
             //         title: response.data.data[i].title, 
@@ -145,23 +111,26 @@ watch(
     }
 )
 watch(
-    specificJobs,//specificJobs || specificJobs.value?.coordinates
+     allCoordinates,
     () => {
         getAddress()
     }
 )
+watch(
+     addressesChunk,
+    () => {
+    console.log("addressesChunk", addressesChunk.value),
+        formatAddress()
+    }
+)
 
 const getAddress = async() => {
-    //let place = offerJob?.coordinates
-    console.log('place', specificJobs.value.coordinates)
-
     try {
         const response = await axios.post(`http://localhost:8080/address`,
-            allCoordinates.value,
+            allCoordinates.value.slice(0, 20),
             {headers:{'Content-Type':'application/json'}}); 
         
-        console.log('address', response.data.address)
-        address.value = response.data.address
+        addressesChunk.value = response.data
     }catch(err){
         if(err.response){
             const statusCode = err.response.status;
@@ -178,12 +147,26 @@ const getAddress = async() => {
     }
 }
 
-const address = ref('')
-const formatAddress = computed(() => {
-    const a = address.value
-    return `<small> ${a.house_number ?? ''}  ${a.road ?? ''} <br> 
-        ${a.suburb ?? ''} ${a.city ?? ''}, ${a.country ?? ''} ${a.postcode ?? ''}</small>`
-})
+function formatAddress(offerJobIndex) {
+    const a = addressesChunk.value
+    console.log("addressesChunk", addressesChunk.value),
+    console.log("aofferJob", offerJobIndex)
+    if(a){
+        console.log("dedans a, offerJobIndex", offerJobIndex)
+        for(let i = 0; i < a.length; i++){
+            if(i === offerJobIndex){
+                console.log('Address', address)
+                return a[i];
+            }
+        }
+    }
+}
+
+// const formatAddress = computed(() => {
+//     const a = address.value
+//     return `<small> ${a.house_number ?? ''}  ${a.road ?? ''} <br> 
+//         ${a.suburb ?? ''} ${a.city ?? ''}, ${a.country ?? ''} ${a.postcode ?? ''}</small>`
+// })
 
 const truncatedDescription = computed(() => {
     const description = specificJobs.value.description
@@ -203,21 +186,8 @@ const untruncate = () => {
 }
 
 const displayOffers = (job) => {
-    console.log('job', job)
     keyWords.value = job;
-    console.log('keyWords', keyWords.value)
 }
-
-// function debounce(job, delay){
-//     var timer;
-//     return function(job){
-//         var args = arguments;
-//         clearTimeout(timer);
-//         timer = setTimeout(function(){
-//             displayOffers.apply(context, args);
-//         }, delay)
-//     }
-// }
 
 </script>
 
@@ -261,13 +231,17 @@ const displayOffers = (job) => {
                 <div class="col-12 col-md-6">
                     <div class="text-center mb-1" v-for="job in mbtiType.professions" @click="displayOffers(job)" id="pointer">{{ job }}</div>
                 </div>
-                <div class="offersJob col-12 col-md-6" v-for="offerJob in specificJobs" :key="offerJob">
+                <div class="offersJob col-12 col-md-6" v-for="(offerJob, index) in specificJobs" :key="index">
                     <input type="text" v-model="keyWords">
                     <div>{{ keyWords }}</div>
             
                     <div><b>{{ offerJob.title }}</b> - {{ offerJob.contractType }}</div> 
                     <div>{{ offerJob.companyName }}</div> 
-                    <div v-html="formatAddress"></div> 
+                    <div>INDEX :{{ index }}</div>
+                    <div ></div>
+                    <div v-html="formatAddress(index)"></div> 
+                    <div v-bind:ref_for="formatAddress(index)"></div> 
+
                     <div>{{ offerJob.workingHours }} </div>
                     <div>{{ formatSalaire }}</div>
                     <div>{{ offerJob.experience }}</div>

@@ -22,12 +22,6 @@ public class PoleEmploiController {
         this.poleEmploiService = poleEmploiService;
     }
 
-//    @GetMapping("/specific")
-//    public String getSpecificJobs(@RequestParam String motsCles) {
-//        System.out.println("specif=" + poleEmploiService.getJobs(motsCles));
-//        return poleEmploiService.getJobs(motsCles);
-//    }
-
     @GetMapping("/paginated")
     public ApiResponse<PaginatedOffersResponse> getPaginatedOfferJobs(
             @RequestParam String motsCles,
@@ -47,7 +41,7 @@ public class PoleEmploiController {
         }
         Pageable pageable = PageRequest.of(page, size);
         Page<OfferJobView> pageView = PaginationUtil.paginateList(pageable, offersResponse.offerJobViews());
-        return new ApiResponse<>(
+        ApiResponse<PaginatedOffersResponse> response = new ApiResponse<>(
                 HttpStatus.OK.name(),
                 "Offers and Coordinates successfully fetched",
                 new PaginatedOffersResponse(
@@ -61,5 +55,6 @@ public class PoleEmploiController {
                         pageView.getTotalPages()
                 )
         );
+        return response;
     }
 }
