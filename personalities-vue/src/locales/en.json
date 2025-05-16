@@ -5,6 +5,7 @@
         "documentation": "Documentation",
         "registration": "Sign up",
         "authentication": "Sign in",
+        "logout": "Logout",
         "welcome":"Welcome",
         "languages": "Languages"
     },

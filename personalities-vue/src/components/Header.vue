@@ -26,6 +26,10 @@ const isLoggedIn = computed(() => {
   }
   return false;
 });
+
+const clearLocalStorage = () => {
+  localStorage.clear();
+}
 </script>
 
 <template>
@@ -79,6 +83,9 @@ const isLoggedIn = computed(() => {
                 <img :src="personCheck" width="20px">
                 {{$t('header.welcome')}}  
               </a>
+            </li>
+            <li class="hover nav-item fw-bold gap-1">
+                <a @click="clearLocalStorage()" class="nav-link">{{$t('header.logout')}}</a>
             </li>
 
             <li class="nav-item dropdown d-flex">
@@ -136,6 +143,7 @@ const isLoggedIn = computed(() => {
   .hover :hover{
     background-color: #0077b6;
     color: white;
+    cursor: pointer;
   }
  
   </style> 
