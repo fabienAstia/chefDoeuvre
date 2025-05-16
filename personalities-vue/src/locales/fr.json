@@ -5,6 +5,7 @@
         "documentation": "Articles",
         "registration": "S'inscrire",
         "authentication": "Se connecter",
+        "logout": "Déconnexion",
         "welcome":"Bienvenue",
         "languages": "Langues"
     },
