@@ -6,10 +6,10 @@ It's a **RESTful web application** under development where users can:
 It also includes an admin panel for managing test content and personality data
 
 ### Features 
-- [ ] Secure authentication with JWT + BCrypt
-- [ ] Full MBTI test engine with dynamic scoring
-- [ ] Integration with Pole Emploi API for job offers
-- [ ] Admin panel to manage test content
+- [x] Secure authentication with JWT + BCrypt
+- [x] Full MBTI test engine with dynamic scoring
+- [x] Integration with Pole Emploi API for job offers
+- [x] Admin panel to manage test content
 
 ### Stack
 - Frontend : **Vue.js**
