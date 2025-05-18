@@ -2,7 +2,7 @@
 It's a **RESTful web application** under development where users can:
 1. Take an **MBTI (Myers-Briggs Type Indicator)** personality test
 2. View their **personality results and descriptions**
-3. Get job offers tailored to their personality type using **Pole Emploi API**
+3. Get job offers tailored to their personality type using **Pole Emploi API** \
 It also includes an admin panel for managing test content and personality data
 
 ### Features 
