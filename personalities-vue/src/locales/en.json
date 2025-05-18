@@ -3,6 +3,7 @@
         "test": "Test",
         "personalities": "Personnalities",
         "documentation": "Documentation",
+        "account": "Account",
         "registration": "Sign up",
         "authentication": "Sign in",
         "logout": "Logout",
