@@ -15,11 +15,11 @@
     "bootstrap-icons": "^1.11.3",
     "jwt-decode": "^4.0.0",
     "vue": "^3.4.29",
-    "vue-i18n": "^10.0.4",
+    "vue-i18n": "^11.1.1",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
-    "vite": "^5.3.1"
+    "vite": "^5.4.14"
   }
 }
