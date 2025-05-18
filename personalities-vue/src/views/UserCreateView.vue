@@ -59,7 +59,7 @@ const newUser = async() => {
     try {
       await axios.post('http://localhost:8080/users', createUserForm.value);
         alert('you have created an account');
-        sharedState.value = 'registered';
+        // sharedState.value = 'registered';
         router.push('/authenticate');
     } catch(err) {
       if(err.response){

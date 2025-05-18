@@ -10,6 +10,8 @@ import book from '@/assets/pictos/book.svg';
 import personAdd from '@/assets/pictos/personAdd.svg';
 import personCheck from '@/assets/pictos/personCheck.svg';
 import personGear from '@/assets/pictos/personGear.svg';
+import identify_yourself from '@/assets/pictos/identify_yourself.svg'
+import { jwtDecode } from 'jwt-decode';
 
 const { t, locale } = useI18n();
 const sharedState = useSharedState();
@@ -21,8 +23,12 @@ const changeLanguage = (lang) => {
 const isLoggedIn = computed(() => {
   const token = localStorage.getItem('jwt');
   if (token) {
-    sharedState.value = 'logged'; 
-    return true;
+    const decodedToken = jwtDecode(token);
+    const current_time = new Date().getTime() / 1000;
+    if(current_time < decodedToken.exp){
+      sharedState.value = 'logged'; 
+      return true;
+    }
   }
   return false;
 });
@@ -42,7 +48,7 @@ const clearLocalStorage = () => {
           <span class="navbar-toggler-icon"></span>
         </button>
   
-        <div class="collapse navbar-collapse  fs-sm-6 fs-md-5 " id="navbarNavDropdown">
+        <div class="collapse navbar-collapse  fs-md-6 fs-lg-5 " id="navbarNavDropdown">
           <ul class="navbar-nav me-auto gap-1">
             <li class="nav-item hover">
               <router-link to="/answers" class=" nav-link d-flex gap-1 justify-content-start fw-bold">
@@ -64,30 +70,52 @@ const clearLocalStorage = () => {
             </li>
           </ul>
         
-  
+          
+
           <ul class="navbar-nav ms-auto">
-            <li v-if="!isLoggedIn && sharedState !== 'registered' && sharedState !=='logged'" class="nav-item hover">
-              <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-start fw-bold">
-                <img :src="personAdd" width="20px">
-                {{$t('header.registration')}}
-              </router-link>
-            </li>
-            <li v-if="sharedState === 'registered' && sharedState !=='logged'" class="nav-item hover">
-              <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-start fw-bold">
-                <img :src="personGear" width="20px">
-                {{$t('header.authentication')}}
-              </RouterLink>
-            </li>
-            <li v-if="sharedState === 'logged'" class="nav-item hover">
-              <a class="nav-link d-flex gap-1 justify-content-start fw-bold" href="#login" aria-expanded="false">
-                <img :src="personCheck" width="20px">
-                {{$t('header.welcome')}}  
+
+            <li v-if="sharedState !=='logged'" class="nav-item dropdown d-flex">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item hover">
+                  <span class="nav-link d-flex gap-1 justify-content-start fw-bold">
+                    <img :src="identify_yourself" width="20px">
+                    {{$t('header.account')}}
+                  </span>
+                </li>
               </a>
-            </li>
-            <li class="hover nav-item fw-bold gap-1">
-                <a @click="clearLocalStorage()" class="nav-link">{{$t('header.logout')}}</a>
+              
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
+                <li class="nav-item hover">
+                  <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-start fw-bold">
+                    <img :src="personAdd" width="20px">
+                    {{$t('header.registration')}}
+                  </router-link>
+                </li>
+                <li class="nav-item hover">
+                  <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-start fw-bold">
+                    <img :src="personGear" width="20px">
+                    {{$t('header.authentication')}}
+                  </RouterLink>
+                </li>
+              </ul>
             </li>
 
+            <li v-if="sharedState ==='logged'" class="nav-item dropdown d-flex">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item hover">
+                  <span class="nav-link d-flex gap-1 justify-content-start fw-bold">
+                    <img :src="personCheck" width="20px">{{$t('header.welcome')}} 
+                  </span>
+                </li>
+              
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
+                <li class="hover nav-item fw-bold gap-1">
+                  <a @click="clearLocalStorage()" class="nav-link">{{$t('header.logout')}}</a>
+                </li>
+              </ul>
+            </li>
+           
             <li class="nav-item dropdown d-flex">
               <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img v-if="locale === 'fr'" src="@/assets/images/frFlag.svg.png" width="35px" class="flag"> 
