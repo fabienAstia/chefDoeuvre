@@ -35,6 +35,7 @@ const isLoggedIn = computed(() => {
 
 const clearLocalStorage = () => {
   localStorage.clear();
+  window.location.reload();
 }
 </script>
 
