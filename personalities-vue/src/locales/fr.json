@@ -41,6 +41,10 @@
     "answer": {
         "disagree" : "En désaccord",
         "agree": "D'accord"
+    },
+    "error":{
+        "server" : "Un erreur serveur s'est produite",
+        "unexpected": "Une erreur inattendue s'est produite"
     }
 }
 
