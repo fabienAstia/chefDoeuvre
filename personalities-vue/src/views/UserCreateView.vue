@@ -7,7 +7,7 @@ import eye from '@/assets/pictos/eye.svg';
 import {useSharedState} from '@/composables/useState'
 import axios from 'axios';
 
-const {t} = useI18n;
+const {t} = useI18n();
 const router = useRouter();
 const sharedState = useSharedState();
 
@@ -59,7 +59,6 @@ const newUser = async() => {
     try {
       await axios.post('http://localhost:8080/users', createUserForm.value);
         alert('you have created an account');
-        // sharedState.value = 'registered';
         router.push('/authenticate');
     } catch(err) {
       if(err.response){
@@ -67,10 +66,10 @@ const newUser = async() => {
         if(statusCode >= 400 && statusCode < 500) {
           alert(err.response.data.fieldsErrors.username, err.response.data.fieldsErrors.password)
         } else if (statusCode >= 500 && statusCode < 600) {
-          alert('A server error has occured')
+          alert(t('error.server'))
         }
       } else {
-        alert('An expected error has occured');
+        alert(t('error.unexpected'))
         console.error('An unexpected error has occured', err);
       }
     }
