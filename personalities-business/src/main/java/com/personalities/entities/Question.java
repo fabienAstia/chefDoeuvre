@@ -62,7 +62,7 @@ public class Question extends AbstractEntity {
         if (this == o) return true;
         return o instanceof Question question
                 && Objects.equals(label, question.label)
-                && Objects.equals(order, question.order)
+                && order == question.order
                 && Objects.equals(constraint, question.constraint)
                 && Objects.equals(psychPreference, question.psychPreference);
     }

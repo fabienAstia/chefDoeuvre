@@ -44,14 +44,14 @@ const authenticate = async() => {
     if(err.response){
       const statusCode = err.response.status;
       if(statusCode === 401){
-        alert('Bad Credentials');
+        alert(t('error.bad_credentials'));
       }else if(statusCode >=400 && statusCode <500){
-        alert('A client error has occurred!')
+        alert(t('error.client'))
       }else if(statusCode >=500 && statusCode <600){
-        alert('A server error has occurred!')
+        alert(t('error.server'))
       }
     }else{
-      alert('An unexpected error has occured');
+      alert(t('error.unexpected'));
       console.error('An unexpected error has occured', err);
     }
   }

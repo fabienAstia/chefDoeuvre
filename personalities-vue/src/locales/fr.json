@@ -43,8 +43,10 @@
         "agree": "D'accord"
     },
     "error":{
-        "server" : "Un erreur serveur s'est produite",
-        "unexpected": "Une erreur inattendue s'est produite"
+        "client" : "Une erreur client s'est produite",
+        "server" : "Une erreur serveur s'est produite",
+        "unexpected": "Une erreur inattendue s'est produite",
+        "bad_credentials": "Mauvaises informations d'authentification"
     }
 }
 

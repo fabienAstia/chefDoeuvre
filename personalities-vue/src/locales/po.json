@@ -42,8 +42,10 @@
         "agree": "De acordo"
       },
     "error":{
+        "client" : "Ocorreu um erro do cliente",
         "server" : "Ocorreu um erro no servidor",
-        "unexpected": "Ocorreu um erro inesperado"
+        "unexpected": "Ocorreu um erro inesperado",
+        "bad_credentials": "Credenciais ruins"
     }
 }
 

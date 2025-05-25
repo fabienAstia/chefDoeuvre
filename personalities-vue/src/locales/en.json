@@ -43,8 +43,10 @@
         "agree":"Agree"
     },
     "error":{
+        "client" : "A client error has occured",
         "server" : "A server error has occured",
-        "unexpected": "An unexpected error has occured"
+        "unexpected": "An unexpected error has occured",
+        "bad_credentials": "Bad credentials"
     }
 }
 
