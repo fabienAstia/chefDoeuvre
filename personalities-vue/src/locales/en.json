@@ -36,7 +36,8 @@
         "usernameRequired":"Email is required",
         "password":"Password",
         "passwordRequired":"Password is required",
-        "submit":"Sign in"
+        "submit":"Sign in",
+        "congrats":"Congrats ! you are now login"
     },
     "answer": {
         "disagree" :"Disagree",

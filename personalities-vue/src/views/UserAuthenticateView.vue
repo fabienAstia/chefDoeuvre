@@ -30,7 +30,7 @@ const authenticate = async() => {
       let jwt = response.data;
       console.log(jwt)
       localStorage.setItem('jwt', jwt); 
-      alert('Congrats ! you are now login')
+      alert(t('login.congrats'))
       sharedState.value = 'logged';
       const decodedToken = jwtDecode(jwt);
       if(decodedToken.role === 'ROLE_ADMIN'){

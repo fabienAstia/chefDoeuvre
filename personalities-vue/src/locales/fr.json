@@ -36,7 +36,8 @@
         "usernameRequired":"L'email est requis",
         "password":"Mot de passe",
         "passwordRequired":"Le mot de passe est requis",
-        "submit":"Se connecter"
+        "submit":"Se connecter",
+        "congrats":"Félicitions ! Vous êtes authentifiés"
     },
     "answer": {
         "disagree" : "En désaccord",

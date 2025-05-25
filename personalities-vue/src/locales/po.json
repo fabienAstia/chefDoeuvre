@@ -35,7 +35,8 @@
         "usernameRequired":"O email é obrigatorio",
         "password":"Senha",
         "passwordRequired":"O email é obrigatorio",
-        "submit":"Entrar"
+        "submit":"Entrar",
+        "congrats":"Parabens ! Você está autenticado"
     },
     "answer": {
         "disagree" : "Em desacordo",
