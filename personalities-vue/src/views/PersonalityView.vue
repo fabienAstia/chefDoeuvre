@@ -1,8 +1,10 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { onMounted, ref, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import axios from 'axios'
 
+const {t} = useI18n();
 const route = useRoute();
 const code = route.params.code;
 const mbtiType = ref({})
@@ -24,12 +26,12 @@ async function getMbtiType(){
         if(err.response){
             const statusCode = err.response.status;
             if(statusCode >= 400 && statusCode < 500){
-            alert('A client error has occurred!')
+            alert(t('error.client'))
             }else if(statusCode >= 500 && statusCode < 600){
-            alert('A server error has occurred!')
+            alert(t('error.server'))
             }
         }else{
-            alert('an unexpected error has occured');
+            alert(t('error.unexpected'));
             console.error('an unexpected error has occured', err);
         }
     }
