@@ -1,12 +1,12 @@
 <script setup>
 import {ref, onMounted} from 'vue';
 import{useI18n} from 'vue-i18n';
-const{t} = useI18n;
 import { useQuestions } from '../composables/useQuestions';
 import axios from 'axios';
 import {useRouter} from 'vue-router';
 import {useMbtiStore} from '@/stores/mbtiStore'
 
+const{t} = useI18n();
 const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
 const hover = ref(false);
 const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? '#0077b6' : '#7b2cbf';
@@ -66,12 +66,12 @@ try {
     if(err.response){
         const statusCode = err.response.status;
         if(statusCode >= 400 && statusCode < 500){
-          alert('A client error has occurred!')
+          alert(t('error.client'))
         }else if(statusCode >= 500 && statusCode < 600){
-          alert('A server error has occurred!')
+          alert(t('error.server'))
         }
     }else{
-        alert('an unexpected error has occured');
+        alert(t('error.unexpected'));
         console.error('an unexpected error has occured', err);
     }
   }
