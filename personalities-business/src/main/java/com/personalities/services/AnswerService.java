@@ -4,11 +4,14 @@ import com.personalities.config.SecurityHelper;
 import com.personalities.dtos.AnswerCreate;
 import com.personalities.dtos.ResultView;
 import com.personalities.entities.*;
+import com.personalities.exceptions.QuestionNotFoundException;
+import com.personalities.exceptions.UserNotFoundException;
 import com.personalities.repositories.AnswerRepository;
 import com.personalities.repositories.MbtiTypeRepository;
 import com.personalities.repositories.QuestionRepository;
 import com.personalities.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -35,22 +38,25 @@ public class AnswerService {
         return resultService.getResult(inputs);
     }
 
+    @Transactional
     private void createAnswers(List<AnswerCreate> inputs) {
         String username = securityHelper.principal();
-        Optional<User> user = userRepository.findByUsernameIgnoreCase(username);
-        List<Answer> previousAnswers = answerRepository.findAllByUserId(user.get().getId());
+        User user = userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+        List<Answer> previousAnswers = answerRepository.findAllByUserId(user.getId());
         answerRepository.deleteAll(previousAnswers);
         Set<Answer> answers = newAnswers(inputs, user);
         answerRepository.saveAll(answers);
     }
 
-    private Set<Answer> newAnswers(List<AnswerCreate> inputs, Optional<User> user) {
+    private Set<Answer> newAnswers(List<AnswerCreate> inputs, User user) {
         Set<Answer> answers = new HashSet<>();
         for (AnswerCreate input : inputs) {
             Answer answer = new Answer();
-            Optional<Question> question = questionRepository.findById(input.questionId());
-            question.ifPresent(answer::setQuestion);
-            user.ifPresent(answer::setUser);
+            Question question = questionRepository.findById(input.questionId())
+                    .orElseThrow(() -> new QuestionNotFoundException(input.questionId()));
+            answer.setQuestion(question);
+            answer.setUser(user);
             answer.setRating(input.rating());
             answers.add(answer);
         }
