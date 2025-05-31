@@ -32,24 +32,24 @@ public class AnswerService {
         this.mbtiTypeRepository = mbtiTypeRepository;
     }
 
-    public ResultView createAnswersAndGetResult(List<AnswerCreate> inputs) {
-        createAnswers(inputs);
+    public ResultView submitAnswersAndGetResult(List<AnswerCreate> inputs) {
+        submitAnswers(inputs);
         ResultService resultService = new ResultService(questionRepository, mbtiTypeRepository);
         return resultService.getResult(inputs);
     }
 
     @Transactional
-    private void createAnswers(List<AnswerCreate> inputs) {
+    private void submitAnswers(List<AnswerCreate> inputs) {
         String username = securityHelper.principal();
         User user = userRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
         List<Answer> previousAnswers = answerRepository.findAllByUserId(user.getId());
         answerRepository.deleteAll(previousAnswers);
-        Set<Answer> answers = newAnswers(inputs, user);
+        Set<Answer> answers = createNewAnswers(inputs, user);
         answerRepository.saveAll(answers);
     }
 
-    private Set<Answer> newAnswers(List<AnswerCreate> inputs, User user) {
+    private Set<Answer> createNewAnswers(List<AnswerCreate> inputs, User user) {
         Set<Answer> answers = new HashSet<>();
         for (AnswerCreate input : inputs) {
             Answer answer = new Answer();
