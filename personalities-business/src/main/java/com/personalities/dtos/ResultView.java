@@ -1,5 +1,7 @@
 package com.personalities.dtos;
 
+import com.personalities.services.PsychPref;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +14,9 @@ public class ResultView {
     private String image;
     private List<String> professions;
     private Map<String, String> strengthAndWeaknesses;
-    private Map<String, Double> rateByPsych;
+    private Map<PsychPref, Double> rateByPsych;
 
-    public ResultView(String code, String name, String description, double populationPercentage, String interestingFact, String image, List<String> professions, Map<String, String> strengthAndWeaknesses, Map<String, Double> rateByPsych) {
+    public ResultView(String code, String name, String description, double populationPercentage, String interestingFact, String image, List<String> professions, Map<String, String> strengthAndWeaknesses, Map<PsychPref, Double> rateByPsych) {
         this.code = code;
         this.name = name;
         this.description = description;
@@ -105,11 +107,11 @@ public class ResultView {
         this.strengthAndWeaknesses = strengthAndWeaknesses;
     }
 
-    public Map<String, Double> getRateByPsych() {
+    public Map<PsychPref, Double> getRateByPsych() {
         return rateByPsych;
     }
 
-    public void setRateByPsych(Map<String, Double> rateByPsych) {
+    public void setRateByPsych(Map<PsychPref, Double> rateByPsych) {
         this.rateByPsych = rateByPsych;
     }
 }

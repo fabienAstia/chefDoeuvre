@@ -40,7 +40,7 @@
         ],
         datasets: [{
             label: 'Psychological preferences',
-            data: [percentages.value["N"], percentages.value["T"], percentages.value["E"], percentages.value["P"], percentages.value["S"], percentages.value["F"], percentages.value["I"], percentages.value["J"]],
+            data: [percentages.value["INTUITION"], percentages.value["THINKING"], percentages.value["EXTRAVERSION"], percentages.value["PERCEPTION"], percentages.value["SENSATION"], percentages.value["FEELING"], percentages.value["INTROVERSION"], percentages.value["JUDGMENT"]],
             fill: true,
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgb(255, 99, 132)',
@@ -131,9 +131,9 @@ onMounted(async() => {
                             </div>
                         </div>
                         <div class="progress position-relative" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar" :style="{ width: `${percentages.I}%` }"></div>
-                            <span class="position-absolute w-100 text-white text-start">{{percentages["I"] }}%</span> 
-                            <span class="position-absolute w-100 text-white text-end"> {{ percentages["E"] }}%</span>
+                            <div class="progress-bar" :style="{ width: `${percentages.INTROVERSION}%` }"></div>
+                            <span class="position-absolute w-100 text-white text-start">{{percentages["INTROVERSION"] }}%</span> 
+                            <span class="position-absolute w-100 text-white text-end"> {{ percentages["EXTRAVERSION"] }}%</span>
                         </div>
                     </li>
                     <li class="my-3">
@@ -146,9 +146,9 @@ onMounted(async() => {
                             </div>
                         </div>
                         <div class="progress position-relative" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar" :style="{ width: `${percentages.N}%` }"></div>
-                            <span class="position-absolute w-100 text-white text-start">{{percentages["N"] }}%</span> 
-                            <span class="position-absolute w-100 text-white text-end"> {{ percentages["S"] }}%</span>
+                            <div class="progress-bar" :style="{ width: `${percentages.INTUITION}%` }"></div>
+                            <span class="position-absolute w-100 text-white text-start">{{percentages["INTUITION"] }}%</span> 
+                            <span class="position-absolute w-100 text-white text-end"> {{ percentages["SENSATION"] }}%</span>
                         </div>
                     </li>
                     <li class="my-3">
@@ -161,9 +161,9 @@ onMounted(async() => {
                             </div>
                         </div>
                         <div class="progress position-relative" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar" :style="{ width: `${percentages.T}%` }"></div>
-                            <span class="position-absolute w-100 text-white text-start">{{ percentages["T"] }}%</span> 
-                            <span class="position-absolute w-100 text-white text-end"> {{ percentages["F"] }}%</span>
+                            <div class="progress-bar" :style="{ width: `${percentages.THINKING}%` }"></div>
+                            <span class="position-absolute w-100 text-white text-start">{{ percentages["THINKING"] }}%</span> 
+                            <span class="position-absolute w-100 text-white text-end"> {{ percentages["FEELING"] }}%</span>
                         </div>
                     </li>
                     <li class="my-3">
@@ -176,9 +176,9 @@ onMounted(async() => {
                             </div>
                         </div>
                         <div class="progress position-relative" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar" :style="{ width: `${percentages.P}%` }"></div>
-                            <span class="position-absolute w-100 text-white text-start">{{ percentages["P"] }}%</span> 
-                            <span class="position-absolute w-100 text-white text-end"> {{ percentages["J"] }}%</span>
+                            <div class="progress-bar" :style="{ width: `${percentages.PERCEPTION}%` }"></div>
+                            <span class="position-absolute w-100 text-white text-start">{{ percentages["PERCEPTION"] }}%</span> 
+                            <span class="position-absolute w-100 text-white text-end"> {{ percentages["JUDGMENT"] }}%</span>
                         </div>
                     </li>
                 </ul>

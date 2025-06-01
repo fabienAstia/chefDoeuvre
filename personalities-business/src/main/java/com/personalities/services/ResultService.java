@@ -27,15 +27,14 @@ public class ResultService {
     }
 
     public ResultView getResult(List<AnswerCreate> inputs) {
-        Map<String, List<Integer>> ratingByPsych = getRatingByPsych(inputs);
-        Map<String, Integer> scoreByPsych = getScoreByPsych(ratingByPsych);
-        String mbtiCode = getMbtiTypeCode(scoreByPsych);
-        Map<String, Double> percentageByPsych = getPercentageByPsych(scoreByPsych);
-        MbtiType mbtiType = mbtiTypeRepository.findProjectedByCode(mbtiCode);
+        Map<PsychPref, List<Integer>> ratingByPsych = getRatingByPsych(inputs);
+        Map<PsychPref, Integer> scoreByPsych = getScoreByPsych(ratingByPsych);
+        Map<PsychPref, Double> percentageByPsych = getPercentageByPsych(scoreByPsych);
+        MbtiType mbtiType = getMbtiTypeCode(scoreByPsych);
         return buildMbtiTypeView(mbtiType, percentageByPsych);
     }
 
-    public ResultView buildMbtiTypeView(MbtiType mbtiType, Map<String, Double> percentageByPsych) {
+    public ResultView buildMbtiTypeView(MbtiType mbtiType, Map<PsychPref, Double> percentageByPsych) {
         return new ResultView(
                 mbtiType.getCode(),
                 mbtiType.getName(),
@@ -56,27 +55,23 @@ public class ResultService {
         return traitsWithEval;
     }
 
-    public Map<String, Double> getPercentageByPsych(Map<String, Integer> scoreByPsych) {
-        Map<String, Double> percentageByPsychPref = new LinkedHashMap<>();
+    public Map<PsychPref, Double> getPercentageByPsych(Map<PsychPref, Integer> scoreByPsych) {
+        Map<PsychPref, Double> percentageByPsychPref = new LinkedHashMap<>();
         Stream.of(PsychPref.values())
                 .forEach(psychPref -> {
-                    Map.Entry<String, Integer> psychPrefPercentage = scoreByPsych.entrySet().stream()
-                            .filter(entry -> entry.getKey().equals(psychPref.getCode()))
-                            .toList().getFirst();
-                    Map.Entry<String, Integer> complementary = scoreByPsych.entrySet().stream()
-                            .filter(entry -> entry.getKey().equals(getComplementaryPsychPref(psychPref).getCode()))
-                            .toList().getFirst();
-                    percentageByPsychPref.put(psychPref.getCode(), getPercentage(psychPrefPercentage, complementary));
+                    Integer psychPrefScore = scoreByPsych.get(psychPref);
+                    Integer complementaryPsychPrefScore = scoreByPsych.get(getComplementaryPsychPref(psychPref));
+                    percentageByPsychPref.put(psychPref, getPercentage(psychPrefScore, complementaryPsychPrefScore));
                 });
         return percentageByPsychPref;
     }
 
-    private static double getPercentage(Map.Entry<String, Integer> psychologicalPreference, Map.Entry<String, Integer> complementaryPreference) {
-        double psychologicalPref = psychologicalPreference.getValue();
-        double complementaryPref = complementaryPreference.getValue();
+    private static double getPercentage(Integer psychPrefScore, Integer complementaryPsychPrefScore) {
+        double psychologicalPrefScore = psychPrefScore;
+        double complementaryPrefScore = complementaryPsychPrefScore;
 
         int MAX_DIMENSION_SCORE = NUMBER_QUESTIONS / 4 * MAX_1QUESTION_SCORE;
-        double USER_DIMENSION_SCORE = psychologicalPref - complementaryPref;
+        double USER_DIMENSION_SCORE = psychologicalPrefScore - complementaryPrefScore;
 
         return (double) Math.round((MAX_DIMENSION_SCORE + USER_DIMENSION_SCORE)
                 / (2 * MAX_DIMENSION_SCORE) * 100 * 10)
@@ -86,40 +81,50 @@ public class ResultService {
     public PsychPref getComplementaryPsychPref(PsychPref psychPref) {
         return Stream.of(PsychPref.values())
                 .filter(psych -> psych.getCode().equals(psychPref.getComplementary()))
-                .toList().getFirst();
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown complementaryPsychPref: " + psychPref.getComplementary()));
     }
 
-    public static String getMbtiTypeCode(Map<String, Integer> scoreByPsych) {
-        return Stream.of(
+    public MbtiType getMbtiTypeCode(Map<PsychPref, Integer> scoreByPsych) {
+        String mbtiType = Stream.of(
                         determinePreference(scoreByPsych, PsychPref.EXTRAVERSION, PsychPref.INTROVERSION),
                         determinePreference(scoreByPsych, PsychPref.INTUITION, PsychPref.SENSATION),
                         determinePreference(scoreByPsych, PsychPref.THINKING, PsychPref.FEELING),
                         determinePreference(scoreByPsych, PsychPref.PERCEPTION, PsychPref.JUDGMENT))
                 .map(PsychPref::getCode)
                 .collect(Collectors.joining());
+        return mbtiTypeRepository.findProjectedByCode(mbtiType);
     }
 
-    public static PsychPref determinePreference(Map<String, Integer> scoreByPsych, PsychPref pref1, PsychPref pref2) {
-        return (scoreByPsych.get(pref1.getCode()) >= scoreByPsych.get(pref2.getCode())) ? pref1 : pref2;
+    public static PsychPref determinePreference(Map<PsychPref, Integer> scoreByPsych, PsychPref pref1, PsychPref pref2) {
+        return (scoreByPsych.get(pref1) >= scoreByPsych.get(pref2)) ? pref1 : pref2;
     }
 
-    public Map<String, List<Integer>> getRatingByPsych(List<AnswerCreate> answers) {
-        Map<String, List<Integer>> ratingByPsych = new HashMap<>();
+    public Map<PsychPref, List<Integer>> getRatingByPsych(List<AnswerCreate> answers) {
+        Map<PsychPref, List<Integer>> ratingByPsych = new HashMap<>();
         List<Question> questions = questionRepository.findAll();
         questions.forEach(question -> {
             Optional<AnswerCreate> answer = answers.stream()
                     .filter(a -> a.questionId().equals(question.getId()))
                     .findFirst();
             answer.ifPresent(a -> {
-                ratingByPsych.putIfAbsent(question.getPsychPreference().getCode(), new ArrayList<>());
-                ratingByPsych.get(question.getPsychPreference().getCode()).add(a.rating());
+                PsychPref psychPref = getPsychPref(question.getPsychPreference().getCode());
+                ratingByPsych.putIfAbsent(psychPref, new ArrayList<>());
+                ratingByPsych.get(psychPref).add(a.rating());
             });
         });
         return ratingByPsych;
     }
 
-    public static Map<String, Integer> getScoreByPsych(Map<String, List<Integer>> ratingByPsych) {
-        Map<String, Integer> scoreByPsych = new HashMap<>();
+    private static PsychPref getPsychPref(String psychPreferenceCode) {
+        return Stream.of(PsychPref.values())
+                .filter(psyPref -> psyPref.getCode().equals(psychPreferenceCode))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown psychPreferenceCode: " + psychPreferenceCode));
+    }
+
+    public static Map<PsychPref, Integer> getScoreByPsych(Map<PsychPref, List<Integer>> ratingByPsych) {
+        Map<PsychPref, Integer> scoreByPsych = new HashMap<>();
         ratingByPsych.forEach((key, value) -> {
             Integer psychScore = value.stream().mapToInt(i -> i).sum();
             scoreByPsych.put(key, psychScore);

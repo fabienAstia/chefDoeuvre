@@ -59,4 +59,9 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleQuestionNotFoundException(QuestionNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
