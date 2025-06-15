@@ -48,6 +48,10 @@
         "server" : "Une erreur serveur s'est produite",
         "unexpected": "Une erreur inattendue s'est produite",
         "bad_credentials": "Mauvaises informations d'authentification"
+    },
+    "guard": {
+        "no_token" : "Vous devez créer un compte ou vous authentifier d'abord",
+        "expired_token" : "Vous devez vous authentifier"
     }
 }
 

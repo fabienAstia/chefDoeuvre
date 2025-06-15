@@ -48,6 +48,10 @@
         "server" : "A server error has occured",
         "unexpected": "An unexpected error has occured",
         "bad_credentials": "Bad credentials"
+    },
+    "guard": {
+        "no_token" : "You need to sign up first or sign in",
+        "expired_token" : "You need to sign in"
     }
 }
 

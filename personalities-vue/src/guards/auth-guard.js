@@ -1,5 +1,8 @@
 import router from '@/router/index'
 import { jwtDecode } from 'jwt-decode';
+import i18n from '@/locales';
+
+const t = i18n.global.t;
 
 export function adminRole(to, from, next){
     const token = localStorage.getItem('jwt');
@@ -22,7 +25,7 @@ export function adminRole(to, from, next){
 export function userRole(to, from, next){
     let token = localStorage.getItem('jwt');
     if(!token){
-        alert('You need to sign up first or sign in')
+        alert(t('guard.no_token'))
         return next('/');
     }
     try {
@@ -33,7 +36,7 @@ export function userRole(to, from, next){
             && current_time < decodedToken.exp ){
             next();
         } else if(current_time > decodedToken.exp){
-            alert('You need to sign in')
+            alert(t('guard.expired_token'))
             next('/')
         }
     } catch(error) {
