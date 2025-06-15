@@ -47,6 +47,10 @@
         "server" : "Ocorreu um erro no servidor",
         "unexpected": "Ocorreu um erro inesperado",
         "bad_credentials": "Credenciais ruins"
+    },
+    "guard": {
+        "no_token" : "Você precisa criar uma conta ou se autenticar primeiro",
+        "expired_token" : "Você precisa se autenticar"
     }
 }
 

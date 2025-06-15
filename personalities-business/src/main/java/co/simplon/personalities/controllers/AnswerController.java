@@ -22,10 +22,17 @@ public class AnswerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultView submitAnswersAndGetResult(@Valid @RequestBody List<AnswerCreate> inputs) {
-//        return answerService.submitAnswersAndGetResult(inputs);
-        ResultView m = answerService.submitAnswersAndGetResult(inputs);
-        System.out.println("mbtiType" + answerService.submitAnswersAndGetResult(inputs).toString());
-        return m;
+        return answerService.submitAnswersAndGetResult(inputs);
     }
 }
+
+
+//@PostMapping
+//@ResponseStatus(HttpStatus.CREATED)
+//public ResultView submitAnswersAndGetResult(@Valid @RequestBody List<AnswerCreate> inputs) {
+////        return answerService.submitAnswersAndGetResult(inputs);
+//    ResultView m = answerService.submitAnswersAndGetResult(inputs);
+//    System.out.println("mbtiType" + answerService.submitAnswersAndGetResult(inputs).toString());
+//    return m;
+//}
 
