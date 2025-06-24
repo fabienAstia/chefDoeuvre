@@ -1,23 +1,22 @@
-import {ref} from 'vue'; 
 import i18n from '@/locales';
 
 export function useErrorHandler(){
-    const error = ref({
-        data:{
-             fieldsErrors: [],
-             GlobalErrors: []
-            }
-    })
 
     const handleError = (err) => {
-        if(err.response){
+        if(err?.response){
             const statusCode = err.response.status;
-            error.value.data = err.response.data;
+
             if(statusCode === 401) {
                 return i18n.global.t('error.bad_credentials')
             }
             if(statusCode >= 400 && statusCode < 500) {
-                return error.value.data;
+                const data = err.response.data
+                if(data.fieldsErrors.username.length !== 0){
+                    return data.fieldsErrors.username[0]
+                }
+                if(data.globalErrors.length !== 0){
+                    return data.globalErrors[0]
+                }
             } else if (statusCode >= 500 && statusCode < 600) {
                 return i18n.global.t('error.server')
             }

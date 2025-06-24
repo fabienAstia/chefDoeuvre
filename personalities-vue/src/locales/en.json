@@ -49,6 +49,9 @@
         "unexpected": "An unexpected error has occured",
         "bad_credentials": "Bad credentials"
     },
+    "success":{
+        "create": "You have created an account"
+    },
     "guard": {
         "no_token" : "You need to sign up first or sign in",
         "expired_token" : "You need to sign in"

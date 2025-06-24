@@ -49,6 +49,9 @@
         "unexpected": "Une erreur inattendue s'est produite",
         "bad_credentials": "Mauvaises informations d'authentification"
     },
+    "success":{
+        "create": "Vous avez créé un compte"
+    },
     "guard": {
         "no_token" : "Vous devez créer un compte ou vous authentifier d'abord",
         "expired_token" : "Vous devez vous authentifier"
