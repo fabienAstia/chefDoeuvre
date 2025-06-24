@@ -1,0 +1,66 @@
+<script setup>
+import {ref, onMounted, defineExpose} from 'vue'
+import { Modal } from 'bootstrap'
+
+let myModal = null
+const alertTxt = ref({})
+
+onMounted(()=>{
+   myModal = new Modal('#modal')
+   console.log('alertText', alertTxt.value)
+})
+
+function openModal(){
+    myModal.show();
+}
+function closeModal(){
+    myModal.close();
+}
+
+defineExpose({
+    openModal, closeModal, alertTxt
+})
+</script>
+
+<template>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalLabel">Alert</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="alert" v-if="typeof(alertTxt) === 'string'">
+                {{ alertTxt }}
+            </div>
+            <div class="alert" v-if="alertTxt.fieldsErrors?.username?.length !== 0">
+                {{ alertTxt.fieldsErrors?.username?.[0] }}
+            </div>
+             <div class="alert" v-if="alertTxt.globalErrors?.length !== 0">
+                {{ alertTxt.globalErrors }}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>
+</template>
+
+<style scoped>
+    #modal{
+        z-index: 1350;
+    }
+    .alert{
+        color: #f50000;
+        font-weight: 700;
+        font-size: larger;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+    }
+</style>

@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue';
+import {ref, useTemplateRef} from 'vue';
 import { useI18n } from 'vue-i18n';
 import router from '@/router';
 import eye from '@/assets/pictos/eye.svg';
@@ -7,9 +7,24 @@ import eyeSlash from '@/assets/pictos/eyeSlash.svg';
 import {useSharedState} from '@/composables/useState'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import { useErrorHandler } from '@/composables/useErrorHandler';
+import AlertModal from '@/components/Alert.vue'
 
 const{t} = useI18n();
 const sharedState = useSharedState();
+const {
+  handleError
+} = useErrorHandler();
+
+const modal = useTemplateRef('modal')
+const showError = (err) => {
+  if(err !== null && err !== undefined){
+    modal.value.openModal()
+    modal.value.alertTxt = handleError(err)
+
+    console.log('modal.value.alertText', modal.value.alertTxt)
+  }
+}
 
 const userCredentials = ref({username:'', password:''});
 
@@ -42,17 +57,18 @@ const authenticate = async() => {
       } 
   }catch(err){
     if(err.response){
-      const statusCode = err.response.status;
-      if(statusCode === 401){
-        alert(t('error.bad_credentials'));
-      }else if(statusCode >=400 && statusCode <500){
-        alert(t('error.client'))
-      }else if(statusCode >=500 && statusCode <600){
-        alert(t('error.server'))
-      }
-    }else{
-      alert(t('error.unexpected'));
-      console.error('An unexpected error has occured', err);
+      showError(err)
+    //   const statusCode = err.response.status;
+    //   if(statusCode === 401){
+    //     alert(t('error.bad_credentials'));
+    //   }else if(statusCode >=400 && statusCode <500){
+    //     alert(t('error.client'))
+    //   }else if(statusCode >=500 && statusCode <600){
+    //     alert(t('error.server'))
+    //   }
+    // }else{
+    //   alert(t('error.unexpected'));
+    //   console.error('An unexpected error has occured', err);
     }
   }
 }
@@ -61,6 +77,7 @@ const authenticate = async() => {
 
 
 <template>
+  <AlertModal ref="modal"/>
   <div class="container-md">
     <h3 class="text-center">{{$t('login.title')}}</h3>
     <form @submit.prevent="authenticate" class="bg-light fs-5">
