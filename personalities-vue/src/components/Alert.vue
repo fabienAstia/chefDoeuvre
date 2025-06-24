@@ -7,7 +7,6 @@ const alertTxt = ref({})
 
 onMounted(()=>{
    myModal = new Modal('#modal')
-   console.log('alertText', alertTxt.value)
 })
 
 function openModal(){
@@ -23,7 +22,6 @@ defineExpose({
 </script>
 
 <template>
-
     <!-- Modal -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -33,14 +31,8 @@ defineExpose({
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div class="alert" v-if="typeof(alertTxt) === 'string'">
+            <div class="alert">
                 {{ alertTxt }}
-            </div>
-            <div class="alert" v-if="alertTxt.fieldsErrors?.username?.length !== 0">
-                {{ alertTxt.fieldsErrors?.username?.[0] }}
-            </div>
-             <div class="alert" v-if="alertTxt.globalErrors?.length !== 0">
-                {{ alertTxt.globalErrors }}
             </div>
         </div>
         <div class="modal-footer">

@@ -6,7 +6,7 @@ import eyeSlash from '@/assets/pictos/eyeSlash.svg';
 import eye from '@/assets/pictos/eye.svg';
 import axios from 'axios';
 import AlertModal from '@/components/Alert.vue'
-import { useErrorHandler } from '@/composables/useErrorHandler';
+import { formatAlert } from '@/composables/useMessageFormatter';
 
 const {t} = useI18n();
 const router = useRouter();
@@ -15,10 +15,6 @@ const createUserForm = ref({
         username: '',
         password:''
 })
-
-const {
-  handleError
-} = useErrorHandler();
 
 const isValidUsername = computed(() => {
   return /^(?=.{1,64}@)\w+([\.-]?\w+)*@(?=.{4,252}$)\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(createUserForm.value.username);
@@ -60,24 +56,19 @@ const switchVisibility = () => {
 }
 
 const modal = useTemplateRef('modal')
-const showError = (err) => {
-  modal.value.openModal()
-  modal.value.alertTxt = handleError(err)
-}
 
 const showMessage = (msg) => {
   modal.value.openModal()
-  modal.value.alertTxt = msg;
+  modal.value.alertTxt = formatAlert(msg).message
 }
 
 const newUser = async() => {
     try {
       await axios.post('http://localhost:8080/users', createUserForm.value);
-        //alert('you have created an account');
-        showMessage('You have created an account')
+        showMessage(t('success.create'))
         router.push('/authenticate');
     } catch(err) {
-      showError(err)
+      showMessage(err)
     }
 }
 </script>

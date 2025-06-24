@@ -7,23 +7,16 @@ import eyeSlash from '@/assets/pictos/eyeSlash.svg';
 import {useSharedState} from '@/composables/useState'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
-import { useErrorHandler } from '@/composables/useErrorHandler';
+import { formatAlert } from '@/composables/useMessageFormatter';
 import AlertModal from '@/components/Alert.vue'
 
 const{t} = useI18n();
 const sharedState = useSharedState();
-const {
-  handleError
-} = useErrorHandler();
 
 const modal = useTemplateRef('modal')
-const showError = (err) => {
-  if(err !== null && err !== undefined){
+const showMessage = (msg) => {
     modal.value.openModal()
-    modal.value.alertTxt = handleError(err)
-
-    console.log('modal.value.alertText', modal.value.alertTxt)
-  }
+    modal.value.alertTxt = formatAlert(msg).message
 }
 
 const userCredentials = ref({username:'', password:''});
@@ -43,9 +36,8 @@ const authenticate = async() => {
   try{
     const response = await axios.post('http://localhost:8080/users/authenticate', userCredentials.value);
       let jwt = response.data;
-      console.log(jwt)
       localStorage.setItem('jwt', jwt); 
-      alert(t('login.congrats'))
+      showMessage(t('login.congrats'))
       sharedState.value = 'logged';
       const decodedToken = jwtDecode(jwt);
       if(decodedToken.role === 'ROLE_ADMIN'){
@@ -56,20 +48,7 @@ const authenticate = async() => {
         router.push('/');
       } 
   }catch(err){
-    if(err.response){
-      showError(err)
-    //   const statusCode = err.response.status;
-    //   if(statusCode === 401){
-    //     alert(t('error.bad_credentials'));
-    //   }else if(statusCode >=400 && statusCode <500){
-    //     alert(t('error.client'))
-    //   }else if(statusCode >=500 && statusCode <600){
-    //     alert(t('error.server'))
-    //   }
-    // }else{
-    //   alert(t('error.unexpected'));
-    //   console.error('An unexpected error has occured', err);
-    }
+      showMessage(err)
   }
 }
 

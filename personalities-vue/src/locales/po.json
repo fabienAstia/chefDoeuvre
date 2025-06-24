@@ -48,6 +48,9 @@
         "unexpected": "Ocorreu um erro inesperado",
         "bad_credentials": "Credenciais ruins"
     },
+    "success":{
+        "create": "Você criou uma conta"
+    },
     "guard": {
         "no_token" : "Você precisa criar uma conta ou se autenticar primeiro",
         "expired_token" : "Você precisa se autenticar"
