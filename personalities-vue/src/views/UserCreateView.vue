@@ -1,20 +1,24 @@
 <script setup>
-import {computed, ref} from 'vue';
+import {computed, ref, useTemplateRef} from 'vue';
 import{useRouter} from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import eyeSlash from '@/assets/pictos/eyeSlash.svg';
 import eye from '@/assets/pictos/eye.svg';
-import {useSharedState} from '@/composables/useState'
 import axios from 'axios';
+import AlertModal from '@/components/Alert.vue'
+import { useErrorHandler } from '@/composables/useErrorHandler';
 
 const {t} = useI18n();
 const router = useRouter();
-const sharedState = useSharedState();
 
 const createUserForm = ref({
         username: '',
         password:''
 })
+
+const {
+  handleError
+} = useErrorHandler();
 
 const isValidUsername = computed(() => {
   return /^(?=.{1,64}@)\w+([\.-]?\w+)*@(?=.{4,252}$)\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(createUserForm.value.username);
@@ -55,29 +59,32 @@ const switchVisibility = () => {
   } 
 }
 
+const modal = useTemplateRef('modal')
+const showError = (err) => {
+  modal.value.openModal()
+  modal.value.alertTxt = handleError(err)
+}
+
+const showMessage = (msg) => {
+  modal.value.openModal()
+  modal.value.alertTxt = msg;
+}
+
 const newUser = async() => {
     try {
       await axios.post('http://localhost:8080/users', createUserForm.value);
-        alert('you have created an account');
+        //alert('you have created an account');
+        showMessage('You have created an account')
         router.push('/authenticate');
     } catch(err) {
-      if(err.response){
-        const statusCode = err.response.status;
-        if(statusCode >= 400 && statusCode < 500) {
-          alert(err.response.data.fieldsErrors.username, err.response.data.fieldsErrors.password)
-        } else if (statusCode >= 500 && statusCode < 600) {
-          alert(t('error.server'))
-        }
-      } else {
-        alert(t('error.unexpected'))
-        console.error('An unexpected error has occured', err);
-      }
+      showError(err)
     }
 }
 </script>
 
 
 <template>
+  <AlertModal ref="modal"/>
   <div class="container-md">
     <h3 class="text-center">{{$t('register.title')}}</h3>
     <form @submit.prevent="newUser" class="bg-light fs-5">
