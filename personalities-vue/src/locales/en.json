@@ -36,8 +36,7 @@
         "usernameRequired":"Email is required",
         "password":"Password",
         "passwordRequired":"Password is required",
-        "submit":"Sign in",
-        "congrats":"Congrats ! you are now login"
+        "submit":"Sign in"
     },
     "answer": {
         "disagree" :"Disagree",
@@ -50,7 +49,8 @@
         "bad_credentials": "Bad credentials"
     },
     "success":{
-        "create": "You have created an account"
+        "create": "You have created an account",
+        "login": "Congrats ! you are now login"
     },
     "guard": {
         "no_token" : "You need to sign up first or sign in",

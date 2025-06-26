@@ -35,8 +35,7 @@
         "usernameRequired":"O email é obrigatorio",
         "password":"Senha",
         "passwordRequired":"O email é obrigatorio",
-        "submit":"Entrar",
-        "congrats":"Parabens ! Você está autenticado"
+        "submit":"Entrar"
     },
     "answer": {
         "disagree" : "Em desacordo",
@@ -49,7 +48,8 @@
         "bad_credentials": "Credenciais ruins"
     },
     "success":{
-        "create": "Você criou uma conta"
+        "create": "Você criou uma conta",
+        "login": "Parabens ! Você está autenticado"
     },
     "guard": {
         "no_token" : "Você precisa criar uma conta ou se autenticar primeiro",

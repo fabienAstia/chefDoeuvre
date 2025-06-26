@@ -1,4 +1,3 @@
-import router from '@/router/index'
 import { jwtDecode } from 'jwt-decode';
 import i18n from '@/locales';
 
