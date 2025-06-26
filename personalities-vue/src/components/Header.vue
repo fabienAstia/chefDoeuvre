@@ -20,19 +20,6 @@ const changeLanguage = (lang) => {
   locale.value = lang;
 };
 
-const isLoggedIn = computed(() => {
-  const token = localStorage.getItem('jwt');
-  if (token) {
-    const decodedToken = jwtDecode(token);
-    const current_time = new Date().getTime() / 1000;
-    if(current_time < decodedToken.exp){
-      sharedState.value = 'logged'; 
-      return true;
-    }
-  }
-  return false;
-});
-
 const clearLocalStorage = () => {
   localStorage.clear();
   window.location.reload();

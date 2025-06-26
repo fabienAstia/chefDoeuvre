@@ -36,8 +36,7 @@
         "usernameRequired":"L'email est requis",
         "password":"Mot de passe",
         "passwordRequired":"Le mot de passe est requis",
-        "submit":"Se connecter",
-        "congrats":"Félicitions ! Vous êtes authentifiés"
+        "submit":"Se connecter"
     },
     "answer": {
         "disagree" : "En désaccord",
@@ -50,7 +49,8 @@
         "bad_credentials": "Mauvaises informations d'authentification"
     },
     "success":{
-        "create": "Vous avez créé un compte"
+        "create": "Vous avez créé un compte",
+        "login": "Félicitions ! Vous êtes authentifiés"
     },
     "guard": {
         "no_token" : "Vous devez créer un compte ou vous authentifier d'abord",

@@ -37,7 +37,7 @@ const authenticate = async() => {
     const response = await axios.post('http://localhost:8080/users/authenticate', userCredentials.value);
       let jwt = response.data;
       localStorage.setItem('jwt', jwt); 
-      showMessage(t('login.congrats'))
+      showMessage(t('success.login'))
       sharedState.value = 'logged';
       const decodedToken = jwtDecode(jwt);
       if(decodedToken.role === 'ROLE_ADMIN'){
