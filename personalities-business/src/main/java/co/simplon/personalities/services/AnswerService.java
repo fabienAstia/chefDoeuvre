@@ -10,7 +10,6 @@ import co.simplon.personalities.repositories.AnswerRepository;
 import co.simplon.personalities.repositories.UserRepository;
 import co.simplon.personalities.config.SecurityHelper;
 import co.simplon.personalities.dtos.ResultView;
-import co.simplon.personalities.entities.*;
 import co.simplon.personalities.repositories.MbtiTypeRepository;
 import co.simplon.personalities.repositories.QuestionRepository;
 import org.springframework.stereotype.Service;
