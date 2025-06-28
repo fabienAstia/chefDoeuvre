@@ -1,4 +1,4 @@
-package co.simplon.personalities.dtos.poleemploi;
+package co.simplon.personalities.dtos.francetravail;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
