@@ -1,10 +1,12 @@
-package co.simplon.personalities.dtos.poleemploi;
+package co.simplon.personalities.dtos.francetravail;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Company(
-        @JsonProperty("nom") String companyName
+public record WorkingContext(
+        @JsonProperty("horaires") List<String> workingHours
 ) {
 }

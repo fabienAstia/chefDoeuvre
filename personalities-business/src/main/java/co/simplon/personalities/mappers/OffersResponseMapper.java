@@ -3,8 +3,8 @@ package co.simplon.personalities.mappers;
 import co.simplon.personalities.dtos.OffersResponse;
 import co.simplon.personalities.dtos.CoordinatesView;
 import co.simplon.personalities.dtos.OfferJobView;
-import co.simplon.personalities.dtos.poleemploi.OfferJob;
-import co.simplon.personalities.dtos.poleemploi.PoleEmploiResponse;
+import co.simplon.personalities.dtos.francetravail.FranceTravailResponse;
+import co.simplon.personalities.dtos.francetravail.OfferJob;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import static java.util.Objects.nonNull;
 
 public class OffersResponseMapper {
 
-    public static OffersResponse mapToOffersResponse(PoleEmploiResponse poleEmploiResponse) {
-        List<OfferJob> offerJobList = poleEmploiResponse.offerJobList();
+    public static OffersResponse mapToOffersResponse(FranceTravailResponse franceTravailResponse) {
+        List<OfferJob> offerJobList = franceTravailResponse.offerJobList();
         return new OffersResponse(
                 mapToOfferJobView(offerJobList),
                 mapToCoordinatesView(offerJobList)
