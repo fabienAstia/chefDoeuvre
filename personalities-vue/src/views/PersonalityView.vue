@@ -1,8 +1,10 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { onMounted, ref, computed, watch } from 'vue';
+import { onMounted, ref, computed, watch, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import axios from 'axios'
+import { formatAlert } from '@/composables/useMessageFormatter';
+import AlertModal from '@/components/Alert.vue'
 
 const {t} = useI18n();
 const route = useRoute();
@@ -11,9 +13,14 @@ const mbtiType = ref({})
 const specificJobs = ref({});
 const allCoordinates = ref({})
 const keyWords=ref('')
-// const isTruncated = ref(false)
 const isTruncated = ref({})
 const addressesChunk = ref ([])
+const modal = useTemplateRef('modal')
+
+const showMessage = (msg) => {
+    modal.value.openModal()
+    modal.value.alertTxt = formatAlert(msg).message
+}
 
 onMounted(async() => {
     getMbtiType()
@@ -24,17 +31,7 @@ async function getMbtiType(){
         const response = await axios.get(`http://localhost:8080/mbti/${code}`)
         mbtiType.value = response.data;
     }catch(err) {
-        if(err.response){
-            const statusCode = err.response.status;
-            if(statusCode >= 400 && statusCode < 500){
-            alert(t('error.client'))
-            }else if(statusCode >= 500 && statusCode < 600){
-            alert(t('error.server'))
-            }
-        }else{
-            alert(t('error.unexpected'));
-            console.error('an unexpected error has occured', err);
-        }
+      showMessage(err)
     }
 }
 
@@ -83,17 +80,7 @@ const getSpecificJobs = async() => {
         console.log("allCoordinates", allCoordinates.value)
 
     }catch(err) {
-        if(err.response){
-            const statusCode = err.response.status;
-            if(statusCode >= 400 && statusCode < 500){
-                alert('A client error has occurred!')
-            }else if(statusCode >= 500 && statusCode < 600){
-                alert('A server error has occurred!')
-            }
-        }else{
-            alert('an unexpected error has occured');
-            console.log('unexpected error')
-        }
+       showMessage(err)
     }
 }
 
@@ -125,18 +112,7 @@ const getAddress = async() => {
         
         addressesChunk.value = response.data
     }catch(err){
-        if(err.response){
-            const statusCode = err.response.status;
-            if(statusCode >= 400 && statusCode < 500){
-                alert('A client error has occurred!')
-                console.error('client error has occured', err);
-            }else if(statusCode >= 500 && statusCode < 600){
-                alert('A server error has occurred!')
-            }
-        }else{
-            alert('an unexpected error has occured');
-            console.log('unexpected error')
-        }
+        showMessage(err)
     }
 }
 
@@ -158,6 +134,7 @@ function formatAddress(offerJobIndex) {
 //     return `<small> ${a.house_number ?? ''}  ${a.road ?? ''} <br> 
 //         ${a.suburb ?? ''} ${a.city ?? ''}, ${a.country ?? ''} ${a.postcode ?? ''}</small>`
 // })
+
 function untruncate(index) {
     const description = specificJobs.value[index].description;
     let descriptionTruncatedOrNot;
@@ -178,6 +155,7 @@ const displayOffers = (job) => {
 </script>
 
 <template>
+  <AlertModal ref="modal"/>
     <div class="container">
         <div class="container-fluid">
             <div class="row mb-3">
@@ -218,15 +196,13 @@ const displayOffers = (job) => {
                     <div class="text-center mb-1" v-for="job in mbtiType.professions" @click="displayOffers(job)" id="pointer">{{ job }}</div>
                 </div>
                 <div class="offersJob col-12 col-md-6" v-for="(offerJob, index) in specificJobs" :key="index">
-                    <input type="text" v-model="keyWords">
-                    <div>{{ keyWords }}</div>
+                    <!-- <input type="text" v-model="keyWords">
+                    <div>{{ keyWords }}</div> -->
             
                     <div><b>{{ offerJob.title }}</b> - {{ offerJob.contractType }}</div> 
                     <div>{{ offerJob.companyName }}</div> 
-                    <div>INDEX :{{ index }}</div>
-                    <div ></div>
+                    <!-- <div>INDEX :{{ index }}</div> -->
                     <div v-html="formatAddress(index)"></div> 
-
                     <div>{{ offerJob.workingHours }} </div>
                     <div>{{ formatSalaire }}</div>
                     <div>{{ offerJob.experience }}</div>
