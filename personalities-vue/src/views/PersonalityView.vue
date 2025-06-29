@@ -78,19 +78,6 @@ const getSpecificJobs = async() => {
         console.log("offerJobs", specificJobs.value)
         console.log("allCoordinates", allCoordinates.value)
 
-
-            // specificJobs.value = ({
-            //         title: response.data.data[i].title, 
-            //         description: response.data.data[i].description,
-            //         coordinates: response.data.data[i].coordinates, 
-            //         contractType: response.data.data[i].contractType,
-            //         workingHours : response.data.data[i].workingHours, 
-            //         companyName: response.data.data[i].companyName,
-            //         salary: response.data.data[i].salary,
-            //         experience : response.data.data[i].experience,
-            //         sourceUrl: response.data.data[i].sourceUrl
-            //     })
-
     }catch(err) {
         if(err.response){
             const statusCode = err.response.status;
@@ -151,14 +138,11 @@ const getAddress = async() => {
 
 function formatAddress(offerJobIndex) {
     const a = addressesChunk.value
-    console.log("addressesChunk", addressesChunk.value),
-    console.log("aofferJob", offerJobIndex)
     if(a){
-        console.log("dedans a, offerJobIndex", offerJobIndex)
         for(let i = 0; i < a.length; i++){
             if(i === offerJobIndex){
-                console.log('Address', address)
-                return a[i];
+                console.log('Address', a)
+                return a[i].formatted;
             }
         }
     }
@@ -172,6 +156,7 @@ function formatAddress(offerJobIndex) {
 
 const truncatedDescription = computed(() => {
     const description = specificJobs.value.description
+    console.log('description', description)
     if(description){
         console.log('description', description)
         const text = `${description} `
@@ -184,7 +169,8 @@ const untruncatedDescription = computed(() => {
 })
 
 const untruncate = () => {
-    isTruncated.value = !isTruncated.value
+    isTruncated.value =! isTruncated.value
+    console.log('trancated?', isTruncated.value)
 }
 
 const displayOffers = (job) => {
@@ -254,21 +240,6 @@ const displayOffers = (job) => {
                     <button @click="untruncate" v-if="!isTruncated">read more</button>
                     <button @click="untruncate" v-else>read less</button>
 
-                    <!-- <input type="text" v-model="keyWords">
-                    <div>{{ keyWords }}</div>
-            
-                    <div><b>{{ specificJobs.title }}</b> - {{ specificJobs.contractType }}</div> 
-                    <div>{{ specificJobs.companyName }}</div> 
-                    <div v-html="formatAddress"></div> 
-                    <div>{{ specificJobs.workingHours }} </div>
-                    <div>{{ formatSalaire }}</div>
-                    <div>{{ specificJobs.experience }}</div>
-                    <div>{{ specificJobs.sourceUrl }}</div>
-                    <div v-if="!isTruncated">{{ truncatedDescription }}</div> 
-                    <div v-else>{{ untruncatedDescription }}</div> 
-
-                    <button @click="untruncate" v-if="!isTruncated">read more</button>
-                    <button @click="untruncate" v-else>read less</button> -->
                 </div>
             </div>
 

@@ -7,6 +7,7 @@ import co.simplon.personalities.exceptions.OffersJobsResponseException;
 import co.simplon.personalities.exceptions.TokenRetrievalException;
 import co.simplon.personalities.mappers.OffersResponseMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -58,6 +59,7 @@ public class FranceTravailService {
         return response.accessToken();
     }
 
+    @Cacheable("OffersJobs")
     public OffersResponse getSpecificJobs(String specificJob) {
         String token = getAccessToken();
         RestClient restClient = RestClient.builder()
