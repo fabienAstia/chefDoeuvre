@@ -40,7 +40,8 @@
     },
     "answer": {
         "disagree" :"Disagree",
-        "agree":"Agree"
+        "agree":"Agree",
+        "uncomplete" : "You must answer all questions!"
     },
     "error":{
         "client" : "A client error has occured",

@@ -39,7 +39,8 @@
     },
     "answer": {
         "disagree" : "Em desacordo",
-        "agree": "De acordo"
+        "agree": "De acordo",
+        "uncomplete" : "Você deve responder a todas as perguntas !"
       },
     "error":{
         "client" : "Ocorreu um erro do cliente",

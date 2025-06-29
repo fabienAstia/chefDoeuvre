@@ -1,10 +1,12 @@
 <script setup>
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, useTemplateRef} from 'vue';
 import{useI18n} from 'vue-i18n';
 import { useQuestions } from '../composables/useQuestions';
 import axios from 'axios';
 import {useRouter} from 'vue-router';
 import {useMbtiStore} from '@/stores/mbtiStore'
+import AlertModal from '@/components/Alert.vue'
+import { formatAlert } from '@/composables/useMessageFormatter';
 
 const{t} = useI18n();
 const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
@@ -16,6 +18,12 @@ const totalPAGES = 3; //for DEMO
 const jwt = localStorage.getItem('jwt');
 const router = useRouter();
 const mbtiStore = useMbtiStore();
+const modal = useTemplateRef('modal')
+
+const showMessage = (msg) => {
+  modal.value.openModal()
+  modal.value.alertTxt = formatAlert(msg).message
+}
 
 onMounted(async() => {
     await getPaginatedQuestions();
@@ -38,7 +46,7 @@ const addAnswer = (idQuestion, buttonIndex) => {
 const isPageCompleted = () => {
     answers.value.length === (pageNumber.value +1) * pageSize.value 
     ? getNextPage() && scrollToTop()
-    : alert("You must answer all questions!")
+    : showMessage(t("answer.uncomplete"))
 } 
 
 const isTestCompleted = () => {
@@ -48,7 +56,7 @@ const isTestCompleted = () => {
 const handleSubmit = () => {
   isTestCompleted() 
   ? sendAnswers()
-  : alert("You must answer all questions")
+  : showMessage(t("answer.uncomplete"))
 }
 
 const sendAnswers = async() => {
@@ -63,17 +71,7 @@ try {
     mbtiStore.setResult(response.data);
     router.push({name:'result'});
 }catch(err) {
-    if(err.response){
-        const statusCode = err.response.status;
-        if(statusCode >= 400 && statusCode < 500){
-          alert(t('error.client'))
-        }else if(statusCode >= 500 && statusCode < 600){
-          alert(t('error.server'))
-        }
-    }else{
-        alert(t('error.unexpected'));
-        console.error('an unexpected error has occured', err);
-    }
+    showMessage(err)
   }
 }
 
@@ -96,7 +94,7 @@ const answered = (idQuestion, buttonIndex) => {
 
 
 <template>
-
+  <AlertModal ref="modal"/>
     <div id="sticky" class="progressWidth p-3">
       <div class="progress"  role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
         <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/24}%`}"></div> <!-- for DEMO -->
