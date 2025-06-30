@@ -16,6 +16,11 @@ const keyWords=ref('')
 const isTruncated = ref({})
 const addressesChunk = ref ([])
 const modal = useTemplateRef('modal')
+const pageNumber = ref(0);
+const pageSize = ref(2);  
+// const totalPages = ref(0);
+// const totalElements = ref(0);
+const metadata = ref({})
 
 const showMessage = (msg) => {
     modal.value.openModal()
@@ -52,35 +57,54 @@ const sortedTraits = computed(() => {
     return traits;
 });
 
-const formatSalaire = computed(() =>{
-    let salaire = specificJobs.value?.salary
-    
-    if(salaire){
-        const regex = /\d+\.\d+/g
-        const matches = salaire.match(regex)
-
-        matches.forEach(m => {
-            salaire = salaire.replace(m, Math.floor(parseFloat(m)))
-        })
-        return salaire
-    }
-    return ''
-})    
-
 const getSpecificJobs = async() => {
     try {
-        const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${1}&size=${2}`) 
+        const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${pageNumber.value}&size=${pageSize.value}`) 
         specificJobs.value = response.data.data.paginatedOfferJobViews
         allCoordinates.value = response.data.data.allCoordinates
 
         specificJobs.value.forEach((offerJob, index) => {
             isTruncated.value[index] = true;
         })
+
+        metadata.value = response.data.metadata;
+
         console.log("specificJobs", specificJobs.value)
         console.log("allCoordinates", allCoordinates.value)
 
     }catch(err) {
        showMessage(err)
+    }
+}
+
+const getNextPage = async() => {
+    try {
+        pageNumber.value++
+        getSpecificJobs();
+        // const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${0}&size=${2}`) 
+        // specificJobs.value = response.data.data.paginatedOfferJobViews
+        // allCoordinates.value = response.data.data.allCoordinates
+
+        // specificJobs.value.forEach((offerJob, index) => {
+        //     isTruncated.value[index] = true;
+        // })
+
+        // metadata.value = response.data.metadata;
+
+        // console.log("specificJobs", specificJobs.value)
+        // console.log("allCoordinates", allCoordinates.value)
+
+    }catch(err) {
+       showMessage(err)
+    }
+}
+
+const getPreviousPage = async() => {
+    try {
+        pageNumber.value--
+        getSpecificJobs;
+    } catch(err) {
+        showMessage(err)
     }
 }
 
@@ -136,17 +160,24 @@ function formatAddress(offerJobIndex) {
 // })
 
 function untruncate(index) {
-    const description = specificJobs.value[index].description;
-    let descriptionTruncatedOrNot;
-    if(isTruncated.value[index] === true){
-        isTruncated.value[index] = !isTruncated.value[index]
-        descriptionTruncatedOrNot = truncatedDescription(description, index);
-    }else{
-        isTruncated.value[index] = !isTruncated.value[index]
-        descriptionTruncatedOrNot = untruncatedDescription(description, index);
-    }
-    return descriptionTruncatedOrNot;
+    isTruncated.value[index] = !isTruncated.value[index]
+    return specificJobs.value[index].description;
 }
+
+function formatSalaire(index) {
+    let salaire = specificJobs.value[index].salary
+    console.log('salaire', salaire)
+    if(salaire){
+        const regex = /\d+\.\d+/g
+        const matches = salaire.match(regex)
+
+        matches.forEach(m => {
+            salaire = salaire.replace(m, Math.floor(parseFloat(m)))
+        })
+        return salaire
+    }
+    return ''
+}   
 
 const displayOffers = (job) => {
     keyWords.value = job;
@@ -204,7 +235,8 @@ const displayOffers = (job) => {
                     <!-- <div>INDEX :{{ index }}</div> -->
                     <div v-html="formatAddress(index)"></div> 
                     <div>{{ offerJob.workingHours }} </div>
-                    <div>{{ formatSalaire }}</div>
+                    <!-- <div>{{ formatSalaire }}</div> -->
+                    <div v-html="formatSalaire(index)"></div>
                     <div>{{ offerJob.experience }}</div>
                     <div>{{ offerJob.sourceUrl }}</div>
                     <div v-if="isTruncated[index]">{{offerJob.description.substring(0, 60) + '...'}}</div> 
@@ -213,6 +245,11 @@ const displayOffers = (job) => {
                     <button @click="untruncate(index)" v-if="isTruncated[index] === true">read more</button>
                     <button @click="untruncate(index)" v-else>read less</button>
 
+                    <div class="d-flex justify-content-around bg-light fs-2">
+                        <button v-if="pageNumber>0" class="btn btn-outline-primary btn m-1" @click="getPreviousPage()">Previous page</button>
+                        <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-outline-primary btn m-1" @click="getNextPage()">Next page</button>
+                    </div>
+        
                 </div>
             </div>
 
@@ -302,6 +339,11 @@ h3{
 }
 #pointer{
     cursor: pointer;
+}
+#pointer:hover{
+    font-weight:800;
+    background-color: #0077b6;
+    color: #effcfe;
 }
 
 </style>

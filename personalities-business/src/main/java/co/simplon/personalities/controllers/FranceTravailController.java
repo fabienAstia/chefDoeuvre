@@ -2,7 +2,6 @@ package co.simplon.personalities.controllers;
 
 import co.simplon.personalities.dtos.*;
 import co.simplon.personalities.services.FranceTravailService;
-//import co.simplon.personalities.services.PoleEmploiService;
 import co.simplon.personalities.utils.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +32,6 @@ public class FranceTravailController {
             @RequestParam String motsCles,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "5") int size) {
-//        OffersResponse offersResponse = poleEmploiService.getSpecificJobs(motsCles);
         OffersResponse offersResponse = franceTravailService.getSpecificJobs(motsCles);
         if (offersResponse.offerJobViews().isEmpty()) {
             return new ApiResponse<>(

@@ -45,7 +45,6 @@ public class QuestionController {
             @RequestParam(value = "pageNum", defaultValue = "0") int page,
             @RequestParam(value = "pageSize", defaultValue = "8") int size
     ) {
-        System.out.println("pages = " + service.getPaginatedQuestions(page, size).getContent());
         return service.getPaginatedQuestions(page, size);
     }
 
