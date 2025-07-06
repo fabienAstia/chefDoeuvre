@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import axios from 'axios'
 import { formatAlert } from '@/composables/useMessageFormatter';
 import AlertModal from '@/components/Alert.vue'
+import OfferJobCard from '@/components/OfferJobCard.vue';
 
 const {t} = useI18n();
 const route = useRoute();
@@ -66,12 +67,11 @@ const getSpecificJobs = async() => {
         specificJobs.value.forEach((offerJob, index) => {
             isTruncated.value[index] = true;
         })
-
         metadata.value = response.data.metadata;
+        await getAddress();
 
         console.log("specificJobs", specificJobs.value)
         console.log("allCoordinates", allCoordinates.value)
-
     }catch(err) {
        showMessage(err)
     }
@@ -108,26 +108,12 @@ const getPreviousPage = async() => {
     }
 }
 
-watch(
-    keyWords,
-    () => {
-        getSpecificJobs()
-    }
-)
-watch(
-     allCoordinates,
-    () => {
-        getAddress()
-    }
-)
-watch(
-     addressesChunk,
-    () => {
-    console.log("addressesChunk", addressesChunk.value);
-        formatAddress();
+watch(keyWords, async () => {
+        await getSpecificJobs()
     }
 )
 
+const addresses = ref ([])
 const getAddress = async() => {
     try {
         const response = await axios.post(`http://localhost:8080/address`,
@@ -135,21 +121,15 @@ const getAddress = async() => {
             {headers:{'Content-Type':'application/json'}}); 
         
         addressesChunk.value = response.data
+        console.log('addressesChunk', addressesChunk.value)
+        addresses.value = []
+        for(let i = 0; i < addressesChunk.value.length; i++){
+            addresses.value.push(addressesChunk.value[i].formatted)
+        }
+        console.log('addresses.value', addresses.value)
+        return addresses.value
     }catch(err){
         showMessage(err)
-    }
-}
-
-function formatAddress(offerJobIndex) {
-    const a = addressesChunk.value
-    //    console.log('adrressesChunk', a)
-    if(a){
-        for(let i = 0; i < a.length; i++){
-            if(i === offerJobIndex){
-                console.log('Address', a[i].formatted)
-                return a[i].formatted;
-            }
-        }
     }
 }
 
@@ -159,26 +139,6 @@ function formatAddress(offerJobIndex) {
 //         ${a.suburb ?? ''} ${a.city ?? ''}, ${a.country ?? ''} ${a.postcode ?? ''}</small>`
 // })
 
-function untruncate(index) {
-    isTruncated.value[index] = !isTruncated.value[index]
-    return specificJobs.value[index].description;
-}
-
-function formatSalaire(index) {
-    let salaire = specificJobs.value[index].salary
-    console.log('salaire', salaire)
-    if(salaire){
-        const regex = /\d+\.\d+/g
-        const matches = salaire.match(regex)
-
-        matches.forEach(m => {
-            salaire = salaire.replace(m, Math.floor(parseFloat(m)))
-        })
-        return salaire
-    }
-    return ''
-}   
-
 const displayOffers = (job) => {
     keyWords.value = job;
 }
@@ -186,6 +146,7 @@ const displayOffers = (job) => {
 </script>
 
 <template>
+
   <AlertModal ref="modal"/>
     <div class="container">
         <div class="container-fluid">
@@ -230,20 +191,32 @@ const displayOffers = (job) => {
                     <!-- <input type="text" v-model="keyWords">
                     <div>{{ keyWords }}</div> -->
             
-                    <div><b>{{ offerJob.title }}</b> - {{ offerJob.contractType }}</div> 
-                    <div>{{ offerJob.companyName }}</div> 
+                    <!-- <div><b>{{ offerJob.title }}</b> - {{ offerJob.contractType }}</div>  -->
+                    <!-- <div>{{ offerJob.companyName }}</div>  -->
                     <!-- <div>INDEX :{{ index }}</div> -->
-                    <div v-html="formatAddress(index)"></div> 
-                    <div>{{ offerJob.workingHours }} </div>
+                    <!-- <div v-html="formatAddress(index)"></div> 
+                    <div>{{ offerJob.workingHours }} </div> -->
                     <!-- <div>{{ formatSalaire }}</div> -->
-                    <div v-html="formatSalaire(index)"></div>
-                    <div>{{ offerJob.experience }}</div>
+                    <!-- <div v-html="formatSalaire(index)"></div> -->
+                    <!-- <div>{{ offerJob.experience }}</div>
                     <div>{{ offerJob.sourceUrl }}</div>
                     <div v-if="isTruncated[index]">{{offerJob.description.substring(0, 60) + '...'}}</div> 
                     <div v-else>{{offerJob.description}}</div> 
 
                     <button @click="untruncate(index)" v-if="isTruncated[index] === true">read more</button>
-                    <button @click="untruncate(index)" v-else>read less</button>
+                    <button @click="untruncate(index)" v-else>read less</button> -->
+
+                    <OfferJobCard
+                    v-if="addresses[index]"
+                    :offerJob="offerJob"
+                    :address="addresses[index]"
+                    />
+
+                       <!-- <OfferJobCard
+                    :offerJob="offerJob"
+                    :address="addresses[index]"
+                    /> -->
+                    
 
                     <div class="d-flex justify-content-around bg-light fs-2">
                         <button v-if="pageNumber>0" class="btn btn-outline-primary btn m-1" @click="getPreviousPage()">Previous page</button>
