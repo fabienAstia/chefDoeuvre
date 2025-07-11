@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record Coordinates(
-        @JsonProperty("longitude") String longitude,
-        @JsonProperty("latitude") String latitude
+        @JsonProperty("longitude") double longitude,
+        @JsonProperty("latitude") double latitude
 ) {
 }

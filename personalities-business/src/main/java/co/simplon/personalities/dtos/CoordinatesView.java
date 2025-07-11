@@ -1,27 +1,27 @@
 package co.simplon.personalities.dtos;
 
 public class CoordinatesView {
-    String lon;
-    String lat;
+    double lon;
+    double lat;
 
-    public CoordinatesView(String lon, String lat) {
+    public CoordinatesView(double lon, double lat) {
         this.lon = lon;
         this.lat = lat;
     }
 
-    public String getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(String lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
-    public String getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 

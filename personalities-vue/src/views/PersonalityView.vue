@@ -29,7 +29,7 @@ const showMessage = (msg) => {
 }
 
 onMounted(async() => {
-    getMbtiType()
+    await getMbtiType()
 })
 
 async function getMbtiType(){
@@ -80,7 +80,7 @@ const getSpecificJobs = async() => {
 const getNextPage = async() => {
     try {
         pageNumber.value++
-        getSpecificJobs();
+        await getSpecificJobs();
         // const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${0}&size=${2}`) 
         // specificJobs.value = response.data.data.paginatedOfferJobViews
         // allCoordinates.value = response.data.data.allCoordinates
@@ -102,7 +102,7 @@ const getNextPage = async() => {
 const getPreviousPage = async() => {
     try {
         pageNumber.value--
-        getSpecificJobs;
+        await getSpecificJobs();
     } catch(err) {
         showMessage(err)
     }
@@ -112,6 +112,8 @@ watch(keyWords, async () => {
         await getSpecificJobs()
     }
 )
+
+// watch(addresses[index], () => )
 
 const addresses = ref ([])
 const getAddress = async() => {
@@ -132,12 +134,6 @@ const getAddress = async() => {
         showMessage(err)
     }
 }
-
-// const formatAddress = computed(() => {
-//     const a = address.value
-//     return `<small> ${a.house_number ?? ''}  ${a.road ?? ''} <br> 
-//         ${a.suburb ?? ''} ${a.city ?? ''}, ${a.country ?? ''} ${a.postcode ?? ''}</small>`
-// })
 
 const displayOffers = (job) => {
     keyWords.value = job;
@@ -187,42 +183,27 @@ const displayOffers = (job) => {
                 <div class="col-12 col-md-6">
                     <div class="text-center mb-1" v-for="job in mbtiType.professions" @click="displayOffers(job)" id="pointer">{{ job }}</div>
                 </div>
-                <div class="offersJob col-12 col-md-6" v-for="(offerJob, index) in specificJobs" :key="index">
-                    <!-- <input type="text" v-model="keyWords">
-                    <div>{{ keyWords }}</div> -->
-            
-                    <!-- <div><b>{{ offerJob.title }}</b> - {{ offerJob.contractType }}</div>  -->
-                    <!-- <div>{{ offerJob.companyName }}</div>  -->
-                    <!-- <div>INDEX :{{ index }}</div> -->
-                    <!-- <div v-html="formatAddress(index)"></div> 
-                    <div>{{ offerJob.workingHours }} </div> -->
-                    <!-- <div>{{ formatSalaire }}</div> -->
-                    <!-- <div v-html="formatSalaire(index)"></div> -->
-                    <!-- <div>{{ offerJob.experience }}</div>
-                    <div>{{ offerJob.sourceUrl }}</div>
-                    <div v-if="isTruncated[index]">{{offerJob.description.substring(0, 60) + '...'}}</div> 
-                    <div v-else>{{offerJob.description}}</div> 
 
-                    <button @click="untruncate(index)" v-if="isTruncated[index] === true">read more</button>
-                    <button @click="untruncate(index)" v-else>read less</button> -->
+                <div class="offersJob col-12 col-md-6" >
+                    <div v-for="(offerJob, index) in specificJobs" :key="index">
+                        
+                        <!-- <OfferJobCard
+                        v-if="addresses[index]"
+                        :offerJob="offerJob"
+                        :address="addresses[index]"
+                        /> -->
 
-                    <OfferJobCard
-                    v-if="addresses[index]"
-                    :offerJob="offerJob"
-                    :address="addresses[index]"
-                    />
+                         <OfferJobCard
+                        :offerJob="offerJob"
+                        />
 
-                       <!-- <OfferJobCard
-                    :offerJob="offerJob"
-                    :address="addresses[index]"
-                    /> -->
-                    
+                    </div>    
 
-                    <div class="d-flex justify-content-around bg-light fs-2">
-                        <button v-if="pageNumber>0" class="btn btn-outline-primary btn m-1" @click="getPreviousPage()">Previous page</button>
-                        <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-outline-primary btn m-1" @click="getNextPage()">Next page</button>
-                    </div>
-        
+                    <div class="d-flex justify-content-around fs-2">
+                        <button v-if="pageNumber>0" class="btn btn-outline-primary btn-sm m-1" @click="getPreviousPage()">Previous page</button>
+                        <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-outline-primary btn-sm m-1" @click="getNextPage()">Next page</button>
+                    </div>   
+
                 </div>
             </div>
 

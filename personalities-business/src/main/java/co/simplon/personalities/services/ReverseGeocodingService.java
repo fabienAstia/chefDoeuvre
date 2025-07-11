@@ -13,11 +13,7 @@ import org.springframework.web.client.RestClient;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import static co.simplon.personalities.utils.CoordinatesCleaner.fillMissingCoordinates;
+import java.util.concurrent.*;
 
 @Service
 public class ReverseGeocodingService {
@@ -37,6 +33,8 @@ public class ReverseGeocodingService {
     public List<GeoapifyAddress> getAddressesChunk(List<CoordinatesView> coordinatesChunk) {
         GeoapifyJobResponse jobResponse = createBatchJob(coordinatesChunk);
 
+        CountDownLatch latch = new CountDownLatch(1);
+
         ScheduledExecutorService scheduled = Executors.newSingleThreadScheduledExecutor();
         scheduled.scheduleAtFixedRate(() -> {
             wrapper = resultResponse(jobResponse);
@@ -44,20 +42,27 @@ public class ReverseGeocodingService {
             System.out.println("WRAPPER=" + wrapper);
 
             if (wrapper.getStatusCode().isSameCodeAs(HttpStatus.OK) || count >= 10) {
-                scheduled.close();
+                // scheduled.close();
+                latch.countDown();
+                scheduled.shutdown();
             }
         }, 3, 3, TimeUnit.SECONDS);
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return wrapper.getAddresses();
     }
 
     public GeoapifyJobResponse createBatchJob(List<CoordinatesView> allCoordinates) {
-        List<CoordinatesView> filledMissingCoordinates = fillMissingCoordinates(allCoordinates);
+//        List<CoordinatesView> filledMissingCoordinates = fillMissingCoordinates(allCoordinates);
         return restClient.post()
                 .uri("https://api.geoapify.com/v1/batch/geocode/reverse?" +
                         "&apiKey=" + token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(filledMissingCoordinates)
+                .body(allCoordinates)
                 .retrieve()
                 .body(GeoapifyJobResponse.class);
     }
