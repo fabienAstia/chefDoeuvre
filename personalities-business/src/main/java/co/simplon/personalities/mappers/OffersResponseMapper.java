@@ -14,6 +14,7 @@ public class OffersResponseMapper {
 
     public static OffersResponse mapToOffersResponse(FranceTravailResponse franceTravailResponse) {
         List<OfferJob> offerJobList = franceTravailResponse.offerJobList();
+        System.out.println("offerJobList" + offerJobList);
         return new OffersResponse(
                 mapToOfferJobView(offerJobList),
                 mapToCoordinatesView(offerJobList)
@@ -22,6 +23,7 @@ public class OffersResponseMapper {
 
     public static List<OfferJobView> mapToOfferJobView(List<OfferJob> offerJobList) {
         return offerJobList.stream().map(offerJob -> {
+            System.out.println("offerJobCoordinates" + offerJob.coordinates());
             return new OfferJobView(
                     offerJob.title(),
                     offerJob.contractType(),
