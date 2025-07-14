@@ -22,6 +22,7 @@ const pageSize = ref(2);
 // const totalPages = ref(0);
 // const totalElements = ref(0);
 const metadata = ref({})
+// const apiUrl = import.meta.env.VITE_BASE_URL
 
 const showMessage = (msg) => {
     modal.value.openModal()
