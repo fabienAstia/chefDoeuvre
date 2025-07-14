@@ -11,11 +11,13 @@ export function useErrorHandler(){
             }
             if(statusCode >= 400 && statusCode < 500) {
                 const data = err.response.data
-                if(data.fieldsErrors.username.length !== 0){
+                if(data.fieldsErrors && data.fieldsErrors.username?.length !== 0){
                     return data.fieldsErrors.username[0]
                 }
-                if(data.globalErrors.length !== 0){
+                if(data.globalErrors && data.globalErrors.length !== 0){
                     return data.globalErrors[0]
+                } else {
+                    return data;
                 }
             } else if (statusCode >= 500 && statusCode < 600) {
                 return i18n.global.t('error.server')

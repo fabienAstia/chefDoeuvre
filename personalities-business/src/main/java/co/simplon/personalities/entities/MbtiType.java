@@ -33,7 +33,6 @@ public class MbtiType extends AbstractEntity {
     @ManyToMany
     @JoinTable(
             name = "t_matches",
-
             joinColumns = @JoinColumn(name = "mbti_type_id"),
             inverseJoinColumns = @JoinColumn(name = "profession_id"))
     private List<Profession> professions;
@@ -41,10 +40,12 @@ public class MbtiType extends AbstractEntity {
     @ManyToMany
     @JoinTable(
             name = "t_includes",
-
             joinColumns = @JoinColumn(name = "mbti_type_id"),
             inverseJoinColumns = @JoinColumn(name = "personality_trait_id"))
     private List<StrengthAndWeakness> strengthAndWeaknesses;
+
+    @OneToOne(mappedBy = "mbtiType")
+    private User user;
 
     @Override
     public boolean equals(Object o) {
@@ -75,7 +76,7 @@ public class MbtiType extends AbstractEntity {
                 ", interestingFact='" + interestingFact + '\'' +
                 ", image='" + image + '\'' +
                 ", professions=" + professions +
-                ", personalityTraits=" + strengthAndWeaknesses +
+                ", strengthAndWeaknesses=" + strengthAndWeaknesses +
                 "} " + super.toString();
     }
 
@@ -141,5 +142,13 @@ public class MbtiType extends AbstractEntity {
 
     public void setStrengthAndWeaknesses(List<StrengthAndWeakness> strengthAndWeaknesses) {
         this.strengthAndWeaknesses = strengthAndWeaknesses;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

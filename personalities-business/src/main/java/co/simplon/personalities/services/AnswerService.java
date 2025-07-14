@@ -35,13 +35,16 @@ public class AnswerService {
     }
 
     public ResultView submitAnswersAndGetResult(List<AnswerCreate> inputs) {
-        submitAnswers(inputs);
+        User user = getUserAndSubmitAnswers(inputs);
         ResultService resultService = new ResultService(questionRepository, mbtiTypeRepository);
-        return resultService.getResult(inputs);
+        ResultView resultView = resultService.getResult(inputs);
+        user.setMbtiType(mbtiTypeRepository.findProjectedByCode(resultView.getCode()));
+        userRepository.save(user);
+        return resultView;
     }
 
     @Transactional
-    private void submitAnswers(List<AnswerCreate> inputs) {
+    private User getUserAndSubmitAnswers(List<AnswerCreate> inputs) {
         String username = securityHelper.principal();
         User user = userRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
@@ -49,6 +52,7 @@ public class AnswerService {
         answerRepository.deleteAll(previousAnswers);
         Set<Answer> answers = createNewAnswers(inputs, user);
         answerRepository.saveAll(answers);
+        return user;
     }
 
     private Set<Answer> createNewAnswers(List<AnswerCreate> inputs, User user) {
