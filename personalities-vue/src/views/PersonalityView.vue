@@ -113,8 +113,6 @@ watch(keyWords, async () => {
     }
 )
 
-// watch(addresses[index], () => )
-
 const addresses = ref ([])
 const getAddress = async() => {
     try {
@@ -186,24 +184,33 @@ const displayOffers = (job) => {
                 </div>
 
                 <div class="offersJob col-12 col-md-6" >
-                    <h5 v-if="addresses[index]" class="text-shadow-light mb-3 text-center">Offres d'emploi</h5>
+                    <h5 v-if="specificJobs.length" class="text-shadow-light mb-3 text-center">Offres d'emploi</h5>
                     <div v-for="(offerJob, index) in specificJobs" :key="index">
                         
-                        <OfferJobCard
+                        <!-- <OfferJobCard
                         v-if="addresses[index]"
                         :offerJob="offerJob"
                         :address="addresses[index]"
-                        />
-
-                         <!-- <OfferJobCard
-                        :offerJob="offerJob"
                         /> -->
+
+                         <OfferJobCard
+                        :offerJob="offerJob"
+                        />
 
                     </div>    
 
-                    <div class="d-flex justify-content-around fs-2">
-                        <button v-if="pageNumber>0" class="btn btn-outline-primary btn-sm m-1" @click="getPreviousPage()">Previous page</button>
-                        <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-outline-primary btn-sm m-1" @click="getNextPage()">Next page</button>
+                    <div v-if="pageNumber===0 && pageNumber<(metadata.totalPages-1)" class="d-flex justify-content-center fs-2 gap-2 align-items-center">
+                        <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-primary btn-sm m-1" @click="getNextPage()">Next page</button>
+                        <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
+                    </div>   
+                    <div v-if="pageNumber>0 && pageNumber<(metadata.totalPages-1)" class="d-flex justify-content-around fs-2  align-items-center">
+                        <button v-if="pageNumber>0" class="btn btn-primary btn-sm m-1" @click="getPreviousPage()">Previous page</button>
+                        <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
+                        <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-primary btn-sm m-1" @click="getNextPage()">Next page</button>
+                    </div>   
+                     <div v-if="pageNumber===(metadata.totalPages-1)" class="d-flex justify-content-center fs-2 gap-2 align-items-center">
+                        <button v-if="pageNumber>0" class="btn btn-primary btn-sm m-1" @click="getPreviousPage()">Previous page</button>
+                        <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
                     </div>   
 
                 </div>
@@ -300,6 +307,14 @@ h3{
     font-weight:800;
     background-color: #0077b6;
     color: #effcfe;
+}
+.page_indicator{
+    color: #effcfe;
+    background-color: #0077b6;
+    font-weight: 400;
+    font-size: medium;
+    padding: 0.9%;
+    border-radius: 10%;
 }
 
 </style>
