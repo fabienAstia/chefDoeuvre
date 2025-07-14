@@ -67,7 +67,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OffersJobsResponseException.class)
     protected ResponseEntity<Object> handleOffersJobsResponseException(OffersJobsResponseException e) {
-        System.out.println("ex =" + e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

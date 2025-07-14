@@ -65,6 +65,7 @@ function pushType(type){
 .img-fluid{
     width: 100%;
     min-width: 60px;
+    object-fit: contain;
 }
 .title{
     font-size: x-large;
