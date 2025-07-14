@@ -166,7 +166,7 @@ const displayOffers = (job) => {
                 </div>
             </div>
 
-            <div class="row text-center mt-5 style">
+            <div class="row text-center mt-5 style fs-6 fs-md-5">
                 <h3 class="text-shadow-light">Forces et Faiblesses</h3>
                 <div class="col-12 col-md-6">
                         <h5 class="text-shadow-light mb-3">Forces</h5>
@@ -178,24 +178,26 @@ const displayOffers = (job) => {
                 </div>
             </div>
 
-            <div class="row mt-5 style">
+            <div class="row mt-5 style ">
                 <h3 class="text-center text-shadow-light">Métiers</h3>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 fs-6 fs-md-5 text-center">
+                    <h5 class="text-shadow-light mb-3">Professions</h5>
                     <div class="text-center mb-1" v-for="job in mbtiType.professions" @click="displayOffers(job)" id="pointer">{{ job }}</div>
                 </div>
 
                 <div class="offersJob col-12 col-md-6" >
+                    <h5 v-if="addresses[index]" class="text-shadow-light mb-3 text-center">Offres d'emploi</h5>
                     <div v-for="(offerJob, index) in specificJobs" :key="index">
                         
-                        <!-- <OfferJobCard
+                        <OfferJobCard
                         v-if="addresses[index]"
                         :offerJob="offerJob"
                         :address="addresses[index]"
-                        /> -->
-
-                         <OfferJobCard
-                        :offerJob="offerJob"
                         />
+
+                         <!-- <OfferJobCard
+                        :offerJob="offerJob"
+                        /> -->
 
                     </div>    
 

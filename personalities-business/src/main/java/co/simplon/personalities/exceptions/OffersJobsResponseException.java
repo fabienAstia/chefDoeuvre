@@ -7,6 +7,6 @@ public class OffersJobsResponseException extends RuntimeException {
     }
 
     public OffersJobsResponseException(String message) {
-
+        super(message);
     }
 }

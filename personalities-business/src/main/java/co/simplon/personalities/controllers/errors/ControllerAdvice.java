@@ -1,5 +1,6 @@
 package co.simplon.personalities.controllers.errors;
 
+import co.simplon.personalities.exceptions.OffersJobsResponseException;
 import co.simplon.personalities.exceptions.QuestionNotFoundException;
 import co.simplon.personalities.exceptions.UserNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -62,5 +63,11 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(OffersJobsResponseException.class)
+    protected ResponseEntity<Object> handleOffersJobsResponseException(OffersJobsResponseException e) {
+        System.out.println("ex =" + e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

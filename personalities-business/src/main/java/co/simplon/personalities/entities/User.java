@@ -18,6 +18,10 @@ public class User extends AbstractEntity {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @OneToOne
+    @JoinColumn(name = "mbti_type_id", referencedColumnName = "id")
+    private MbtiType mbtiType;
+
     public User() {
     }
 
@@ -45,27 +49,36 @@ public class User extends AbstractEntity {
         this.password = password;
     }
 
+    public MbtiType getMbtiType() {
+        return mbtiType;
+    }
+
+    public void setMbtiType(MbtiType mbtiType) {
+        this.mbtiType = mbtiType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         return o instanceof User user
                 && Objects.equals(username, user.username)
                 && Objects.equals(password, user.password)
-                && Objects.equals(role, user.role);
+                && Objects.equals(role, user.role)
+                && Objects.equals(mbtiType, user.mbtiType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, role);
+        return Objects.hash(username, password, role, mbtiType);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + super.toString() +
-                ", username='" + username + '\'' +
-                ", password=[PROTECTED]" + '\'' +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", role=" + role +
-                '}';
+                ", mbtiType=" + mbtiType +
+                "} " + super.toString();
     }
 }
