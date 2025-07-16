@@ -1,5 +1,6 @@
 import {ref, onMounted} from 'vue'; 
 import axios from 'axios'
+const apiUrl = import.meta.env.VITE_API_URL
 
 export function useQuestions(){
   const questions = ref([])
@@ -15,7 +16,7 @@ export function useQuestions(){
   //Nvelle question
   const addQuestion = async() => {
     try{
-        await axios.post('http://localhost:8080/questions', 
+        await axios.post(`${apiUrl}/questions`, 
         question.value,
         {headers: {'Authorization': `Bearer ${jwt}`}});
           alert('You have created a new question.')
@@ -46,7 +47,7 @@ export function useQuestions(){
   async function loadQuestions() {
     console.log("pagenumber = "+pageNumber.value)
     try {
-      const response = await axios.get('http://localhost:8080/questions');
+      const response = await axios.get(`${apiUrl}/questions`);
       allQuestions.value = response.data;
       questions.value = response.data;
       console.log(questions.value)
@@ -68,7 +69,7 @@ export function useQuestions(){
 //Questios PAGIEES
   async function getPaginatedQuestions() {
     try {
-      const url =`http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`;
+      const url =`${apiUrl}/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`;
       const response = await axios.get(url);
       paginatedQuestions.value = response.data.content;
       totalPages.value = response.data.page.totalPages;
@@ -95,7 +96,7 @@ export function useQuestions(){
   async function getNextPage() {
     try {
       pageNumber.value++
-      const response = await axios.get(`http://localhost:8080/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`);
+      const response = await axios.get(`${apiUrl}/questions/paginated?pageNum=${pageNumber.value}&pageSize=${pageSize.value}`);
       paginatedQuestions.value = response.data.content;
     }catch(err){
       if(err.response){
@@ -144,7 +145,7 @@ export function useQuestions(){
   async function updateQuestion(index){
     const updateQuestion = questions.value.find(q => q.id === index);
     try {
-      await axios.put(`http://localhost:8080/questions/${index}`, 
+      await axios.put(`${apiUrl}/questions/${index}`, 
         {id: '', label: updateQuestion.label, psychPref: updateQuestion.psychPref},
         { headers: {
           'Authorization': `Bearer ${jwt}`
@@ -170,7 +171,7 @@ export function useQuestions(){
   //Delete Question
   async function deleteQuestion(index) {
     try {
-      await axios.delete(`http://localhost:8080/questions/${index}`, {
+      await axios.delete(`${apiUrl}/questions/${index}`, {
         headers: {'Authorization': `Bearer ${jwt}`}
       });
         alert('You have deleted the question');
