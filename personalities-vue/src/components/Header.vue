@@ -8,7 +8,11 @@ import book from '@/assets/pictos/book.svg';
 import personAdd from '@/assets/pictos/personAdd.svg';
 import personCheck from '@/assets/pictos/personCheck.svg';
 import personGear from '@/assets/pictos/personGear.svg';
-import identify_yourself from '@/assets/pictos/identify_yourself.svg'
+import identify_yourself from '@/assets/pictos/identify_yourself.svg';
+import logo from '@/assets/images/autres-images/logo.png';
+import frFlag from '@/assets/images/frFlag.svg.png';
+import ukFlag from '@/assets/images/ukFlag.svg';
+import poFlag from '@/assets/images/Flag_of_Portugal.svg.png';
 
 const { t, locale } = useI18n();
 const sharedState = useSharedState();
@@ -27,7 +31,7 @@ const clearLocalStorage = () => {
      <nav id="navbar" class="navbar nav navbar-expand-sm" >
       <div class="container-fluid">
         <router-link to="/" class="navbar-brand p-0">
-          <img id="logo" src="../assets/images/autres-images/logo.png" alt="logo" class="header">
+          <img id="logo" :src="logo" alt="logo" class="header">
         </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -103,25 +107,25 @@ const clearLocalStorage = () => {
            
             <li class="nav-item dropdown d-flex">
               <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img v-if="locale === 'fr'" src="@/assets/images/frFlag.svg.png" width="35px" class="flag"> 
-                <img v-if="locale === 'en'" src="@/assets/images/ukFlag.svg" width="35px" class="flag">
-                <img v-if="locale === 'po'" src="@/assets/images/Flag_of_Portugal.svg.png" width="35px" class="flag">
+                <img v-if="locale === 'fr'" :src="frFlag" width="35px" class="flag"> 
+                <img v-if="locale === 'en'" :src="ukFlag" width="35px" class="flag">
+                <img v-if="locale === 'po'" :src="poFlag" width="35px" class="flag">
               </a>
           
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
                 <li>
                   <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('fr')">
-                    <img src="@/assets/images/frFlag.svg.png" width="20px" alt="french_flag" class="flag"> FR 
+                    <img :src="frFlag" width="20px" alt="french_flag" class="flag"> FR 
                   </a>
                 </li>
                 <li>
                   <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('en')">
-                    <img src="@/assets/images/ukFlag.svg" width="20px" alt="uk_flag" class="flag"> EN 
+                    <img :src="ukFlag" width="20px" alt="uk_flag" class="flag"> EN 
                   </a>
                 </li>
                 <li>
                   <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('po')">
-                    <img src="@/assets/images/Flag_of_Portugal.svg.png" width="20px" alt="portugal_flag" class="flag"> PO 
+                    <img :src="poFlag" width="20px" alt="portugal_flag" class="flag"> PO 
                   </a>
                 </li>
               </ul>
