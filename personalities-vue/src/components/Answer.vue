@@ -14,7 +14,7 @@ const hover = ref(false);
 const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? '#0077b6' : '#7b2cbf';
 const answers = ref ([]);
 const totalPAGES = 3; //for DEMO
-
+const apiUrl = import.meta.env.VITE_API_URL
 const jwt = localStorage.getItem('jwt');
 const router = useRouter();
 const mbtiStore = useMbtiStore();
@@ -65,7 +65,7 @@ const sendAnswers = async() => {
   })
 
 try {
-    const response = await axios.post('http://localhost:8080/answers', 
+    const response = await axios.post(`${apiUrl}/answers`, 
     answers.value,
     {headers:{'Content-Type':'application/json', 'Authorization':`Bearer ${jwt}`}});    
     mbtiStore.setResult(response.data);

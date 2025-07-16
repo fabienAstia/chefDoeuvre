@@ -10,6 +10,7 @@ import { formatAlert } from '@/composables/useMessageFormatter';
 
 const {t} = useI18n();
 const router = useRouter();
+const apiUrl = import.meta.env.VITE_API_URL
 
 const createUserForm = ref({
         username: '',
@@ -64,7 +65,7 @@ const showMessage = (msg) => {
 
 const newUser = async() => {
     try {
-      await axios.post('http://localhost:8080/users', createUserForm.value);
+      await axios.post(`${apiUrl}/users`, createUserForm.value);
         showMessage(t('success.create'))
         router.push('/authenticate');
     } catch(err) {

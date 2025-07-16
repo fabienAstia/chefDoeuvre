@@ -2,8 +2,6 @@
 import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
 import {useSharedState} from '@/composables/useState'
-import{computed} from 'vue';
-
 import clipBoard from '@/assets/pictos/clipBoard.svg';
 import filePerson from '@/assets/pictos/filePerson.svg';
 import book from '@/assets/pictos/book.svg';
@@ -11,7 +9,6 @@ import personAdd from '@/assets/pictos/personAdd.svg';
 import personCheck from '@/assets/pictos/personCheck.svg';
 import personGear from '@/assets/pictos/personGear.svg';
 import identify_yourself from '@/assets/pictos/identify_yourself.svg'
-import { jwtDecode } from 'jwt-decode';
 
 const { t, locale } = useI18n();
 const sharedState = useSharedState();

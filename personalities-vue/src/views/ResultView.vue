@@ -110,7 +110,7 @@ onMounted(async() => {
                 </ul>
             </div>
             <div class="d-flex col-12 col-md-6 justify-content-center">
-                <img class="img-fluid" :src="`src/assets/images/mbtiTypes/${mbtiType.image}`" alt="mbtiType image" id="image">
+                <img class="img-fluid" :src="`/mbtiTypes/${mbtiType.image}`" alt="mbtiType image" id="image">
             </div>
         </div>
 

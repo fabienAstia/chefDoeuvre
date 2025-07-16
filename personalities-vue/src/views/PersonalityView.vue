@@ -22,7 +22,7 @@ const pageSize = ref(2);
 // const totalPages = ref(0);
 // const totalElements = ref(0);
 const metadata = ref({})
-// const apiUrl = import.meta.env.VITE_BASE_URL
+const apiUrl = import.meta.env.VITE_API_URL
 
 const showMessage = (msg) => {
     modal.value.openModal()
@@ -35,16 +35,12 @@ onMounted(async() => {
 
 async function getMbtiType(){
     try{
-        const response = await axios.get(`http://localhost:8080/mbti/${code}`)
+        const response = await axios.get(`${apiUrl}/mbti/${code}`)
         mbtiType.value = response.data;
     }catch(err) {
       showMessage(err)
     }
 }
-
-const image = computed(() => {
-  return new URL(`/src/assets/images/mbtiTypes/${mbtiType.value.image}`, import.meta.url).href;
-});
 
 const sortedTraits = computed(() => {
     const traits = {force: [], faiblesse: []};
@@ -61,7 +57,7 @@ const sortedTraits = computed(() => {
 
 const getSpecificJobs = async() => {
     try {
-        const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${pageNumber.value}&size=${pageSize.value}`) 
+        const response = await axios.get(`${apiUrl}/jobs/paginated?motsCles=${keyWords.value}&page=${pageNumber.value}&size=${pageSize.value}`) 
         specificJobs.value = response.data.data.paginatedOfferJobViews
         allCoordinates.value = response.data.data.allCoordinates
 
@@ -117,7 +113,7 @@ watch(keyWords, async () => {
 const addresses = ref ([])
 const getAddress = async() => {
     try {
-        const response = await axios.post(`http://localhost:8080/address`,
+        const response = await axios.post(`${apiUrl}/address`,
             allCoordinates.value.slice(0, 20),
             {headers:{'Content-Type':'application/json'}}); 
         
@@ -161,7 +157,7 @@ const displayOffers = (job) => {
                     </ul>
                 </div>
                 <div class="d-flex col-12 col-md-6 justify-content-center">
-                    <img class="img-fluid" :src="image" alt="mbtiType image" id="image">
+                    <img class="img-fluid" :src="`/mbtiTypes/${code}.webp`" alt="mbtiType image" id="image">
                 </div>
             </div>
 
