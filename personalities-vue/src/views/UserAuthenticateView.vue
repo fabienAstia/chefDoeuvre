@@ -12,6 +12,7 @@ import AlertModal from '@/components/Alert.vue'
 
 const{t} = useI18n();
 const sharedState = useSharedState();
+const apiUrl = import.meta.env.VITE_API_URL
 
 const modal = useTemplateRef('modal')
 const showMessage = (msg) => {
@@ -34,7 +35,7 @@ const switchVisibility = () => {
 
 const authenticate = async() => {
   try{
-    const response = await axios.post('http://localhost:8080/users/authenticate', userCredentials.value);
+    const response = await axios.post(`${apiUrl}/users/authenticate`, userCredentials.value);
       let jwt = response.data;
       localStorage.setItem('jwt', jwt); 
       showMessage(t('success.login'))

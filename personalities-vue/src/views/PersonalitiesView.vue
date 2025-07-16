@@ -9,6 +9,7 @@ const router = useRouter();
 function pushType(type){
     router.push({name:'personality', params: {code:`${type}`} });
 }
+
 </script>
 
 <template>
@@ -18,7 +19,7 @@ function pushType(type){
             <div v-for="type in idealistes" class="col-12 col-sm-3 text-center mb-2">
                 <div class="cursor" @click="pushType(type)">
                     <div><h5>{{type}}</h5></div>
-                    <img class="img-fluid" :src="`src/assets/images/mbtiTypes/${type}.webp`" alt="`${type} image`">
+                    <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="`${type} image`">
                     <div>description</div>
                 </div>
             </div>
@@ -29,7 +30,7 @@ function pushType(type){
             <div v-for="type in rationnels" class="col-12 col-sm-3 text-center mb-2">
                 <div class="cursor" @click="pushType(type)">
                     <div><h5>{{type}}</h5></div>
-                    <img class="img-fluid" :src="`src/assets/images/mbtiTypes/${type}.webp`" alt="`${type} image`">
+                    <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="`${type} image`">
                     <div>description</div>
                 </div>
             </div>
@@ -40,7 +41,7 @@ function pushType(type){
             <div v-for="type in gardiens" class="col-12 col-sm-3 text-center mb-2">
                 <div class="cursor" @click="pushType(type)">
                     <div><h5>{{type}}</h5></div>
-                    <img class="img-fluid" :src="`src/assets/images/mbtiTypes/${type}.webp`" alt="`${type} image`">
+                    <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="`${type} image`">
                     <div>description</div>
                 </div>
             </div>
@@ -51,7 +52,7 @@ function pushType(type){
             <div v-for="type in artisans" class="col-12 col-sm-3 text-center mb-2">
                 <div class="cursor" @click="pushType(type)">
                     <div><h5>{{type}}</h5></div>
-                    <img class="img-fluid" :src="`src/assets/images/mbtiTypes/${type}.webp`" alt="`${type} image`">
+                    <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="`${type} image`">
                     <div>description</div>
                 </div>
             </div>
