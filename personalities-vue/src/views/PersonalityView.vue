@@ -213,10 +213,10 @@ const displayOffers = (job) => {
                 </div>
             </div>
 
-            <div>
+            <!-- <div>
                 <hr>
                 <div><p>specific</p>{{ specificJobs }}</div>
-            </div>
+            </div> -->
 
         </div>
     </div>
