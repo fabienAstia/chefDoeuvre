@@ -11,6 +11,16 @@ public class Answer extends AbstractEntity {
     public Answer() {
     }
 
+    public Answer(Long id, User user, Question question, int rating) {
+        this.id = id;
+        this.user = user;
+        this.question = question;
+        this.rating = rating;
+    }
+
+    @Id
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

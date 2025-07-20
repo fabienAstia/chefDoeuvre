@@ -11,6 +11,13 @@ public class Question extends AbstractEntity {
     public Question() {
     }
 
+    public Question(String label, int order, PsychPreference psychPreference, Constraint constraint) {
+        this.label = label;
+        this.order = order;
+        this.psychPreference = psychPreference;
+        this.constraint = constraint;
+    }
+
     @Column(name = "label")
     private String label;
 

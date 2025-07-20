@@ -35,6 +35,7 @@ public class AnswerService {
     }
 
     public ResultView submitAnswersAndGetResult(List<AnswerCreate> inputs) {
+        System.out.println("ANSWERS = " + inputs);
         User user = getUserAndSubmitAnswers(inputs);
         ResultService resultService = new ResultService(questionRepository, mbtiTypeRepository);
         ResultView resultView = resultService.getResult(inputs);
@@ -55,7 +56,7 @@ public class AnswerService {
         return user;
     }
 
-    private Set<Answer> createNewAnswers(List<AnswerCreate> inputs, User user) {
+    public Set<Answer> createNewAnswers(List<AnswerCreate> inputs, User user) {
         Set<Answer> answers = new HashSet<>();
         for (AnswerCreate input : inputs) {
             Answer answer = new Answer();
