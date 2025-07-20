@@ -66,7 +66,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/users", "users/authenticate", "/questions/paginated", "/jobs/**", "/address/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/questions", "/images/**", "/mbti/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/questions", "/images/**", "/mbti/**", "/ping").permitAll()
                         .requestMatchers("/answers").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/questions/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
