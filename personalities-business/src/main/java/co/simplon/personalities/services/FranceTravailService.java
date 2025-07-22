@@ -58,7 +58,6 @@ public class FranceTravailService {
         return response.accessToken();
     }
 
-    //    @Cacheable("OffersJobs")
     public OffersResponse getSpecificJobs(String specificJob) {
         String token = getAccessToken();
         RestClient restClient = RestClient.builder()
