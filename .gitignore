@@ -2,22 +2,22 @@ design/
 autres/
 maquette/
 
-**/.application-dev.properties
-**/.idea
-**/.vscode
-**/.metadata
-**/.settings
+personalities-business/src/main/resources/application-dev.properties
+**/.idea/
+**/.vscode/
+**/.dbeaver/
+**/.metadata/
+**/.settings/
 **/.classpath
 **/.project
-**/.dbeaver
 
 **/personalities-business.iml
-**/.mvn
+**/.mvn/
 **/mvnw*
-**/target
-**/bin
-**/node_modules
+**/target/
+**/bin/
 
+**/node_modules/
+**/.env*
 
 **/.DS_Store
-/.metadata/
