@@ -1,11 +1,12 @@
 <script setup>
 import Header from '@/components/Header.vue';
-
+import { useRouter } from 'vue-router'
+const route = useRouter()
 </script>
 
 <template>
   <Header/> 
-  <div class="container">
+  <div class="general_container" :class="{no_layout: route.name === 'home'}">
     <router-view /> 
   </div> 
 
@@ -13,10 +14,14 @@ import Header from '@/components/Header.vue';
 </template>
 
 <style scoped>
-.container{
+.general_container{
   margin: 2rem auto; 
   max-width: 95%;
 } 
-
+.no_layout{
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
 
 </style>
