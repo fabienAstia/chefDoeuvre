@@ -132,6 +132,7 @@ const getAddress = async() => {
 
 const displayOffers = (job) => {
     keyWords.value = job;
+    pageNumber.value=0;
 }
 
 </script>
