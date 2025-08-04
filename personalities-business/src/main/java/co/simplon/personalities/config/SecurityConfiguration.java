@@ -4,6 +4,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.HttpMethod;
 import org.springframework.retry.annotation.EnableRetry;
@@ -45,6 +46,7 @@ public class SecurityConfiguration {
     private String issuer;
 
     @Bean
+    @Profile("dev")
     WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
 
