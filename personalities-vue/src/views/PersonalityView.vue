@@ -222,7 +222,7 @@ const displayOffers = (job) => {
     </div>
 </template>
 
-<style>
+<style scoped>
 html{
     background-color: #effcfe;
 }
