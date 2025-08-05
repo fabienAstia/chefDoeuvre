@@ -18,8 +18,8 @@ public class User extends AbstractEntity {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToOne
-    @JoinColumn(name = "mbti_type_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "mbti_type_id")
     private MbtiType mbtiType;
 
     public User() {

@@ -44,9 +44,6 @@ public class MbtiType extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "personality_trait_id"))
     private List<StrengthAndWeakness> strengthAndWeaknesses;
 
-    @OneToOne(mappedBy = "mbtiType")
-    private User user;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -142,13 +139,5 @@ public class MbtiType extends AbstractEntity {
 
     public void setStrengthAndWeaknesses(List<StrengthAndWeakness> strengthAndWeaknesses) {
         this.strengthAndWeaknesses = strengthAndWeaknesses;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
