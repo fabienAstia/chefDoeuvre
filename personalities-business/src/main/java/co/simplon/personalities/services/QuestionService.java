@@ -33,15 +33,16 @@ public class QuestionService {
         this.constraintRepository = constraintRepository;
     }
 
-    public ResponseEntity<Object> createQuestion(QuestionCreate questionCreate) {
+    public void createQuestion(QuestionCreate questionCreate) {
         PsychPreference psychPreference = psychPrefRepository.findByCodeIgnoreCase(questionCreate.psychPref());
         Constraint constraint = constraintRepository.findByMinAndMax(-3, 3);
+        Integer maxOrderValue = questionRepository.findTopByOrderByOrderValueDesc().getOrderValue();
         Question question = new Question();
         question.setLabel(questionCreate.label());
-        question.setConstraint(constraint);
         question.setPsychPreference(psychPreference);
+        question.setOrderValue(maxOrderValue + 1);
+        question.setConstraint(constraint);
         questionRepository.save(question);
-        return null;
     }
 
     public Set<AdminQuestionView> getQuestions() {
@@ -53,11 +54,11 @@ public class QuestionService {
 
     public Page<UserQuestionView> getPaginatedQuestions(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Question> questions = questionRepository.findAllByOrderByOrder(pageable);
+        Page<Question> questions = questionRepository.findAllByOrderByOrderValue(pageable);
         return questions.map(question -> new UserQuestionView(
                 question.getId(),
                 question.getLabel(),
-                question.getOrder(),
+                question.getOrderValue(),
                 question.getPsychPreference().getCode()));
     }
 

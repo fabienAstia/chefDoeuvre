@@ -14,8 +14,8 @@ public class Question extends AbstractEntity {
     @Column(name = "label")
     private String label;
 
-    @Column(name = "order")
-    private int order;
+    @Column(name = "order_value")
+    private int orderValue;
 
     @ManyToOne
     @JoinColumn(name = "constraint_id")
@@ -33,12 +33,12 @@ public class Question extends AbstractEntity {
         this.label = label;
     }
 
-    public int getOrder() {
-        return order;
+    public int getOrderValue() {
+        return orderValue;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setOrderValue(int orderValue) {
+        this.orderValue = orderValue;
     }
 
     public Constraint getConstraint() {
@@ -62,21 +62,21 @@ public class Question extends AbstractEntity {
         if (this == o) return true;
         return o instanceof Question question
                 && Objects.equals(label, question.label)
-                && order == question.order
+                && orderValue == question.orderValue
                 && Objects.equals(constraint, question.constraint)
                 && Objects.equals(psychPreference, question.psychPreference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(label, order, constraint, psychPreference);
+        return Objects.hash(label, orderValue, constraint, psychPreference);
     }
 
     @Override
     public String toString() {
         return "Question{" +
                 "label='" + label + '\'' +
-                "questionOrder='" + order + '\'' +
+                "questionOrder='" + orderValue + '\'' +
                 ", constraint=" + constraint +
                 ", psychPreference=" + psychPreference +
                 "} " + super.toString();

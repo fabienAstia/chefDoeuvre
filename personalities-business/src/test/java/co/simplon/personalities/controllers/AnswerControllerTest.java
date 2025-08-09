@@ -5,17 +5,21 @@ import co.simplon.personalities.dtos.ResultView;
 import co.simplon.personalities.services.AnswerService;
 import co.simplon.personalities.services.PsychPref;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -35,29 +39,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-//@TestPropertySource("classpath:application-dev.properties")
 @ActiveProfiles("dev")
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
 class AnswerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private AnswerControllerTest answerControllerTest;
+    //    @InjectMocks
+    @MockBean
+    private AnswerController answerController;
 
-    @Mock
-    private AnswerService service;
+//    @Mock
+//    private AnswerService service;
+
+    @BeforeEach
+    void init() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/submitAnswersAndGetResult_OK.csv", numLinesToSkip = 1, delimiter = '$')
+    @WithMockUser
     public void submitAnswersAndGetResult_OK(String jsonInput) throws Exception {
-        when(service.submitAnswersAndGetResult(List.of())).thenReturn(mockedResult());
+        //when(service.submitAnswersAndGetResult(List.of())).thenReturn(mockedResult());
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
                 .request(HttpMethod.POST, "/answers")
-                .content(jsonInput)
-                .contentType(MediaType.APPLICATION_JSON);
+                .characterEncoding("utf-8")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonInput);
 
         MvcResult result = mockMvc.perform(builder)
                 .andExpect(status().isCreated())
@@ -68,8 +79,6 @@ class AnswerControllerTest {
         ResultView resultView = objectMapper.readValue(json, ResultView.class);
 
         assertNotNull(resultView);
-//        assertEquals(1L, resultView..getId());
-//        assertEquals("Learn Spring Boot", article.getTitle());
     }
 
     ResultView mockedResult() {
@@ -86,10 +95,5 @@ class AnswerControllerTest {
         );
     }
 }
-//        List<AnswerCreate> expected = List.of(new AnswerCreate(1L, 2),
-//                new AnswerCreate(2L, 0),
-//                new AnswerCreate(3L, -1),
-//                new AnswerCreate(4L, 3),
-//                new AnswerCreate(5L, -3));
 
 

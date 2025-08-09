@@ -13,7 +13,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findAllProjectedBy();
 
-    Page<Question> findAllByOrderByOrder(Pageable pageable);
+    Page<Question> findAllByOrderByOrderValue(Pageable pageable);
 
     @Override
     void deleteById(Long aLong);
@@ -21,4 +21,10 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     boolean existsByLabelIgnoreCase(String label);
 
     boolean existsByLabelIgnoreCaseAndIdNot(String label, Long id);
+
+    OnlyOrderValue findTopByOrderByOrderValueDesc();
+
+    interface OnlyOrderValue {
+        Integer getOrderValue();
+    }
 }

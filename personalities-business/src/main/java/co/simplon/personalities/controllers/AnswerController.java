@@ -1,6 +1,7 @@
 package co.simplon.personalities.controllers;
 
 import co.simplon.personalities.dtos.AnswerCreate;
+import co.simplon.personalities.dtos.AnswerCreateList;
 import co.simplon.personalities.services.AnswerService;
 import co.simplon.personalities.dtos.ResultView;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ public class AnswerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultView submitAnswersAndGetResult(@Valid @RequestBody List<AnswerCreate> inputs) {
+    public ResultView submitAnswersAndGetResult(@Valid @RequestBody AnswerCreateList inputs) {
         return answerService.submitAnswersAndGetResult(inputs);
     }
 }
