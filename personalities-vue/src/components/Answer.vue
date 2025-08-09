@@ -64,14 +64,14 @@ const sendAnswers = async() => {
     console.log("id:"+answer.questionId, "rating:"+answer.rating, "clicked:"+answer.clicked);
   })
 
-try {
-    const response = await axios.post(`${apiUrl}/answers`, 
-    answers.value,
-    {headers:{'Content-Type':'application/json', 'Authorization':`Bearer ${jwt}`}});    
-    mbtiStore.setResult(response.data);
-    router.push({name:'result'});
-}catch(err) {
-    showMessage(err)
+  try {
+      const response = await axios.post(`${apiUrl}/answers`, 
+      {answers: answers.value},
+      {headers:{'Content-Type':'application/json', 'Authorization':`Bearer ${jwt}`}});    
+      mbtiStore.setResult(response.data);
+      router.push({name:'result'});
+  }catch(err) {
+      showMessage(err)
   }
 }
 

@@ -1,6 +1,7 @@
 package co.simplon.personalities.services;
 
 import co.simplon.personalities.dtos.AnswerCreate;
+import co.simplon.personalities.dtos.AnswerCreateList;
 import co.simplon.personalities.entities.Answer;
 import co.simplon.personalities.entities.Question;
 import co.simplon.personalities.entities.User;
@@ -34,10 +35,11 @@ public class AnswerService {
         this.mbtiTypeRepository = mbtiTypeRepository;
     }
 
-    public ResultView submitAnswersAndGetResult(List<AnswerCreate> inputs) {
-        User user = getUserAndSubmitAnswers(inputs);
+    public ResultView submitAnswersAndGetResult(AnswerCreateList inputs) {
+        List<AnswerCreate> answers = inputs.answers();
+        User user = getUserAndSubmitAnswers(answers);
         ResultService resultService = new ResultService(questionRepository, mbtiTypeRepository);
-        ResultView resultView = resultService.getResult(inputs);
+        ResultView resultView = resultService.getResult(answers);
         user.setMbtiType(mbtiTypeRepository.findProjectedByCode(resultView.getCode()));
         userRepository.save(user);
         return resultView;

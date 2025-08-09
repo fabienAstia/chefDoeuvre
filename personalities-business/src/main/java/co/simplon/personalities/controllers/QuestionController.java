@@ -25,8 +25,8 @@ public class QuestionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> createQuestion(@Valid @RequestBody QuestionCreate question) {
-        return service.createQuestion(question);
+    public void createQuestion(@Valid @RequestBody QuestionCreate question) {
+        service.createQuestion(question);
     }
 
     @PutMapping("/{id}")
