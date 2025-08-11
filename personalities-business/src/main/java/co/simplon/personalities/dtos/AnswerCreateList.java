@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 public record AnswerCreateList(
-        @AnswersSubmitIntegralityPsychPref @Valid
-        List<AnswerCreate> answers
+        @AnswersSubmitIntegralityPsychPref
+        List<@Valid AnswerCreate> answers
 ) {
 }

@@ -3,6 +3,8 @@ autres/
 maquette/
 
 personalities-business/src/main/resources/application-dev.properties
+personalities-business/src/main/resources/application-test.properties
+
 **/.idea/
 **/.vscode/
 **/.dbeaver/
