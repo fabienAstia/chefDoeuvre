@@ -10,6 +10,21 @@
         "welcome":"Bienvenue",
         "languages": "Langues"
     },
+    "accessibility":{
+        "home":"Revenir à l'accueil",
+        "test": "Passer un test",
+        "personalities": "Consulter les personnalités",
+        "documentation": "Consulter des articles",
+        "account": "Créer un compte ou s'authentifier",
+        "registration": "S'inscrire",
+        "authentication": "Se connecter",
+        "logout": "Se déconnecter",
+        "welcome":"Bienvenue",
+        "languages": "Changer de langues",
+        "french":"langue française",
+        "english":"langue anglaise",
+        "portuguese":"langue portugaise"
+    },
     "admin": {
         "questionLabel": "Nouvelle Question",
         "creation":"créer",

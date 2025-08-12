@@ -8,6 +8,9 @@ import PO from './po.json';
 const browserLanguage = navigator.language.startsWith('fr') ? 'fr' :
                         navigator.language.startsWith('en') ? 'en' : 'po';
 
+//set initial <html lang="...">
+document.documentElement.setAttribute('lang', browserLanguage);
+
 const i18n = createI18n({
     legacy: false,
     locale: browserLanguage,
@@ -17,6 +20,11 @@ const i18n = createI18n({
         en: EN,
         po: PO
     }
+});
+
+//update <html lang="..."> when user changes language
+i18n.global.localeWatcher = i18n.global.watchLocale?.((newLocale) => {
+    document.documentElement.setAttribute('lang', newLocale);
 });
 
 export default i18n;

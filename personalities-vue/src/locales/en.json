@@ -10,6 +10,21 @@
         "welcome":"Welcome",
         "languages": "Languages"
     },
+    "accessibility":{
+        "home": "Return to the homepage",
+        "test": "Take a test",
+        "personalities": "View personalities",
+        "documentation": "Read articles",
+        "account": "Create an account or sign in",
+        "registration": "Register",
+        "authentication": "Log in",
+        "logout": "Log out",
+        "welcome": "Welcome",
+        "languages": "Change languages",
+        "french": "French language",
+        "english": "English language",
+        "portuguese": "Portuguese language"
+    },
     "admin": {
         "questionLabel": "New Question",
         "creation":"create",
