@@ -10,7 +10,7 @@
         "welcome":"Bienvenue",
         "languages": "Langues"
     },
-    "accessibility":{
+    "accessibility_header":{
         "home":"Revenir à l'accueil",
         "test": "Passer un test",
         "personalities": "Consulter les personnalités",
@@ -24,6 +24,37 @@
         "french":"langue française",
         "english":"langue anglaise",
         "portuguese":"langue portugaise"
+    },
+    "personalities":{
+        "idealists":"Les Idéalistes",
+        "rationals":"Les Rationnels",
+        "guardians":"Les Gardiens",
+        "artisans":"Les Artisans"
+    },
+    "personality":{
+        "presentation":"Présentation",
+        "strengths_&_weaknesses":"Forces et Faiblesses",
+        "strengths" :"Forces",
+        "weaknesses":"Faiblesses",
+        "jobs":"Métiers",
+        "professions":"Professions",
+        "offersJob":"Offres d'emploi",
+        "INFJ":"L'Avocat",
+        "INFP":"Le Médiateur",
+        "ENFJ":"Le Protagoniste",
+        "ENFP":"L'Inspirateur",
+        "INTJ":"L'Architecte",
+        "INTP":"Le Logicien",
+        "ENTJ":"Le Commandant",
+        "ENTP":"L'Innovateur",
+        "ISTJ":"Le Logisticien",
+        "ISFJ":"Le Défenseur",
+        "ESTJ":"Le Directeur",
+        "ESFJ":"Le Consul",
+        "ISTP":"Le Virtuose",
+        "ISFP":"L'Aventurier",
+        "ESTP":"L'Entrepreneur",
+        "ESFP":"L'Amuseur"
     },
     "admin": {
         "questionLabel": "Nouvelle Question",

@@ -15,45 +15,45 @@ function pushType(type){
 <template>
     <div class="container-fluid">
         <div class="row text-center mb-4">
-            <div class="title mb-3"><b>Les idéalistes</b></div>
+            <div class="title mb-3"><b>{{$t('personalities.idealists')}}</b></div>
             <div v-for="type in idealistes" class="col-12 col-sm-3 text-center mb-2">
                 <div class="cursor" @click="pushType(type)">
                     <div><h5>{{type}}</h5></div>
                     <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="`${type} image`">
-                    <div>description</div>
+                    <div><b>{{$t(`personality.${type}`)}}</b></div>
                 </div>
             </div>
         </div>
 
         <div class="row text-center mb-4">
-            <div class="title mb-3"><b>Les rationnels</b></div>
+            <div class="title mb-3"><b>{{$t('personalities.rationals')}}</b></div>
             <div v-for="type in rationnels" class="col-12 col-sm-3 text-center mb-2">
                 <div class="cursor" @click="pushType(type)">
                     <div><h5>{{type}}</h5></div>
                     <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="`${type} image`">
-                    <div>description</div>
+                    <div><b>{{$t(`personality.${type}`)}}</b></div>
                 </div>
             </div>
         </div>
 
         <div class="row text-center mb-4">
-            <div class="title mb-3"><b>Les gardiens</b></div>
+            <div class="title mb-3"><b>{{$t('personalities.guardians')}}</b></div>
             <div v-for="type in gardiens" class="col-12 col-sm-3 text-center mb-2">
                 <div class="cursor" @click="pushType(type)">
                     <div><h5>{{type}}</h5></div>
                     <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="`${type} image`">
-                    <div>description</div>
+                    <div><b>{{$t(`personality.${type}`)}}</b></div>
                 </div>
             </div>
         </div>
 
         <div class="row text-center mb-4">
-            <div class="title mb-3"><b>Les artisans</b></div>
+            <div class="title mb-3"><b>{{$t('personalities.artisans')}}</b></div>
             <div v-for="type in artisans" class="col-12 col-sm-3 text-center mb-2">
                 <div class="cursor" @click="pushType(type)">
                     <div><h5>{{type}}</h5></div>
                     <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="`${type} image`">
-                    <div>description</div>
+                    <div><b>{{$t(`personality.${type}`)}}</b></div>
                 </div>
             </div>
         </div>
