@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
+import { useRouter } from 'vue-router';
 import {useSharedState} from '@/composables/useState'
 import clipBoard from '@/assets/pictos/clipBoard.svg';
 import filePerson from '@/assets/pictos/filePerson.svg';
@@ -15,6 +16,7 @@ import ukFlag from '@/assets/images/ukFlag.svg';
 import poFlag from '@/assets/images/Flag_of_Portugal.svg.png';
 
 const { t, locale } = useI18n();
+const route = useRouter();
 const sharedState = useSharedState();
 
 const changeLanguage = (lang) => {
@@ -23,7 +25,8 @@ const changeLanguage = (lang) => {
 
 const clearLocalStorage = () => {
   localStorage.clear();
-  window.location.reload();
+  sharedState.value = '';
+  route.push("/")
 }
 </script>
 
