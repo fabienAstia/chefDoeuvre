@@ -25,6 +25,12 @@
         "english": "Idioma inglês",
         "portuguese": "Idioma português"
     },
+    "home": {
+        "title": "Compreender-se melhor já é um avanço.",
+        "paragraph1": "Em apenas 10 minutos, descubra uma visão precisa da sua personalidade e das razões por trás das suas ações.",
+        "paragraph2": "É a primeira aplicação que conecta o seu tipo MBTI a oportunidades profissionais feitas para si.",
+        "take_the_test": "Fazer o teste"
+    },
     "personalities": {
         "idealists": "Os Idealistas",
         "rationals": "Os Racionais",

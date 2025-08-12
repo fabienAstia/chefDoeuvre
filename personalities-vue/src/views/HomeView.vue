@@ -22,19 +22,18 @@ onUnmounted(() =>{
     <div class="fullscreen-wrapper">
         <div class="d-flex justify-content-center container">
             <div class=" g-3 p-3 text-wrapper">
-                <h1 class="text-center">« Mieux vous comprendre, c’est déjà avancer. »</h1>
+                <h1 class="text-center">«{{$t('home.title')}}»</h1>
                 <p class="my-3 pt-3 fs-4 text-center">
-                    En 10 minutes chrono, découvrez un aperçu précis de votre personnalité
-                    et des raisons qui sous-tendent vos agissements.
+                    {{$t('home.paragraph1')}}
                 </p>
                 <p class="my-3 pb-3 fs-4 text-center">
-                    C’est la première application qui connecte votre type MBTI à des opportunités professionnelles faites pour vous.
+                    {{$t('home.paragraph2')}}
                 </p>
 
                 <div class=" d-flex justify-content-center">
                     <router-link to="/answers" class="btn btn-success">
                         <span class="d-flex gap-2 fs-5">
-                            Passer le test 
+                            {{$t('home.take_the_test')}}
                             <img :src="arrowCircle">
                         </span>
                     </router-link>

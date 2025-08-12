@@ -25,6 +25,12 @@
         "english": "English language",
         "portuguese": "Portuguese language"
     },
+    "home":{
+        "title":"Better understanding yourself is already moving forward.",
+        "paragraph1":"In just 10 minutes, get an accurate insight into your personality and the reasons behind your actions.",
+        "paragraph2":"It’s the first app that connects your MBTI type to career opportunities tailored to you.",
+        "take_the_test":"Take the test"
+    },
     "personalities":{
         "idealists":"The Idealists",
         "rationals":"The Rationals",

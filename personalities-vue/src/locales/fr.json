@@ -25,6 +25,12 @@
         "english":"langue anglaise",
         "portuguese":"langue portugaise"
     },
+    "home":{
+        "title":"Mieux vous comprendre, c’est déjà avancer.",
+        "paragraph1":"En 10 minutes chrono, découvrez un aperçu précis de votre personnalité et des raisons qui sous-tendent vos agissements.",
+        "paragraph2":"C’est la première application qui connecte votre type MBTI à des opportunités professionnelles faites pour vous.",
+        "take_the_test":"Passer le test"
+    },
     "personalities":{
         "idealists":"Les Idéalistes",
         "rationals":"Les Rationnels",
