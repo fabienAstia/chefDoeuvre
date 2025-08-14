@@ -78,7 +78,7 @@ const clearLocalStorage = () => {
               
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
                 <li class="nav-item hover">
-                  <router-link to="/user-create" class="nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="$t('accessibility_header.registration')">
+                  <router-link to="/register" class="nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="$t('accessibility_header.registration')">
                     <img :src="personAdd" width="20px">
                     {{$t('header.registration')}}
                   </router-link>
