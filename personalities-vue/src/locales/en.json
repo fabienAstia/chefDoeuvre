@@ -108,6 +108,21 @@
     "guard": {
         "no_token" : "You need to sign up first or sign in",
         "expired_token" : "You need to sign in"
+    },
+    "legalNotices":{
+       "title": "Legal Notices",
+        "appName": "Name of the application",
+        "editor": "Editor",
+        "contextKey": "Context",
+        "contextValue": "Application developed as part of the “Concepteur Développeur d’Applications” training program",
+        "contact": "Contact",
+        "host": "Hosting provider"
+    },
+    "privacyPolicy":{
+        "title":"Privacy Policy",
+        "paragraph1":"This application was developed as part of the “Concepteur Développeur d’Applications” training program.",
+        "paragraph2":"The personal data entered in the application (account information, test answers, results) are used solely for the operation of the service and are not shared with any third parties.",
+        "paragraph3":"You can request the deletion of your data at any time by contacting"
     }
 }
 

@@ -108,6 +108,21 @@
     "guard": {
         "no_token" : "Vous devez créer un compte ou vous authentifier d'abord",
         "expired_token" : "Vous devez vous authentifier"
+    },
+    "legalNotices":{
+        "title":"Mentions légales",
+        "appName":"Nom de l'application",
+        "editor":"Editeur",
+        "contextKey":"Contexte",
+        "contextValue": "Application développée dans le cadre de la formation Concepteur Développeur d'Applications",
+        "contact":"Contact",
+        "host":"Hébergeur"
+    },
+    "privacyPolicy": {
+        "title": "Politique de confidentialité",
+        "paragraph1": "Cette application a été développée dans le cadre de la formation Concepteur Développeur d’Applications.",
+        "paragraph2": "Les données personnelles saisies dans l’application (informations de compte, réponses au test, résultats) sont utilisées uniquement pour le fonctionnement du service et ne sont transmises à aucun tiers.",
+        "paragraph3": "Vous pouvez demander la suppression de vos données à tout moment en contactant"
     }
 }
 

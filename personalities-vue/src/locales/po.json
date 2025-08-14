@@ -107,6 +107,21 @@
     "guard": {
         "no_token" : "Você precisa criar uma conta ou se autenticar primeiro",
         "expired_token" : "Você precisa se autenticar"
+    },
+    "legalNotices": {
+        "title": "Aviso Legal",
+        "appName": "Nome da aplicação",
+        "editor": "Editor",
+        "contextKey": "Contexto",
+        "contextValue": "Aplicação desenvolvida como parte da formação ''Concepteur Développeur d’Applications''",
+        "contact": "Contato",
+        "host": "Provedor de hospedagem"
+    },
+    "privacyPolicy": {
+        "title": "Política de Privacidade",
+        "paragraph1": "Esta aplicação foi desenvolvida como parte da formação Concepteur Développeur d’Applications.",
+        "paragraph2": "Os dados pessoais inseridos na aplicação (informações de conta, respostas ao teste, resultados) são utilizados exclusivamente para o funcionamento do serviço e não são transmitidos a terceiros.",
+        "paragraph3": "Você pode solicitar a exclusão dos seus dados a qualquer momento entrando em contato com"
     }
 }
 
