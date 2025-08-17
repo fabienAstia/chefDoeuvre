@@ -143,7 +143,7 @@ const answered = (idQuestion, buttonIndex) => {
               <div class="col-6 " :style="{color:'#7b2cbf'}">
                 <b>{{$t('answer.disagree')}}</b>
               </div>
-              <div class="col-6 text-center" :style="{color:'#0077b6'}">
+              <div class="col-6 text-end" :style="{color:'#0077b6'}">
                 <b>{{$t('answer.agree')}}</b>
               </div>
           </div>

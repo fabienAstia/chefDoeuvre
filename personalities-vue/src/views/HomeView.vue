@@ -8,9 +8,6 @@ onMounted(() => {
     document.body.style.backgroundPosition = 'center';
     document.body.style.backgroundSize = 'cover'
     document.body.style.backgroundRepeat = 'no-repeat';
-    // document.body.style.height = '100vh';
-    // document.body.style.margin = '0';
-    // document.body.style.overflow = 'hidden';
 })
 onUnmounted(() =>{
     document.body.removeAttribute('style');
@@ -20,12 +17,12 @@ onUnmounted(() =>{
 
 <template>
     <div class="home-centered container">
-        <div class=" g-3 p-3 text-wrapper">
-            <h1 class="text-center">«{{$t('home.title')}}»</h1>
-            <p class="my-3 pt-3 fs-4 text-center">
+        <div class=" g-3 p-3 text-wrapper fs-6 fs-sm-4">
+            <h1 class="text-center fs-2 fs-sm-0">«{{$t('home.title')}}»</h1>
+            <p class="my-3 pt-2 text-center">
                 {{$t('home.paragraph1')}}
             </p>
-            <p class="my-3 pb-3 fs-4 text-center">
+            <p class="my-3 pb-2 text-center">
                 {{$t('home.paragraph2')}}
             </p>
 
@@ -37,6 +34,7 @@ onUnmounted(() =>{
                     </span>
                 </router-link>
             </div>
+
         </div>
     </div>
 </template>
