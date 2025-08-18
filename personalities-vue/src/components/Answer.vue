@@ -8,6 +8,9 @@ import {useMbtiStore} from '@/stores/mbtiStore'
 import AlertModal from '@/components/Alert.vue'
 import { formatAlert } from '@/composables/useMessageFormatter';
 
+import {useSharedState} from '@/composables/useState'
+const sharedState = useSharedState()
+
 const{t} = useI18n();
 const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
 const hover = ref(false);
@@ -30,6 +33,7 @@ onMounted(async() => {
     paginatedQuestions.value.forEach((question) => {
       console.log(question.id, question.psychPref, question.label)
     })
+    console.log(sharedState, 'sharedState')
 })
 
 const addAnswer = (idQuestion, buttonIndex) => {

@@ -200,16 +200,16 @@ const displayOffers = (job) => {
     <body class="container-fluid">
         <div class="row my-3">
             <div class="col text-center">
-                <h1 class="text-shadow mb-5"><b>Vos résultats</b></h1>
+                <h1 class="text-shadow mb-5"><strong>{{t('result.title')}}</strong></h1>
             </div>
         </div>
         <div class="row align-items-center my-3 style">
-            <h3 class="text-center text-shadow-light">{{t('personality.presentation')}}</h3>
+            <h2 class="text-center text-shadow-light">{{t('personality.presentation')}}</h2>
             <div class="col-12 col-md-6 justify-content-center fs-6 fs-md-5" >
                 <div class="text-center text-shadow-light w-100 mb-3"><strong>{{ mbtiType.code }} - {{ mbtiType.name }}</strong></div>
                 <ul class="fs-6 fs-md-5" style="list-style-type: '▸';">
                     <li class="my-3 ms-3">{{ mbtiType.description }}</li>
-                    <li class="my-3 ms-3">{{ mbtiType.populationPercentage }}% of the population</li>
+                    <li class="my-3 ms-3">{{ mbtiType.populationPercentage }}% {{t('personality.percentage')}}</li>
                     <li class="my-3 ms-3">{{ mbtiType.interestingFact }}</li>
                 </ul>
             </div>
@@ -219,7 +219,7 @@ const displayOffers = (job) => {
         </div>
 
         <div class="row align-items-center my-5 style">
-            <h3 class="text-center text-shadow-light">Vos résultats</h3>
+            <h2 class="text-center text-shadow-light">{{t('result.title')}}</h2>
             <div class="d-flex col-12 col-md-6 justify-content-center" >
                 <canvas id="myChart"></canvas> 
             </div>
@@ -228,10 +228,10 @@ const displayOffers = (job) => {
                     <li class="my-3">
                         <div class="d-flex">
                             <div style="color: #0077b6;">
-                                <b>Introversion</b> 
+                                <b>{{t('result.introversion')}}</b> 
                             </div>
                             <div class="text-end w-100" style="color: #270446;">
-                                <b>Extraversion</b>
+                                <b>{{t('result.extraversion')}}</b>
                             </div>
                         </div>
                         <div class="progress position-relative" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
@@ -243,10 +243,10 @@ const displayOffers = (job) => {
                     <li class="my-3">
                         <div class="d-flex">
                             <div style="color: #0077b6;">
-                                <b>Intuition</b> 
+                                <b>{{t('result.intuition')}}</b> 
                             </div>
                             <div class="text-end w-100" style="color: #270446;">
-                                <b>Sensation</b>
+                                <b>{{t('result.sensing')}}</b>
                             </div>
                         </div>
                         <div class="progress position-relative" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
@@ -258,10 +258,10 @@ const displayOffers = (job) => {
                     <li class="my-3">
                         <div class="d-flex">
                             <div style="color: #0077b6;">
-                                <b>Pensée</b> 
+                                <b>{{t('result.thinking')}}</b> 
                             </div>
                             <div class="text-end w-100" style="color: #270446;">
-                                <b>Sentiment</b>
+                                <b>{{t('result.feeling')}}</b>
                             </div>
                         </div>
                         <div class="progress position-relative" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
@@ -273,10 +273,10 @@ const displayOffers = (job) => {
                     <li class="my-3">
                         <div class="d-flex">
                             <div style="color: #0077b6;">
-                                <b>Perception</b> 
+                                <b>{{t('result.perceiving')}}</b> 
                             </div>
                             <div class="text-end w-100" style="color: #270446;">
-                                <b>Jugement</b>
+                                <b>{{t('result.judging')}}</b>
                             </div>
                         </div>
                         <div class="progress position-relative" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
@@ -289,19 +289,19 @@ const displayOffers = (job) => {
             </div>
         </div>
 
-        <div class="row text-center mt-5 style">
+        <div class="row text-center mt-5 style fs-6 fs-md-5">
             <h2 class="text-shadow-light">{{t('personality.strengths_&_weaknesses')}}</h2>
             <div class="col-12 col-md-6">
-                    <h3 class="text-shadow-light mb-3">{{t('personality.strengths')}}</h3>
-                    <div class="mb-1" v-for="trait in sortedTraits.force" :key="trait">{{ trait }}</div>
+                <h3 class="text-shadow-light mb-3">{{t('personality.strengths')}}</h3>
+                <div class="mb-1" v-for="trait in sortedTraits.force" :key="trait">{{ trait }}</div>
             </div>
             <div class="col-12 col-md-6">
-                    <h3 class="text-shadow-light mb-3">{{t('personality.weaknesses')}}</h3>
-                    <div class="mb-1" v-for="trait in sortedTraits.faiblesse" :key="trait">{{ trait }}</div>
+                <h3 class="text-shadow-light mb-3">{{t('personality.weaknesses')}}</h3>
+                <div class="mb-1" v-for="trait in sortedTraits.faiblesse" :key="trait">{{ trait }}</div>
             </div>
         </div>
 
-        <div class="row mt-5 style">
+        <div class="row mt-5 style fs-6 fs-md-5">
             <h2 class="text-center text-shadow-light">{{t('personality.jobs')}}</h2>
             
             <div :class="['col-12', specificJobs.length ? 'col-md-6' : 'col-md-12', 'fs-6 fs-md-5 text-center']">
@@ -329,16 +329,16 @@ const displayOffers = (job) => {
                 </div>    
 
                 <div v-if="pageNumber===0 && pageNumber<(metadata.totalPages-1)" class="d-flex justify-content-center fs-2 gap-2 align-items-center">
-                    <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-primary btn-sm m-1" @click="getNextPage()">Next page</button>
+                    <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-primary btn-sm m-1" @click="getNextPage()">{{ t('result.nextPage') }}</button>
                     <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
                 </div>   
                 <div v-if="pageNumber>0 && pageNumber<(metadata.totalPages-1)" class="d-flex justify-content-around fs-2  align-items-center">
-                    <button v-if="pageNumber>0" class="btn btn-primary btn-sm m-1" @click="getPreviousPage()">Previous page</button>
+                    <button v-if="pageNumber>0" class="btn btn-primary btn-sm m-1" @click="getPreviousPage()">{{ t('result.previousPage') }}</button>
                     <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
-                    <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-primary btn-sm m-1" @click="getNextPage()">Next page</button>
+                    <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-primary btn-sm m-1" @click="getNextPage()">{{ t('result.nextPage') }}</button>
                 </div>   
                 <div v-if="pageNumber===(metadata.totalPages-1)" class="d-flex justify-content-center fs-2 gap-2 align-items-center">
-                    <button v-if="pageNumber>0" class="btn btn-primary btn-sm m-1" @click="getPreviousPage()">Previous page</button>
+                    <button v-if="pageNumber>0" class="btn btn-primary btn-sm m-1" @click="getPreviousPage()">{{ t('result.previousPage') }}</button>
                     <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
                 </div>   
 

@@ -39,6 +39,7 @@
     },
     "personality": {
         "presentation": "Presentation",
+        "percentage" : "of the population",
         "strengths_&_weaknesses": "Strengths & Weaknesses",
         "strengths": "Strengths",
         "weaknesses": "Weaknesses",
@@ -102,6 +103,19 @@
         "stronglyAgree" : "Strongly agree",
         "somewhatAgree":"Somewhat agree",
         "neitherAgreeNorDisagree" : "Neither agree or disagree"
+    },
+    "result":{
+        "title" : "Your results",
+        "introversion": "Introversion",
+        "extraversion": "Extraversion",
+        "intuition": "Intuition",
+        "sensing": "Sensing",
+        "thinking": "Thinking",
+        "feeling": "Feeling",
+        "perceiving": "Perceiving",
+        "judging": "Judging",
+        "nextPage" : "Next page",
+        "previousPage" : "Previous page"
     },
     "error":{
         "client" : "A client error has occured",

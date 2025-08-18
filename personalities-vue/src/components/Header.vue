@@ -99,8 +99,8 @@ const clearLocalStorage = () => {
                     <img :src="personCheck" width="20px">{{t('header.welcome')}} 
                   </span>
                 </li>
-              
               </a>
+              
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
                 <li class="hover nav-item fw-bold gap-1" :aria-label="t('accessibility_header.logout')">
                   <a @click="clearLocalStorage()" class="nav-link">{{t('header.logout')}}</a>

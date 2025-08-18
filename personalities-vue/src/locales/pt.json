@@ -39,6 +39,7 @@
     },
     "personality": {
         "presentation": "Apresentação",
+        "percentage":"percentagem da população",
         "strengths_&_weaknesses": "Forças e Fraquezas",
         "strengths": "Forças",
         "weaknesses": "Fraquezas",
@@ -101,7 +102,20 @@
         "stronglyAgree": "Concordo totalmente",
         "somewhatAgree": "Concordo parcialmente",
         "neitherAgreeNorDisagree" : "Nem concordo nem discordo"
-      },
+    },
+    "result": {
+        "title": "Os seus resultados",
+        "introversion": "Introversão",
+        "extraversion": "Extroversão",
+        "intuition": "Intuição",
+        "sensing": "Sensação",
+        "thinking": "Pensamento",
+        "feeling": "Sentimento",
+        "perceiving": "Percepção",
+        "judging": "Julgamento",
+        "nextPage": "Página seguinte",
+        "previousPage": "Página anterior"
+    },
     "error":{
         "client" : "Ocorreu um erro do cliente",
         "server" : "Ocorreu um erro no servidor",

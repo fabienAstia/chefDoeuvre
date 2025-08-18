@@ -151,7 +151,7 @@ const displayOffers = (job) => {
                     <div class="text-center text-shadow-light w-100 mb-3"><strong>{{ mbtiType.code }} - {{ mbtiType.name }}</strong></div>
                     <ul class="fs-6 fs-md-5" style="list-style-type: '▸';">
                         <li class="my-3 ms-3">{{ mbtiType.description }}</li>
-                        <li class="my-3 ms-3">{{ mbtiType.populationPercentage }}% of the population</li>
+                        <li class="my-3 ms-3">{{ mbtiType.populationPercentage }}% {{t('personality.percentage')}}</li>
                         <li class="my-3 ms-3">{{ mbtiType.interestingFact }}</li>
                     </ul>
                 </div>

@@ -42,11 +42,11 @@ const authenticate = async() => {
       sharedState.value = 'logged';
       const decodedToken = jwtDecode(jwt);
       if(decodedToken.role === 'ROLE_ADMIN'){
-        router.push('/questions');
+        await router.push('/questions');
       } else if (decodedToken.role === 'ROLE_USER'){
-        router.push('/answers')
+        await router.push('/answers')
       }else{
-        router.push('/');
+        await router.push('/');
       } 
   }catch(err){
       showMessage(err)
@@ -59,19 +59,19 @@ const authenticate = async() => {
 <template>
   <AlertModal ref="modal"/>
   <div class="container-md">
-    <h3 class="text-center">{{$t('login.title')}}</h3>
+    <h3 class="text-center">{{t('login.title')}}</h3>
     <form @submit.prevent="authenticate" class="bg-light fs-5">
     
       <div class="form-group m-3">
-        <label for="username" class="col-form-label">{{$t('login.username')}} <span>*</span> </label>
+        <label for="username" class="col-form-label">{{t('login.username')}} <span>*</span> </label>
         <input type="email" class="form-control" id="username" v-model="userCredentials.username">
         <ul class="validationInfos">
-          <li :class="{'valid': userCredentials.username!==''}">{{$t('login.usernameRequired')}}</li>
+          <li :class="{'valid': userCredentials.username!==''}">{{t('login.usernameRequired')}}</li>
         </ul>
       </div>
       <div class="form-group m-3">
         <label for="password" class="col-form-label">
-          {{$t('login.password')}} <span>*</span>
+          {{t('login.password')}} <span>*</span>
           <button class="passwordVisibility" @click="switchVisibility" type="button">
             <img v-if="visibility" :src="eye" width="20px">
             <img v-else :src="eyeSlash" width="20px">
@@ -79,7 +79,7 @@ const authenticate = async() => {
         </label>
         <input type="password" class="form-control" id="password" v-model="userCredentials.password">
         <ul class="validationInfos">
-          <li :class="{'valid': userCredentials.password!==''}">{{$t('login.passwordRequired')}}</li>
+          <li :class="{'valid': userCredentials.password!==''}">{{t('login.passwordRequired')}}</li>
         </ul>
       </div>
 
