@@ -146,7 +146,7 @@ const displayOffers = (job) => {
                 <h1 class="text-center text-shadow mb-5"><b>{{ mbtiType.code }}</b></h1>
             </div>
             <div class="row align-items-center my-3 style">
-                <h2 class="text-center text-shadow-light">{{$t('personality.presentation')}}</h2>
+                <h2 class="text-center text-shadow-light">{{t('personality.presentation')}}</h2>
                 <div class="col-12 col-md-6 justify-content-center fs-6 fs-md-5" >
                     <div class="text-center text-shadow-light w-100 mb-3"><strong>{{ mbtiType.code }} - {{ mbtiType.name }}</strong></div>
                     <ul class="fs-6 fs-md-5" style="list-style-type: '▸';">
@@ -175,7 +175,7 @@ const displayOffers = (job) => {
             <div class="row mt-5 style ">
                 <h2 class="text-center text-shadow-light">{{t('personality.jobs')}}</h2>
              
-                 <div :class="['col-12', specificJobs.length ? 'col-md-6' : 'col-md-12', 'fs-6 fs-md-5 text-center']">
+                <div :class="['col-12', specificJobs.length ? 'col-md-6' : 'col-md-12', 'fs-6 fs-md-5 text-center']">
                     <h3 class="text-shadow-light mb-3">{{t('personality.professions')}}</h3>
                      <div v-if="!specificJobs.length" class="callout-note mb-3" id="jobs-help" role="note">
                         <strong >{{ t('personality.accessibility_offerJob') }}</strong>
@@ -288,11 +288,11 @@ h3{
     min-height: 100px;
     min-width: 100px;
 }
-#myChart{
+/* #myChart{
     max-width: 350px;
     max-height: 300px;
     min-height: 100px;
-}
+} */
 .progress-bar{
     background-color: #0077b6;
     border-color: #00344f;

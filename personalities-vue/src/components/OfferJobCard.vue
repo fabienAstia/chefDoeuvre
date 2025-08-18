@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted } from 'vue';
+import {ref, onMounted, computed } from 'vue';
 
 const {offerJob, address} = defineProps({
   offerJob: {
@@ -15,19 +15,11 @@ onMounted(() => {
     console.log('address', address)
 })
 
-const salary = ref('');
+const salary = computed(() => formatSalary(offerJob?.salary));
 const formatSalary = (input) => {
-    if(input){
-        const regex = /\d+\.\d+/g
-        const matches = input.match(regex)
-        if(matches) {
-            matches.forEach(m => {
-                input = input.replace(m, Math.floor(parseFloat(m)))
-            })
-        }
-        salary.value = input
-    }
-    return salary.value
+    if(!input) return '';
+    const regex = /\d+\.\d+/g;
+    return input.replace(regex, m => String(Math.floor(parseFloat(m))));
 }   
 
 const isTruncated = ref(true)

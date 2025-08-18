@@ -1,10 +1,34 @@
 <script setup>
     import Chart from 'chart.js/auto';
-    import { onMounted, computed } from 'vue';
+    import { onMounted, computed, useTemplateRef, ref, watch } from 'vue';
     import { useMbtiStore } from '@/stores/mbtiStore';
+    import { formatAlert } from '@/composables/useMessageFormatter';
+    import AlertModal from '@/components/Alert.vue'
+    import OfferJobCard from '@/components/OfferJobCard.vue';
+    import { useI18n } from 'vue-i18n';
+    import axios from 'axios'
 
+    const specificJobs = ref({});
+    const allCoordinates = ref({})
+    const keyWords=ref('')
+    const isTruncated = ref({})
+    const addressesChunk = ref ([])
+    const modal = useTemplateRef('modal')
+    const pageNumber = ref(0);
+    const pageSize = ref(2);  
+    // const totalPages = ref(0);
+    // const totalElements = ref(0);
+    const metadata = ref({})
+    const apiUrl = import.meta.env.VITE_API_URL
+
+    const {t} = useI18n();
     const mbtiStore = useMbtiStore();
     const mbtiType = computed(() => mbtiStore.result);
+
+    const showMessage = (msg) => {
+        modal.value.openModal()
+        modal.value.alertTxt = formatAlert(msg).message
+    }
 
     const sortedTraits = computed(() => {
         const traits = {force: [], faiblesse: []};
@@ -90,9 +114,89 @@ onMounted(async() => {
     console.log("rateByPsych :" + Object.entries(mbtiType.value.rateByPsych))
 })
 
+const getSpecificJobs = async() => {
+    try {
+        const response = await axios.get(`${apiUrl}/jobs/paginated?motsCles=${keyWords.value}&page=${pageNumber.value}&size=${pageSize.value}`) 
+        specificJobs.value = response.data.data.paginatedOfferJobViews
+        allCoordinates.value = response.data.data.allCoordinates
+
+        specificJobs.value.forEach((offerJob, index) => {
+            isTruncated.value[index] = true;
+        })
+        metadata.value = response.data.metadata;
+        await getAddress();
+
+        console.log("specificJobs", specificJobs.value)
+        console.log("allCoordinates", allCoordinates.value)
+    }catch(err) {
+       showMessage(err)
+    }
+}
+
+const getNextPage = async() => {
+    try {
+        pageNumber.value++
+        await getSpecificJobs();
+        // const response = await axios.get(`http://localhost:8080/jobs/paginated?motsCles=${keyWords.value}&page=${0}&size=${2}`) 
+        // specificJobs.value = response.data.data.paginatedOfferJobViews
+        // allCoordinates.value = response.data.data.allCoordinates
+
+        // specificJobs.value.forEach((offerJob, index) => {
+        //     isTruncated.value[index] = true;
+        // })
+
+        // metadata.value = response.data.metadata;
+
+        // console.log("specificJobs", specificJobs.value)
+        // console.log("allCoordinates", allCoordinates.value)
+
+    }catch(err) {
+       showMessage(err)
+    }
+}
+
+const getPreviousPage = async() => {
+    try {
+        pageNumber.value--
+        await getSpecificJobs();
+    } catch(err) {
+        showMessage(err)
+    }
+}
+
+watch(keyWords, async () => {
+        await getSpecificJobs()
+    }
+)
+
+const addresses = ref ([])
+const getAddress = async() => {
+    try {
+        const response = await axios.post(`${apiUrl}/address`,
+            allCoordinates.value.slice(0, 20),
+            {headers:{'Content-Type':'application/json'}}); 
+        
+        addressesChunk.value = response.data
+        console.log('addressesChunk', addressesChunk.value)
+        addresses.value = []
+        for(let i = 0; i < addressesChunk.value.length; i++){
+            addresses.value.push(addressesChunk.value[i].formatted)
+        }
+        console.log('addresses.value', addresses.value)
+        return addresses.value
+    }catch(err){
+        showMessage(err)
+    }
+}
+
+const displayOffers = (job) => {
+    keyWords.value = job;
+    pageNumber.value=0;
+}
 </script>
 
 <template>
+    <AlertModal ref="modal"/>
     <body class="container-fluid">
         <div class="row my-3">
             <div class="col text-center">
@@ -100,9 +204,9 @@ onMounted(async() => {
             </div>
         </div>
         <div class="row align-items-center my-3 style">
-            <h3 class="text-center text-shadow-light">Présentation</h3>
+            <h3 class="text-center text-shadow-light">{{t('personality.presentation')}}</h3>
             <div class="col-12 col-md-6 justify-content-center fs-6 fs-md-5" >
-                <div class="text-center text-shadow-light w-100 mb-3"><b>{{ mbtiType.code }} - {{ mbtiType.name }}</b></div>
+                <div class="text-center text-shadow-light w-100 mb-3"><strong>{{ mbtiType.code }} - {{ mbtiType.name }}</strong></div>
                 <ul class="fs-6 fs-md-5" style="list-style-type: '▸';">
                     <li class="my-3 ms-3">{{ mbtiType.description }}</li>
                     <li class="my-3 ms-3">{{ mbtiType.populationPercentage }}% of the population</li>
@@ -110,7 +214,7 @@ onMounted(async() => {
                 </ul>
             </div>
             <div class="d-flex col-12 col-md-6 justify-content-center">
-                <img class="img-fluid" :src="`/mbtiTypes/${mbtiType.image}`" alt="mbtiType image" id="image">
+                <img class="img-fluid" :src="`/mbtiTypes/${mbtiType.image}`" :alt="`${mbtiType} image`" id="image">
             </div>
         </div>
 
@@ -186,21 +290,58 @@ onMounted(async() => {
         </div>
 
         <div class="row text-center mt-5 style">
-            <h3 class="text-shadow-light">Forces et Faiblesses</h3>
+            <h2 class="text-shadow-light">{{t('personality.strengths_&_weaknesses')}}</h2>
             <div class="col-12 col-md-6">
-                    <h5 class="text-shadow-light mb-3">Forces</h5>
+                    <h3 class="text-shadow-light mb-3">{{t('personality.strengths')}}</h3>
                     <div class="mb-1" v-for="trait in sortedTraits.force" :key="trait">{{ trait }}</div>
             </div>
             <div class="col-12 col-md-6">
-                    <h5 class="text-shadow-light mb-3">Faiblesses</h5>
+                    <h3 class="text-shadow-light mb-3">{{t('personality.weaknesses')}}</h3>
                     <div class="mb-1" v-for="trait in sortedTraits.faiblesse" :key="trait">{{ trait }}</div>
             </div>
         </div>
 
         <div class="row mt-5 style">
-            <h3 class="text-center text-shadow-light">Métiers</h3>
-            <div class="col">
-                <div class="text-center mb-1" v-for="job in mbtiType.professions">{{ job }}</div>
+            <h2 class="text-center text-shadow-light">{{t('personality.jobs')}}</h2>
+            
+            <div :class="['col-12', specificJobs.length ? 'col-md-6' : 'col-md-12', 'fs-6 fs-md-5 text-center']">
+                <h3 class="text-shadow-light mb-3">{{t('personality.professions')}}</h3>
+                    <div v-if="!specificJobs.length" class="callout-note mb-3" id="jobs-help" role="note">
+                    <strong >{{ t('personality.accessibility_offerJob') }}</strong>
+                </div>
+                <div class="text-center mb-1" v-for="job in mbtiType.professions" @click="displayOffers(job)" id="pointer">{{ job }}</div>
+            </div>
+
+            <div class="offersJob col-12 col-md-6 fs-6 fs-md-5" >
+                <h3 v-if="specificJobs.length" class="text-shadow-light mb-3 text-center">{{t('personality.offersJob')}}</h3>
+                <div v-for="(offerJob, index) in specificJobs" :key="index">
+                    
+                    <!-- <OfferJobCard
+                    v-if="addresses[index]"
+                    :offerJob="offerJob"
+                    :address="addresses[index]"
+                    /> -->
+
+                    <OfferJobCard
+                    :offerJob="offerJob"
+                    />
+
+                </div>    
+
+                <div v-if="pageNumber===0 && pageNumber<(metadata.totalPages-1)" class="d-flex justify-content-center fs-2 gap-2 align-items-center">
+                    <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-primary btn-sm m-1" @click="getNextPage()">Next page</button>
+                    <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
+                </div>   
+                <div v-if="pageNumber>0 && pageNumber<(metadata.totalPages-1)" class="d-flex justify-content-around fs-2  align-items-center">
+                    <button v-if="pageNumber>0" class="btn btn-primary btn-sm m-1" @click="getPreviousPage()">Previous page</button>
+                    <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
+                    <button v-if="pageNumber<(metadata.totalPages-1)" class="btn btn-primary btn-sm m-1" @click="getNextPage()">Next page</button>
+                </div>   
+                <div v-if="pageNumber===(metadata.totalPages-1)" class="d-flex justify-content-center fs-2 gap-2 align-items-center">
+                    <button v-if="pageNumber>0" class="btn btn-primary btn-sm m-1" @click="getPreviousPage()">Previous page</button>
+                    <span class="page_indicator">{{pageNumber+1}}/{{metadata.totalPages}}</span>
+                </div>   
+
             </div>
         </div>
     </body>
@@ -222,13 +363,16 @@ h1{
     font-size: 4em;
     color: #0077b6;
 }
-h3{
+h2{
     margin-bottom: 25px;
     padding-top: 20px;
     padding-bottom: 20px;
     border-bottom: 2px solid #0079bb21;
     background-color: white;
     border: 2px solid white;
+}
+h3{
+    font-size:larger ;
 }
 .style{
     background-color: #effcfe;
@@ -281,6 +425,26 @@ h3{
 }
 .no-bullet{
     list-style: none;
+}
+#pointer{
+    cursor: pointer;
+}
+#pointer:hover{
+    font-weight:800;
+    background-color: #0077b6;
+    color: #effcfe;
+}
+.page_indicator{
+    color: #effcfe;
+    background-color: #0077b6;
+    font-weight: 400;
+    font-size: medium;
+    padding: 0.9%;
+    border-radius: 10%;
+}
+.callout-note{     
+  background: #f6f2fa;                    
+  padding: .5rem;
 }
 
 </style>
