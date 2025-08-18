@@ -33,7 +33,7 @@ const clearLocalStorage = () => {
 <template>
      <nav id="navbar" class="navbar nav navbar-expand-sm" >
       <div class="container-fluid">
-        <router-link to="/" class="navbar-brand p-0" :aria-label="$t('accessibility_header.home')">
+        <router-link to="/" class="navbar-brand p-0" :aria-label="t('accessibility_header.home')">
           <img id="logo" :src="logo" alt="logo" class="header">
         </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,19 +45,19 @@ const clearLocalStorage = () => {
             <li class="nav-item hover">
               <router-link to="/answers" class=" nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="$t('accessibility_header.test')">
                 <img :src="clipBoard" width="20px">
-                {{$t('header.test')}}
+                {{t('header.test')}}
               </router-link>
             </li>
             <li class="nav-item hover">
               <router-link to="/personalities" class="nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="$t('accessibility_header.personalities')">
                 <img :src="filePerson" width="20px">
-                {{$t('header.personalities')}}
+                {{t('header.personalities')}}
               </router-link>
             </li>
             <li class="nav-item hover">
               <a class="nav-link d-flex gap-1 justify-content-start fw-bold" href="#" :aria-label="$t('accessibility_header.documentation')">
                 <img :src="book" width="20px">
-                {{$t('header.documentation')}}
+                {{t('header.documentation')}}
               </a>
             </li>
           </ul>
@@ -71,7 +71,7 @@ const clearLocalStorage = () => {
                 <li class="nav-item hover">
                   <span class="nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="$t('accessibility_header.account')">
                     <img :src="identify_yourself" width="20px">
-                    {{$t('header.account')}}
+                    {{t('header.account')}}
                   </span>
                 </li>
               </a>
@@ -80,13 +80,13 @@ const clearLocalStorage = () => {
                 <li class="nav-item hover">
                   <router-link to="/register" class="nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="$t('accessibility_header.registration')">
                     <img :src="personAdd" width="20px">
-                    {{$t('header.registration')}}
+                    {{t('header.registration')}}
                   </router-link>
                 </li>
                 <li class="nav-item hover">
                   <RouterLink to="/authenticate" class="nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="$t('accessibility_header.authentication')">
                     <img :src="personGear" width="20px">
-                    {{$t('header.authentication')}}
+                    {{t('header.authentication')}}
                   </RouterLink>
                 </li>
               </ul>
@@ -95,30 +95,30 @@ const clearLocalStorage = () => {
             <li v-if="sharedState ==='logged'" class="nav-item dropdown d-flex">
               <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <li class="nav-item hover">
-                  <span class="nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="$t('accessibility_header.welcome')">
-                    <img :src="personCheck" width="20px">{{$t('header.welcome')}} 
+                  <span class="nav-link d-flex gap-1 justify-content-start fw-bold" :aria-label="t('accessibility_header.welcome')">
+                    <img :src="personCheck" width="20px">{{t('header.welcome')}} 
                   </span>
                 </li>
               
               </a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
-                <li class="hover nav-item fw-bold gap-1" :aria-label="$t('accessibility_header.logout')">
-                  <a @click="clearLocalStorage()" class="nav-link">{{$t('header.logout')}}</a>
+                <li class="hover nav-item fw-bold gap-1" :aria-label="t('accessibility_header.logout')">
+                  <a @click="clearLocalStorage()" class="nav-link">{{t('header.logout')}}</a>
                 </li>
               </ul>
             </li>
            
             <li class="nav-item dropdown d-flex">
               <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" :aria-label="$t('accessibility_header.languages')">
-                <img v-if="locale === 'fr'" :src="frFlag" width="35px" class="flag" :alt="$t('accessibility_header.french')"> 
-                <img v-if="locale === 'en'" :src="ukFlag" width="35px" class="flag" :alt="$t('accessibility_header.english')">
-                <img v-if="locale === 'po'" :src="poFlag" width="35px" class="flag" :alt="$t('accessibility_header.portuguese')">
+                <img v-if="locale === 'fr'" :src="frFlag" width="35px" class="flag" :alt="t('accessibility_header.french')"> 
+                <img v-if="locale === 'en'" :src="ukFlag" width="35px" class="flag" :alt="t('accessibility_header.english')">
+                <img v-if="locale === 'pt'" :src="poFlag" width="35px" class="flag" :alt="t('accessibility_header.portuguese')">
               </a>
           
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-start" style="width: 20px;">
                 <li>
                   <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('fr')">
-                    <img :src="frFlag" width="20px" :alt="$t('accessibility_header.french')" class="flag"> FR 
+                    <img :src="frFlag" width="20px" :alt="t('accessibility_header.french')" class="flag"> FR 
                   </a>
                 </li>
                 <li>
@@ -127,8 +127,8 @@ const clearLocalStorage = () => {
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('po')">
-                    <img :src="poFlag" width="20px" :alt="$t('accessibility_header.portuguese')" class="flag"> PO 
+                  <a class="dropdown-item d-flex align-items-center gap-2" href="#" @click="changeLanguage('pt')">
+                    <img :src="poFlag" width="20px" :alt="t('accessibility_header.portuguese')" class="flag"> PT 
                   </a>
                 </li>
               </ul>

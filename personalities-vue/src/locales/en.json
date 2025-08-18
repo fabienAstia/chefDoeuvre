@@ -44,6 +44,7 @@
         "weaknesses": "Weaknesses",
         "jobs": "Jobs",
         "professions": "Professions",
+        "accessibility_offerJob": "You could click on a profession to get offersJob",
         "offersJob": "Job Offers",
         "INFJ": "The Advocate",
         "INFP": "The Mediator",
@@ -93,7 +94,14 @@
     "answer": {
         "disagree" :"Disagree",
         "agree":"Agree",
-        "uncomplete" : "You must answer all questions!"
+        "uncomplete" : "You must answer all questions!",
+        "nextPage" : "Next page",
+        "submit" : "Submit",
+        "stronglyDisagree" : "Strongly disagree",
+        "somewhatDisagree":"Somewhat disagree",
+        "stronglyAgree" : "Strongly agree",
+        "somewhatAgree":"Somewhat agree",
+        "neitherAgreeNorDisagree" : "Neither agree or disagree"
     },
     "error":{
         "client" : "A client error has occured",

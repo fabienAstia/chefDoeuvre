@@ -44,6 +44,7 @@
         "weaknesses": "Fraquezas",
         "jobs": "Empregos",
         "professions": "Profissões",
+        "accessibility_offerJob": "Pode clicar numa profissão para ver ofertas de emprego.",
         "offersJob": "Ofertas de emprego",
         "INFJ": "O Advogado",
         "INFP": "O Mediador",
@@ -92,7 +93,14 @@
     "answer": {
         "disagree" : "Em desacordo",
         "agree": "De acordo",
-        "uncomplete" : "Você deve responder a todas as perguntas !"
+        "uncomplete" : "Você deve responder a todas as perguntas !",
+        "nextPage": "Página seguinte",
+        "submit": "Submeter",
+        "stronglyDisagree": "Discordo totalmente",
+        "somewhatDisagree": "Discordo parcialmente",
+        "stronglyAgree": "Concordo totalmente",
+        "somewhatAgree": "Concordo parcialmente",
+        "neitherAgreeNorDisagree" : "Nem concordo nem discordo"
       },
     "error":{
         "client" : "Ocorreu um erro do cliente",

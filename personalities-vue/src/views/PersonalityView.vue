@@ -143,14 +143,12 @@ const displayOffers = (job) => {
     <div class="container">
         <div class="container-fluid">
             <div class="row mb-3">
-                <div class="col text-center">
-                    <h1 class="text-shadow mb-5"><b>{{ mbtiType.code }}</b></h1>
-                </div>
+                <h1 class="text-center text-shadow mb-5"><b>{{ mbtiType.code }}</b></h1>
             </div>
             <div class="row align-items-center my-3 style">
-                <h3 class="text-center text-shadow-light">{{$t('personality.presentation')}}</h3>
+                <h2 class="text-center text-shadow-light">{{$t('personality.presentation')}}</h2>
                 <div class="col-12 col-md-6 justify-content-center fs-6 fs-md-5" >
-                    <div class="text-center text-shadow-light w-100 mb-3"><b>{{ mbtiType.code }} - {{ mbtiType.name }}</b></div>
+                    <div class="text-center text-shadow-light w-100 mb-3"><strong>{{ mbtiType.code }} - {{ mbtiType.name }}</strong></div>
                     <ul class="fs-6 fs-md-5" style="list-style-type: '▸';">
                         <li class="my-3 ms-3">{{ mbtiType.description }}</li>
                         <li class="my-3 ms-3">{{ mbtiType.populationPercentage }}% of the population</li>
@@ -158,31 +156,36 @@ const displayOffers = (job) => {
                     </ul>
                 </div>
                 <div class="d-flex col-12 col-md-6 justify-content-center">
-                    <img class="img-fluid" :src="`/mbtiTypes/${code}.webp`" alt="mbtiType image" id="image">
+                    <img class="img-fluid" :src="`/mbtiTypes/${code}.webp`" :alt="`${code} image`" id="image">
                 </div>
             </div>
 
             <div class="row text-center mt-5 style fs-6 fs-md-5">
-                <h3 class="text-shadow-light">{{$t('personality.strengths_&_weaknesses')}}</h3>
+                <h2 class="text-shadow-light">{{t('personality.strengths_&_weaknesses')}}</h2>
                 <div class="col-12 col-md-6">
-                        <h5 class="text-shadow-light mb-3">{{$t('personality.strengths')}}</h5>
+                        <h3 class="text-shadow-light mb-3">{{t('personality.strengths')}}</h3>
                         <div class="mb-1" v-for="trait in sortedTraits.force" :key="trait">{{ trait }}</div>
                 </div>
                 <div class="col-12 col-md-6">
-                        <h5 class="text-shadow-light mb-3">{{$t('personality.weaknesses')}}</h5>
+                        <h3 class="text-shadow-light mb-3">{{t('personality.weaknesses')}}</h3>
                         <div class="mb-1" v-for="trait in sortedTraits.faiblesse" :key="trait">{{ trait }}</div>
                 </div>
             </div>
 
             <div class="row mt-5 style ">
-                <h3 class="text-center text-shadow-light">{{$t('personality.jobs')}}</h3>
-                <div class="col-12 col-md-6 fs-6 fs-md-5 text-center">
-                    <h5 class="text-shadow-light mb-3">{{$t('personality.professions')}}</h5>
+                <h2 class="text-center text-shadow-light">{{t('personality.jobs')}}</h2>
+             
+                 <div :class="['col-12', specificJobs.length ? 'col-md-6' : 'col-md-12', 'fs-6 fs-md-5 text-center']">
+                    <h3 class="text-shadow-light mb-3">{{t('personality.professions')}}</h3>
+                     <div v-if="!specificJobs.length" class="callout-note mb-3" id="jobs-help" role="note">
+                        <strong >{{ t('personality.accessibility_offerJob') }}</strong>
+                    </div>
+
                     <div class="text-center mb-1" v-for="job in mbtiType.professions" @click="displayOffers(job)" id="pointer">{{ job }}</div>
                 </div>
 
-                <div class="offersJob col-12 col-md-6" >
-                    <h5 v-if="specificJobs.length" class="text-shadow-light mb-3 text-center">{{$t('personality.offersJob')}}</h5>
+                <div class="offersJob col-12 col-md-6 fs-6 fs-md-5" >
+                    <h3 v-if="specificJobs.length" class="text-shadow-light mb-3 text-center">{{t('personality.offersJob')}}</h3>
                     <div v-for="(offerJob, index) in specificJobs" :key="index">
                         
                         <!-- <OfferJobCard
@@ -238,13 +241,16 @@ h1{
     font-size: 4em;
     color: #0077b6;
 }
-h3{
+h2{
     margin-bottom: 25px;
     padding-top: 20px;
     padding-bottom: 20px;
     border-bottom: 2px solid #0079bb21;
     background-color: white;
     border: 2px solid white;
+}
+h3{
+    font-size:larger ;
 }
 .style{
     background-color: #effcfe;
@@ -313,6 +319,10 @@ h3{
     font-size: medium;
     padding: 0.9%;
     border-radius: 10%;
+}
+.callout-note{     
+  background: #f6f2fa;                    
+  padding: .5rem;
 }
 
 </style>

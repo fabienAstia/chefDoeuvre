@@ -11,7 +11,7 @@ import { formatAlert } from '@/composables/useMessageFormatter';
 const{t} = useI18n();
 const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getPaginatedQuestions, getNextPage} = useQuestions(); 
 const hover = ref(false);
-const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? '#0077b6' : '#7b2cbf';
+const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? '#0077b6' : '#270446'; //'#7b2cbf'
 const answers = ref ([]);
 const totalPAGES = 3; //for DEMO
 const apiUrl = import.meta.env.VITE_API_URL
@@ -90,6 +90,21 @@ const answered = (idQuestion, buttonIndex) => {
    );
 };
 
+const LABEL_ARIA_BY_KEY = {
+  '-3': 'answer.stronglyDisagree',
+  '-2' : 'answer.disagree',
+  '-1' : 'answer.somewhatDisagree',
+  '0' : 'answer.neitherAgreeNorDisagree',
+  '1' : 'answer.somewhatAgree',
+  '2' : 'answer.agree',
+  '3' : 'answer.stronglyAgree'
+}
+
+const aria = (indexButton) => {
+  const json = LABEL_ARIA_BY_KEY[String(indexButton)]
+  return t(json)
+}
+
 </script>
 
 
@@ -110,7 +125,7 @@ const answered = (idQuestion, buttonIndex) => {
           </div>
           
           <div class="row fs-5 m-3 p-3 d-flex justify-content-center align-items-center" >
-            <div class="col-md-2 d-none d-md-block justify-content-end text-end me-3" :style="{color:'#7b2cbf'}">
+            <div class="col-md-2 d-none d-md-block justify-content-end text-end me-3" :style="{color:'#270446'}">
               <b>{{$t('answer.disagree')}}</b>
             </div>
             <div class="col-12 col-sm-8 col-md-8 buttons d-flex justify-content-center align-items-center m-0 p-0 gap-3">
@@ -129,6 +144,7 @@ const answered = (idQuestion, buttonIndex) => {
                   backgroundColor: (hover.questionIndex === questionIndex && hover.buttonIndex === buttonIndex) || (answered(q.id, buttonIndex)) ? colorCondition(buttonIndex) : 'rgb(240, 240, 240)',
                   maxWidth: '100%',
                   maxHeight: '100%'}"
+                :aria-label="aria(buttonIndex)"
               >
               </button>
             </div>
@@ -140,10 +156,10 @@ const answered = (idQuestion, buttonIndex) => {
           </div>
 
           <div class="row d-md-none d-flex justify-content-between w-100 text-center" >
-              <div class="col-6 " :style="{color:'#7b2cbf'}">
+              <div class="col-6 " :style="{color:'#270446'}">
                 <b>{{$t('answer.disagree')}}</b>
               </div>
-              <div class="col-6 text-end" :style="{color:'#0077b6'}">
+              <div class="col-6 agree-text" :style="{color:'#0077b6'}">
                 <b>{{$t('answer.agree')}}</b>
               </div>
           </div>
@@ -153,11 +169,11 @@ const answered = (idQuestion, buttonIndex) => {
 
       
       <div v-if="pageNumber<(totalPAGES-1)" class="d-flex justify-content-center bg-light fs-5">
-        <button type="submit" class="btn btn-outline-primary btn-lg m-5" @click="isPageCompleted()">Next page</button>
+        <button type="submit" class="btn btn-outline-primary btn-lg m-5" @click="isPageCompleted()">{{ t('answer.nextPage') }}</button>
       </div>
       <div v-else="pageNumber===(totalPAGES-1)" class="d-flex justify-content-center bg-light fs-5">
         <form @submit.prevent="handleSubmit" class="bg-light fs-5">
-          <button type="submit" class="btn btn-outline-danger btn-lg m-5">Submit</button>
+          <button type="submit" class="btn btn-outline-danger btn-lg m-5">{{t('answer.submit')}}</button>
         </form> 
       </div>
 
@@ -200,5 +216,13 @@ const answered = (idQuestion, buttonIndex) => {
   background-color: rgba(220, 53, 69, 1); 
   box-shadow: 0px 0px 10px rgba(220, 53, 69, 0.8); 
 }
-
+.agree-text{
+  text-align: center;
+}
+@media (max-width : 410px){
+  .agree-text{
+    text-align: end;
+  }
+}
+ 
 </style>
