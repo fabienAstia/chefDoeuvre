@@ -30,7 +30,7 @@ function untruncate(){
 </script>
 
 <template>
-    <div class="mb-1">
+    <article class="mb-1" role="article">
         <div><b>{{ offerJob.title }}</b> - {{ offerJob.contractType }}</div> 
         <div>{{ offerJob.companyName }}</div> 
         <div>{{ address }}</div>
@@ -50,7 +50,7 @@ function untruncate(){
                 less
             </button>
         </div> 
-    </div>
+    </article>
 
 </template>
 
