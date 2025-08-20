@@ -29,7 +29,7 @@ export function userRole(to, from, next){
     }
     try {
         const decodedToken = jwtDecode(token);
-        console.log('decodedToken =' + decodedToken);
+        console.log('decodedToken =', decodedToken);
         const current_time = new Date().getTime() / 1000;
         if((decodedToken.role === 'ROLE_USER' || decodedToken.role === 'ROLE_ADMIN') 
             && current_time < decodedToken.exp ){

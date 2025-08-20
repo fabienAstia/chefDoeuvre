@@ -10,7 +10,9 @@ export function useSharedState(){
         return sharedState;
     } else {
         const decodedToken = jwtDecode(token);
-        if(decodedToken.role === 'ROLE_USER' || decodedToken.role === 'ROLE_ADMIN') {
+        const currentTime = new Date().getTime() / 1000;
+        if(decodedToken.role === 'ROLE_USER' || decodedToken.role === 'ROLE_ADMIN'
+            && currentTime < decodedToken.exp) {
             sharedState.value = 'logged'
         } else {
             sharedState.value = 'guest'

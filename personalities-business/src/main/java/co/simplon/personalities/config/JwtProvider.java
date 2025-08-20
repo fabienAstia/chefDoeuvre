@@ -31,10 +31,6 @@ public class JwtProvider {
             Instant expiresAt = issueAt.plusSeconds(expiration);
             builder.withExpiresAt(expiresAt);
         }
-
-        System.out.println("Expiration value: " + expiration);
-        System.out.println("Issue At: " + issueAt);
-        System.out.println("Expires At: " + issueAt.plusSeconds(expiration));
         return builder.sign(algorithm);
     }
 }
