@@ -26,32 +26,32 @@ public class AnswerService {
     private final SecurityHelper securityHelper;
     private final UserRepository userRepository;
     private final MbtiTypeRepository mbtiTypeRepository;
+    private final ResultService resultService;
 
-    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, SecurityHelper securityHelper, UserRepository userRepository, MbtiTypeRepository mbtiTypeRepository) {
+    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, SecurityHelper securityHelper, UserRepository userRepository, MbtiTypeRepository mbtiTypeRepository, ResultService resultService) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.securityHelper = securityHelper;
         this.userRepository = userRepository;
         this.mbtiTypeRepository = mbtiTypeRepository;
+        this.resultService = resultService;
     }
 
+    @Transactional
     public ResultView submitAnswersAndGetResult(AnswerCreateList inputs) {
         List<AnswerCreate> answers = inputs.answers();
         User user = getUserAndSubmitAnswers(answers);
-        ResultService resultService = new ResultService(questionRepository, mbtiTypeRepository);
         ResultView resultView = resultService.getResult(answers);
         user.setMbtiType(mbtiTypeRepository.findProjectedByCode(resultView.getCode()));
         userRepository.save(user);
         return resultView;
     }
 
-    @Transactional
     private User getUserAndSubmitAnswers(List<AnswerCreate> inputs) {
         String username = securityHelper.principal();
         User user = userRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
-        List<Answer> previousAnswers = answerRepository.findAllByUserId(user.getId());
-        answerRepository.deleteAll(previousAnswers);
+        answerRepository.deleteAllByUserId(user.getId());
         Set<Answer> answers = createNewAnswers(inputs, user);
         answerRepository.saveAll(answers);
         return user;
