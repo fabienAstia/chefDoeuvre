@@ -1,6 +1,6 @@
-DELETE FROM IF EXISTS t_matches;
-DELETE FROM IF EXISTS t_mbti_types ;
-DELETE FROM IF EXISTS t_professions ;
+DELETE FROM t_matches;
+DELETE FROM t_mbti_types ;
+DELETE FROM t_professions ;
 
 INSERT INTO t_mbti_types (code, name, description, population_percentage, interesting_fact, image) VALUES 
 	('ISTJ', 'Le Logisticien',

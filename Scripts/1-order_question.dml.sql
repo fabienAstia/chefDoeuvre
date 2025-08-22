@@ -1,5 +1,5 @@
-DELETE FROM IF EXISTS t_answers ; DELETE FROM IF EXISTS t_questions; DELETE FROM IF EXISTS t_users;
-DELETE FROM IF EXISTS t_psych_pref; DELETE FROM IF EXISTS t_roles; DELETE FROM IF EXISTS t_constraints;
+DELETE FROM t_answers ; DELETE FROM t_questions; DELETE FROM t_users;
+DELETE FROM t_psych_pref; DELETE FROM t_roles; DELETE FROM t_constraints;
 
 INSERT INTO t_roles(role) VALUES
 	('ROLE_ADMIN'),
