@@ -1,9 +1,5 @@
-DELETE FROM t_answers ;
-DELETE FROM t_questions;
-DELETE FROM t_users;
-DELETE FROM t_psych_pref;
-DELETE FROM t_roles;
-DELETE FROM t_constraints;
+DELETE FROM IF EXISTS t_answers ; DELETE FROM IF EXISTS t_questions; DELETE FROM IF EXISTS t_users;
+DELETE FROM IF EXISTS t_psych_pref; DELETE FROM IF EXISTS t_roles; DELETE FROM IF EXISTS t_constraints;
 
 INSERT INTO t_roles(role) VALUES
 	('ROLE_ADMIN'),
@@ -23,7 +19,7 @@ INSERT INTO t_psych_pref (code)
 	('P'),
 	('J');
 
-INSERT INTO t_questions ("label", "order", constraint_id, psych_pref_id)VALUES 
+INSERT INTO t_questions ("label", order_question, constraint_id, psych_pref_id)VALUES 
 ('Vous ressentez un besoin d''agir et d''interagir avec d''autres personnes pour vous ressourcer.', 1,
 (SELECT id FROM t_constraints WHERE minimum_value = -3 AND maximum_value = 3), 
 (SELECT id FROM t_psych_pref WHERE code = 'E')),

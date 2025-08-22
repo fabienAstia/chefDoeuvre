@@ -99,12 +99,12 @@ CREATE TABLE t_users (
 CREATE TABLE t_questions (
 	id int GENERATED ALWAYS AS IDENTITY,
 	"label" varchar(255) NOT NULL,
-	"order" int NOT NULL, 
+	order_question int NOT NULL, 
 	constraint_id int NOT NULL, 
 	psych_pref_id int NOT NULL,
 	CONSTRAINT t_questions_pk PRIMARY KEY (id),
 	CONSTRAINT t_questions_label_uk UNIQUE ("label"),
-	CONSTRAINT t_questions_order_uk UNIQUE ("order"),
+	CONSTRAINT t_questions_order_uk UNIQUE (order_question),
 	CONSTRAINT t_questions_constraints_fk FOREIGN KEY (constraint_id)
 		REFERENCES t_constraints(id),
 	CONSTRAINT t_questions_psych_pref_fk FOREIGN KEY (psych_pref_id)

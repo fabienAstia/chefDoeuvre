@@ -1,4 +1,4 @@
-DELETE FROM t_includes; DELETE FROM t_strengths_and_weaknesses; DELETE FROM t_evaluations;
+DELETE FROM IF EXISTS t_includes; DELETE FROM IF EXISTS t_strengths_and_weaknesses; DELETE FROM IF EXISTS t_evaluations;
 
 INSERT INTO t_evaluations (label) 
 VALUES ('Force'), ('Faiblesse');
