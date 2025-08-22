@@ -57,6 +57,7 @@ public class AnswerService {
         return user;
     }
 
+
     private Set<Answer> createNewAnswers(List<AnswerCreate> inputs, User user) {
         Set<Answer> answers = new HashSet<>();
         for (AnswerCreate input : inputs) {
