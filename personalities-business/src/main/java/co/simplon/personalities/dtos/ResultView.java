@@ -4,6 +4,7 @@ import co.simplon.personalities.services.PsychPref;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ResultView {
     private String code;
@@ -26,21 +27,6 @@ public class ResultView {
         this.professions = professions;
         this.strengthAndWeaknesses = strengthAndWeaknesses;
         this.rateByPsych = rateByPsych;
-    }
-
-    @Override
-    public String toString() {
-        return "ResultView{" +
-                "code='" + code + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", populationPercentage=" + populationPercentage +
-                ", interestingFact='" + interestingFact + '\'' +
-                ", image='" + image + '\'' +
-                ", professions=" + professions +
-                ", personalityTraitsWithEval=" + strengthAndWeaknesses +
-                ", rateByPsych=" + rateByPsych +
-                '}';
     }
 
     public String getCode() {
@@ -113,5 +99,40 @@ public class ResultView {
 
     public void setRateByPsych(Map<PsychPref, Double> rateByPsych) {
         this.rateByPsych = rateByPsych;
+    }
+
+    @Override
+    public String toString() {
+        return "ResultView{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", populationPercentage=" + populationPercentage +
+                ", interestingFact='" + interestingFact + '\'' +
+                ", image='" + image + '\'' +
+                ", professions=" + professions +
+                ", personalityTraitsWithEval=" + strengthAndWeaknesses +
+                ", rateByPsych=" + rateByPsych +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return o instanceof ResultView resultView
+                && Double.compare(populationPercentage, resultView.populationPercentage) == 0
+                && Objects.equals(code, resultView.code)
+                && Objects.equals(name, resultView.name)
+                && Objects.equals(description, resultView.description)
+                && Objects.equals(interestingFact, resultView.interestingFact)
+                && Objects.equals(image, resultView.image)
+                && Objects.equals(professions, resultView.professions)
+                && Objects.equals(strengthAndWeaknesses, resultView.strengthAndWeaknesses)
+                && Objects.equals(rateByPsych, resultView.rateByPsych);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name, description, populationPercentage, interestingFact, image, professions, strengthAndWeaknesses, rateByPsych);
     }
 }

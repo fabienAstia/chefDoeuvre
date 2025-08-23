@@ -7,6 +7,7 @@ import co.simplon.personalities.entities.Profession;
 import co.simplon.personalities.entities.Question;
 import co.simplon.personalities.repositories.MbtiTypeRepository;
 import co.simplon.personalities.repositories.QuestionRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,10 +17,19 @@ import java.util.stream.Stream;
 @Service
 public class ResultService {
 
-    public static final int NUMBER_QUESTIONS = 24;
+    private static int NUMBER_QUESTIONS;
     public static final int MAX_1QUESTION_SCORE = 3;
     private final QuestionRepository questionRepository;
     private final MbtiTypeRepository mbtiTypeRepository;
+
+    @Value("${questions.number}")
+    public void setStaticNumberQuestions(int numberQuestions) {
+        NUMBER_QUESTIONS = numberQuestions;
+    }
+
+    public static int getStaticNumberQuestions() {
+        return NUMBER_QUESTIONS;
+    }
 
     protected ResultService(QuestionRepository questionRepository, MbtiTypeRepository mbtiTypeRepository) {
         this.questionRepository = questionRepository;
@@ -48,7 +58,7 @@ public class ResultService {
     }
 
     public Map<String, String> buildStrengthAndWeaknesses(MbtiType mbtiType) {
-        Map<String, String> traitsWithEval = new HashMap<>();
+        Map<String, String> traitsWithEval = new LinkedHashMap<>();
         mbtiType.getStrengthsAndWeaknesses().forEach(personalityTrait -> {
             traitsWithEval.putIfAbsent(personalityTrait.getTrait(), personalityTrait.getEvaluation().getLabel());
         });

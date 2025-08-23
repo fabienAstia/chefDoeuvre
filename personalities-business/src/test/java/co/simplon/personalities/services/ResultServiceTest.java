@@ -44,6 +44,7 @@ class ResultServiceTest {
     @Test
     void test_getPercentageByPsych() {
         Map<PsychPref, Integer> scoreByPsych = getMockedScoreByPsychForPercentage();
+        resultService.setStaticNumberQuestions(24);
         var result = resultService.getPercentageByPsych(scoreByPsych);
         Map<PsychPref, Double> expected = new LinkedHashMap<>();
         expected.put(PsychPref.EXTRAVERSION, 100.0);
