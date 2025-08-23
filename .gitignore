@@ -3,7 +3,7 @@ autres/
 maquette/
 
 personalities-business/src/main/resources/application-dev.properties
-personalities-business/src/test/resources/application-test.properties
+personalities-business/secret-test.properties
 
 **/.idea/
 **/.vscode/
