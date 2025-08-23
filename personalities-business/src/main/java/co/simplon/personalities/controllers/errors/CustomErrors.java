@@ -10,9 +10,6 @@ public class CustomErrors {
     private final Map<String, Collection<String>> fieldsErrors = new HashMap<>();
     private final Collection<String> globalErrors = new ArrayList<>();
 
-    public CustomErrors() {
-    }
-
     public void addFieldError(String fieldName, String message) {
         Collection<String> messages = fieldsErrors.get(fieldName);
         if (messages == null) {

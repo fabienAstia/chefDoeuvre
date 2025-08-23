@@ -23,6 +23,7 @@ public class User extends AbstractEntity {
     private MbtiType mbtiType;
 
     public User() {
+        //for Hibernate
     }
 
     public String getUsername() {

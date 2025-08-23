@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Question extends AbstractEntity {
 
     public Question() {
+        //for Hibernate
     }
 
     @Column(name = "label")

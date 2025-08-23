@@ -12,6 +12,9 @@ import static java.util.Objects.nonNull;
 
 public class OffersResponseMapper {
 
+    private OffersResponseMapper() {
+    }
+
     public static OffersResponse mapToOffersResponse(FranceTravailResponse franceTravailResponse) {
         List<OfferJob> offerJobList = franceTravailResponse.offerJobList();
         System.out.println("offerJobList" + offerJobList);
@@ -42,11 +45,11 @@ public class OffersResponseMapper {
     }
 
     public static List<CoordinatesView> mapToCoordinatesView(List<OfferJob> offerJobList) {
-        return offerJobList.stream().map(offerJob -> {
-            return new CoordinatesView(
-                    offerJob.coordinates().longitude(),
-                    offerJob.coordinates().latitude()
-            );
-        }).toList();
+        return offerJobList.stream().map(offerJob ->
+                new CoordinatesView(
+                        offerJob.coordinates().longitude(),
+                        offerJob.coordinates().latitude()
+                )
+        ).toList();
     }
 }

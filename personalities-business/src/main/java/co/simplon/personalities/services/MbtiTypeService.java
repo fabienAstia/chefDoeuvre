@@ -34,9 +34,7 @@ public class MbtiTypeService {
 
     public Map<String, String> buildStrengthAndWeaknesses(MbtiType mbtiType) {
         Map<String, String> strengthsAndWeaknesses = new HashMap<>();
-        mbtiType.getStrengthsAndWeaknesses().forEach(personalityTrait -> {
-            strengthsAndWeaknesses.putIfAbsent(personalityTrait.getTrait(), personalityTrait.getEvaluation().getLabel());
-        });
+        mbtiType.getStrengthsAndWeaknesses().forEach(personalityTrait -> strengthsAndWeaknesses.putIfAbsent(personalityTrait.getTrait(), personalityTrait.getEvaluation().getLabel()));
         return strengthsAndWeaknesses;
     }
 }

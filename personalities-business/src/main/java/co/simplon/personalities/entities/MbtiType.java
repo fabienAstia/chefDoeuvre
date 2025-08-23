@@ -10,6 +10,7 @@ import java.util.Objects;
 public class MbtiType extends AbstractEntity {
 
     public MbtiType() {
+        //for Hibernate
     }
 
     @Column(name = "code")

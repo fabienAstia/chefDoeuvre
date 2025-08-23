@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Answer extends AbstractEntity {
 
     public Answer() {
+        //for Hibernate
     }
 
     @ManyToOne

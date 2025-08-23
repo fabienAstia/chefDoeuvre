@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Role extends AbstractEntity {
 
     public Role() {
+        //for Hibernate
     }
 
     @Column(name = "role")

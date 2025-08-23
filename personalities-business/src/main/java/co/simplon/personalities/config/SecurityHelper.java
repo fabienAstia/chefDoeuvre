@@ -6,9 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityHelper {
 
-    public SecurityHelper() {
-    }
-
     public SecurityContext securityContext() {
         return SecurityContextHolder.getContext();
     }

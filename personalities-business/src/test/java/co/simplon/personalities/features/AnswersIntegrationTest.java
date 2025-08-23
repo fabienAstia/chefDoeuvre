@@ -69,10 +69,11 @@ class AnswersIntegrationTest {
     void shouldSubmitAnswersAndGetResult_throws_UserNotFoundException() {
         when(securityHelper.principal()).thenReturn("unknown@gmail.com");
 
+        var answers = mockedAnswers();
         Exception exception = assertThrows(UserNotFoundException.class, () -> {
-            answerService.submitAnswersAndGetResult(mockedAnswers());
+            answerService.submitAnswersAndGetResult(answers);
         });
-        String expectedMessage = String.format("User with username: unknown@gmail.com is not found");
+        String expectedMessage = "User with username: unknown@gmail.com is not found";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));

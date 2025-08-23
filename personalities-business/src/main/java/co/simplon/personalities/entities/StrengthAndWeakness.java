@@ -16,6 +16,7 @@ public class StrengthAndWeakness extends AbstractEntity {
     private Evaluation evaluation;
 
     public StrengthAndWeakness() {
+        //for Hibernate
     }
 
     public String getTrait() {

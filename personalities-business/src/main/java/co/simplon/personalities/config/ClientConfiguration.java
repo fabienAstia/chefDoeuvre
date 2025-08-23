@@ -1,6 +1,5 @@
 package co.simplon.personalities.config;
 
-import io.netty.channel.ChannelOption;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.JdkClientHttpRequestFactory;

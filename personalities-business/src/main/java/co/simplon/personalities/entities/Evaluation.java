@@ -11,6 +11,7 @@ public class Evaluation extends AbstractEntity {
     private String label;
 
     public Evaluation() {
+        //for Hibernate
     }
 
     public String getLabel() {

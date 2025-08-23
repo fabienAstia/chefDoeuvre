@@ -9,6 +9,7 @@ import java.util.Objects;
 public class PsychPreference extends AbstractEntity {
 
     public PsychPreference() {
+        //for Hibernate
     }
 
     @Column(name = "code")

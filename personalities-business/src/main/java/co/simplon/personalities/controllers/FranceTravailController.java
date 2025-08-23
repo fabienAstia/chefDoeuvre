@@ -22,11 +22,6 @@ public class FranceTravailController {
         this.franceTravailService = franceTravailService;
     }
 
-//    @GetMapping("/paginated")
-//    public OffersResponse getOffersJobs(@RequestParam String motsCles) {
-//        return franceTravailService.getSpecificJobs(motsCles);
-//    }
-
     @GetMapping("/paginated")
     public ApiResponse<PaginatedOffersResponse> getPaginatedOfferJobs(
             @RequestParam String motsCles,
@@ -46,7 +41,7 @@ public class FranceTravailController {
         }
         Pageable pageable = PageRequest.of(page, size);
         Page<OfferJobView> pageView = PaginationUtil.paginateList(pageable, offersResponse.offerJobViews());
-        ApiResponse<PaginatedOffersResponse> response = new ApiResponse<>(
+        return new ApiResponse<>(
                 HttpStatus.OK.name(),
                 "Offers and Coordinates successfully fetched",
                 new PaginatedOffersResponse(
@@ -60,6 +55,5 @@ public class FranceTravailController {
                         pageView.getTotalPages()
                 )
         );
-        return response;
     }
 }

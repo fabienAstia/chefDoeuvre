@@ -33,7 +33,7 @@ class AnswerControllerValidationTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/csv/constraints/submit-answers-and-get-result_valid.csv", numLinesToSkip = 1, delimiter = '$')
     @WithMockUser
-    public void shouldBeAuthorized(String jsonInput) throws Exception {
+    void shouldBeAuthorized(String jsonInput) throws Exception {
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
                 .request(HttpMethod.POST, "/answers")
@@ -47,7 +47,7 @@ class AnswerControllerValidationTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/csv/constraints/submit-answers-and-get-result_not-valid.csv", numLinesToSkip = 1, delimiter = '$')
     @WithMockUser
-    public void shouldBeDenied(String jsonInput) throws Exception {
+    void shouldBeDenied(String jsonInput) throws Exception {
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
                 .request(HttpMethod.POST, "/answers")
