@@ -23,7 +23,7 @@ public class ResultService {
     private final MbtiTypeRepository mbtiTypeRepository;
 
     @Value("${questions.number}")
-    public static void setStaticNumberQuestions(int numberQuestions) {
+    public void setStaticNumberQuestions(int numberQuestions) {
         NUMBER_QUESTIONS = numberQuestions;
     }
 
