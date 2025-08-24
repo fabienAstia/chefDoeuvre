@@ -17,21 +17,14 @@ import java.util.stream.Stream;
 @Service
 public class ResultService {
 
-    private static int NUMBER_QUESTIONS;
-    public static final int MAX_1QUESTION_SCORE = 3;
+    private static final int MAX_1QUESTION_SCORE = 3;
+
+    private final int numberOfQuestions;
     private final QuestionRepository questionRepository;
     private final MbtiTypeRepository mbtiTypeRepository;
 
-    @Value("${questions.number}")
-    public void setStaticNumberQuestions(int numberQuestions) {
-        NUMBER_QUESTIONS = numberQuestions;
-    }
-
-    public static int getStaticNumberQuestions() {
-        return NUMBER_QUESTIONS;
-    }
-
-    protected ResultService(QuestionRepository questionRepository, MbtiTypeRepository mbtiTypeRepository) {
+    protected ResultService(@Value("${questions.number}") int numberOfQuestions, QuestionRepository questionRepository, MbtiTypeRepository mbtiTypeRepository) {
+        this.numberOfQuestions = numberOfQuestions;
         this.questionRepository = questionRepository;
         this.mbtiTypeRepository = mbtiTypeRepository;
     }
@@ -66,7 +59,7 @@ public class ResultService {
     }
 
     public Map<PsychPref, Double> getPercentageByPsych(Map<PsychPref, Integer> scoreByPsych) {
-        Map<PsychPref, Double> percentageByPsychPref = new LinkedHashMap<>();
+        Map<PsychPref, Double> percentageByPsychPref = new EnumMap<>(PsychPref.class);
         Stream.of(PsychPref.values())
                 .forEach(psychPref -> {
                     Integer psychPrefScore = scoreByPsych.get(psychPref);
@@ -76,11 +69,11 @@ public class ResultService {
         return percentageByPsychPref;
     }
 
-    private static double getPercentage(Integer psychPrefScore, Integer complementaryPsychPrefScore) {
+    public double getPercentage(Integer psychPrefScore, Integer complementaryPsychPrefScore) {
         double psychologicalPrefScore = psychPrefScore;
         double complementaryPrefScore = complementaryPsychPrefScore;
 
-        int MAX_DIMENSION_SCORE = NUMBER_QUESTIONS / 4 * MAX_1QUESTION_SCORE;
+        int MAX_DIMENSION_SCORE = numberOfQuestions / 4 * MAX_1QUESTION_SCORE;
         double USER_DIMENSION_SCORE = psychologicalPrefScore - complementaryPrefScore;
 
         return (double) Math.round((MAX_DIMENSION_SCORE + USER_DIMENSION_SCORE)
@@ -111,7 +104,7 @@ public class ResultService {
     }
 
     public Map<PsychPref, List<Integer>> getRatingByPsych(List<AnswerCreate> answers) {
-        Map<PsychPref, List<Integer>> ratingByPsych = new HashMap<>();
+        Map<PsychPref, List<Integer>> ratingByPsych = new EnumMap<>(PsychPref.class);
         List<Question> questions = questionRepository.findAll();
         questions.forEach(question -> {
             Optional<AnswerCreate> answer = answers.stream()
@@ -134,7 +127,7 @@ public class ResultService {
     }
 
     public static Map<PsychPref, Integer> getScoreByPsych(Map<PsychPref, List<Integer>> ratingByPsych) {
-        Map<PsychPref, Integer> scoreByPsych = new HashMap<>();
+        Map<PsychPref, Integer> scoreByPsych = new EnumMap<>(PsychPref.class);
         ratingByPsych.forEach((key, value) -> {
             Integer psychScore = value.stream().mapToInt(i -> i).sum();
             scoreByPsych.put(key, psychScore);
