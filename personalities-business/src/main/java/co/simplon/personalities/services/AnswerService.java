@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Service
 public class AnswerService {
@@ -57,15 +61,22 @@ public class AnswerService {
         return user;
     }
 
-
     private Set<Answer> createNewAnswers(List<AnswerCreate> inputs, User user) {
+        Set<Long> questionIds = inputs.stream().map(AnswerCreate::questionId).collect(Collectors.toSet());
+        List<Question> questions = questionRepository.findAllById(questionIds);
+        Map<Long, Question> byId = questions.stream().collect(Collectors.toMap(Question::getId, Function.identity()));
+        Set<Long> missing = questionIds.stream()
+                .filter(id -> !byId.containsKey(id))
+                .collect(Collectors.toSet());
+        if (!missing.isEmpty()) throw new QuestionNotFoundException(missing);
+
         Set<Answer> answers = new HashSet<>();
         for (AnswerCreate input : inputs) {
             Answer answer = new Answer();
-            Question question = questionRepository.findById(input.questionId())
-                    .orElseThrow(() -> new QuestionNotFoundException(input.questionId()));
-            answer.setQuestion(question);
+            Question question = byId.get(input.questionId());
+            if (isNull(question)) throw new QuestionNotFoundException(input.questionId());
             answer.setUser(user);
+            answer.setQuestion(question);
             answer.setRating(input.rating());
             answers.add(answer);
         }
