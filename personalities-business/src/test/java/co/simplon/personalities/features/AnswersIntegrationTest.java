@@ -79,7 +79,7 @@ class AnswersIntegrationTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-    private static ResultView mockedResultView() {
+    static ResultView mockedResultView() {
         return new ResultView(
                 "INTJ",
                 "L'Architecte",
@@ -93,7 +93,7 @@ class AnswersIntegrationTest {
         );
     }
 
-    private static Map<PsychPref, Double> statsPerPsych() {
+    static Map<PsychPref, Double> statsPerPsych() {
         LinkedHashMap linkedHashMap = new LinkedHashMap<>();
         linkedHashMap.put(PsychPref.EXTRAVERSION, 0.0);
         linkedHashMap.put(PsychPref.INTROVERSION, 100.0);
@@ -106,14 +106,14 @@ class AnswersIntegrationTest {
         return linkedHashMap;
     }
 
-    private static Map<String, String> strengthsAndWeaknesses() {
+    static Map<String, String> strengthsAndWeaknesses() {
         LinkedHashMap linkedHashMap = new LinkedHashMap<>();
         linkedHashMap.put("Stratégique", "Force");
         linkedHashMap.put("Froid", "Faiblesse");
         return linkedHashMap;
     }
 
-    private static AnswerCreateList mockedAnswers() {
+    static AnswerCreateList mockedAnswers() {
         return new AnswerCreateList(List.of(
                 new AnswerCreate(1L, -3),
                 new AnswerCreate(2L, 3),

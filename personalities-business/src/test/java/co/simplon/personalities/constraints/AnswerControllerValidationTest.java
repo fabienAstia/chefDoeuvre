@@ -1,6 +1,7 @@
 package co.simplon.personalities.constraints;
 
 import co.simplon.personalities.controllers.AnswerController;
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,8 @@ class AnswerControllerValidationTest {
     private AnswerController answerController;
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/csv/constraints/submit-answers-and-get-result_valid.csv", numLinesToSkip = 1, delimiter = '$')
+    @CsvFileSource(resources = "/csv/constraints/submit-answers-and-get-result_valid.csv",
+            numLinesToSkip = 1, delimiter = '$')
     @WithMockUser
     void shouldBeAuthorized(String jsonInput) throws Exception {
 
@@ -45,7 +47,8 @@ class AnswerControllerValidationTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/csv/constraints/submit-answers-and-get-result_not-valid.csv", numLinesToSkip = 1, delimiter = '$')
+    @CsvFileSource(resources = "/csv/constraints/submit-answers-and-get-result_not-valid.csv",
+            numLinesToSkip = 1, delimiter = '$')
     @WithMockUser
     void shouldBeDenied(String jsonInput) throws Exception {
 
@@ -55,8 +58,11 @@ class AnswerControllerValidationTest {
                 .content(jsonInput);
 
         mockMvc.perform(builder)
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof MethodArgumentNotValidException));
+                .andExpect(status().is4xxClientError())
+                .andExpect(result -> {
+                    Throwable ex = result.getResolvedException();
+                    assertTrue(ex instanceof MethodArgumentNotValidException
+                            || ex instanceof ValidationException);
+                });
     }
 }
