@@ -11,8 +11,8 @@ export function useSharedState(){
     } else {
         const decodedToken = jwtDecode(token);
         const currentTime = new Date().getTime() / 1000;
-        if(decodedToken.role === 'ROLE_USER' || decodedToken.role === 'ROLE_ADMIN'
-            && currentTime < decodedToken.exp) {
+        if(decodedToken.role === 'ROLE_USER' && currentTime < decodedToken.exp 
+            || decodedToken.role === 'ROLE_ADMIN' && currentTime < decodedToken.exp) {
             sharedState.value = 'logged'
         } else {
             sharedState.value = 'guest'
