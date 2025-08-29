@@ -46,13 +46,14 @@ git clone https://github.com/fabienAstia/chefDoeuvre.git
 1. Créer une base PostgreSQL : 
 CREATE DATABASE personalities
 
-2. Importe les scripts SQL depuis lde dossier Scripts/:  
+2. Importe les scripts SQL depuis lde dossier Scripts/:
+```
 psql -U <username> -d personalities -f Scripts/with_strength_and_weakness.ddl.sql
 psql -U <username> -d personalities -f Scripts/1-order_question.dml.sql
 psql -U <username> -d personalities -f Scripts/2-professions.dml.sql
 psql -U <username> -d personalities -f Scripts/3-eval_and_traits.dml.sql
 
-3. Configuration backend
+4. Configuration backend
 Créer un fichier src/main/resources/application-dev.properties avec vos paramètres locaux : 
 ```properties
 # Database configuration
