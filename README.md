@@ -95,7 +95,7 @@ server.error.include-binding-errors=always
 Ouvrir le projet `personalities-business` dans votre **IDE** puis lancer la classe principale :  
 `src/main/java/.../Application.java`
 
-L’API est alors disponible sur (http://localhost:8080).
+L’API est alors disponible sur http://localhost:8080
 
 ---
 
@@ -104,3 +104,6 @@ Depuis le dossier `personalities-vue/` :
 ```bash
 npm install
 npm run dev
+```
+Accessible sur http://localhost:5173   
+
