@@ -52,6 +52,7 @@ psql -U <username> -d personalities -f Scripts/with_strength_and_weakness.ddl.sq
 psql -U <username> -d personalities -f Scripts/1-order_question.dml.sql
 psql -U <username> -d personalities -f Scripts/2-professions.dml.sql
 psql -U <username> -d personalities -f Scripts/3-eval_and_traits.dml.sql
+```
 
 4. Configuration backend
 Créer un fichier src/main/resources/application-dev.properties avec vos paramètres locaux : 
