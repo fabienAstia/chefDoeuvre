@@ -52,7 +52,7 @@ psql -U <username> -d personalities -f Scripts/1-order_question.dml.sql
 psql -U <username> -d personalities -f Scripts/2-professions.dml.sql
 psql -U <username> -d personalities -f Scripts/3-eval_and_traits.dml.sql
 
-3.3. Configuration backend
+3. Configuration backend
 Créer un fichier src/main/resources/application-dev.properties avec vos paramètres locaux : 
 ```properties
 # Database configuration
@@ -87,3 +87,18 @@ server.error.include-message=always
 server.error.include-binding-errors=always
 ```
 
+## 4. Lancement en local
+
+### 4.1. Backend (Spring Boot)
+Ouvrir le projet `personalities-business` dans votre **IDE** puis lancer la classe principale :  
+`src/main/java/.../Application.java`
+
+L’API est alors disponible sur (http://localhost:8080).
+
+---
+
+### 4.2. Frontend (Vue.js)
+Depuis le dossier `personalities-vue/` :
+```bash
+npm install
+npm run dev
