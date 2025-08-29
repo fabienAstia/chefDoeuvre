@@ -11,7 +11,7 @@ public record UserCreate(
         @JsonProperty("username")
         @NotBlank
         @UserCreateUniqueUsername
-        @Pattern(regexp = "^(?=.{1,64}@)[\\w-]+([.-]?[\\w-]+)*@(?=.{4,252}$)[\\w-]+([.-]?[\\w-]+)*(\\.[a-zA-Z]{2,4})+$",
+        @Pattern(regexp = "^(?=.{1,64}@)[\\w-]+(?:[.-][\\w-]+)*@(?=.{4,252}$)[\\w-]+(?:\\.[\\w-]+)*\\.[a-zA-Z]{2,4}$",
                 message = "The email coordinates must be valid")
         String username,
 
