@@ -16,7 +16,6 @@ export function adminRole(to, from, next){
             next('/')
         }
     } catch(error) {
-        console.error('invalid token', error);
         next('/');
     }
 }
@@ -29,18 +28,17 @@ export function userRole(to, from, next){
     }
     try {
         const decodedToken = jwtDecode(token);
-        console.log('decodedToken =', decodedToken);
-        const current_time = new Date().getTime() / 1000;
-        if((decodedToken.role === 'ROLE_USER' || decodedToken.role === 'ROLE_ADMIN') 
-            && current_time < decodedToken.exp ){
-            next();
-        } else if(current_time > decodedToken.exp){
+        const current_time = Math.floor(Date.now() / 1000);
+        if(current_time >= decodedToken.exp) {
             alert(t('guard.expired_token'))
-            next('/')
+            return next('/')
         }
+        if(decodedToken.role === 'ROLE_USER' || decodedToken.role === 'ROLE_ADMIN'){
+            return next();
+        } 
+        return next('/');
     } catch(error) {
-        console.error('invalid token', error);
-        next('/');
+        return next('/');
     }
 }
 

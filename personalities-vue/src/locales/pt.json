@@ -128,7 +128,7 @@
     },
     "guard": {
         "no_token" : "Você precisa criar uma conta ou se autenticar primeiro",
-        "expired_token" : "Você precisa se autenticar"
+        "expired_token" : "Sua sessão expirou, faça login novamente"
     },
     "legalNotices": {
         "title": "Aviso Legal",

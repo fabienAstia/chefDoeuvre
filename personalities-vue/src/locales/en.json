@@ -129,7 +129,7 @@
     },
     "guard": {
         "no_token" : "You need to sign up first or sign in",
-        "expired_token" : "You need to sign in"
+        "expired_token" : "Your session has expired, please log in again"
     },
     "legalNotices":{
        "title": "Legal Notices",

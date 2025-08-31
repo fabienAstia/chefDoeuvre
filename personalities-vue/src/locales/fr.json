@@ -129,7 +129,7 @@
     },
     "guard": {
         "no_token" : "Vous devez créer un compte ou vous authentifier d'abord",
-        "expired_token" : "Vous devez vous authentifier"
+        "expired_token" : "Votre session a expiré, veuillez vous reconnecter"
     },
     "legalNotices":{
         "title":"Mentions légales",
