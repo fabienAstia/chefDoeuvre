@@ -39,7 +39,6 @@
                 traits.faiblesse.push(trait);
             }
         }
-        console.log("traits =" + traits)
         return traits;
     });
 

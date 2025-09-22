@@ -8,10 +8,6 @@ import java.util.Objects;
 @Table(name = "t_answers")
 public class Answer extends AbstractEntity {
 
-    public Answer() {
-        //for Hibernate
-    }
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -22,6 +18,20 @@ public class Answer extends AbstractEntity {
 
     @Column(name = "rating")
     private int rating;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return o instanceof Answer answer
+                && rating == answer.rating
+                && Objects.equals(user, answer.user)
+                && Objects.equals(question, answer.question);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, question, rating);
+    }
 
     public User getUser() {
         return user;
@@ -45,20 +55,6 @@ public class Answer extends AbstractEntity {
 
     public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        return o instanceof Answer answer
-                && rating == answer.rating
-                && Objects.equals(user, answer.user)
-                && Objects.equals(question, answer.question);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(user, question, rating);
     }
 
     @Override

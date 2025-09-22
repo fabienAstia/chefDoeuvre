@@ -16,7 +16,7 @@ const {paginatedQuestions, pageNumber, totalPages, totalElements, pageSize, getP
 const hover = ref(false);
 const colorCondition = (buttonIndex) => buttonIndex === 0 ? 'grey' : buttonIndex > 0 ? '#0077b6' : '#270446'; //'#7b2cbf'
 const answers = ref ([]);
-const totalPAGES = 3; //for DEMO
+//const totalPAGES = 3; //for DEMO
 const apiUrl = import.meta.env.VITE_API_URL
 const jwt = localStorage.getItem('jwt');
 const router = useRouter();
@@ -33,7 +33,6 @@ onMounted(async() => {
     paginatedQuestions.value.forEach((question) => {
       console.log(question.id, question.psychPref, question.label)
     })
-    console.log(sharedState, 'sharedState')
 })
 
 const addAnswer = (idQuestion, buttonIndex) => {
@@ -43,7 +42,6 @@ const addAnswer = (idQuestion, buttonIndex) => {
   }else{
     answers.value.push({questionId: idQuestion, rating: buttonIndex, clicked: true});
   }
-  console.log("answersLength= "+answers.value.length) ;
   return true;
 }
 
@@ -54,7 +52,7 @@ const isPageCompleted = () => {
 } 
 
 const isTestCompleted = () => {
-  return (answers.value.length === (totalPAGES) * pageSize.value)
+  return (answers.value.length === (totalPages.value) * pageSize.value)
 } 
 
 const handleSubmit = () => {
@@ -64,10 +62,6 @@ const handleSubmit = () => {
 }
 
 const sendAnswers = async() => {
-  answers.value.forEach((answer) => {
-    console.log("id:"+answer.questionId, "rating:"+answer.rating, "clicked:"+answer.clicked);
-  })
-
   try {
       const response = await axios.post(`${apiUrl}/answers`, 
       {answers: answers.value},
@@ -116,8 +110,8 @@ const aria = (indexButton) => {
   <AlertModal ref="modal"/>
     <div id="sticky" class="progressWidth p-3">
       <div class="progress"  role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-        <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/24}%`}"></div> <!-- for DEMO -->
-        <!-- <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/totalElements}%`}"></div>  -->
+        <!--<div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/24}%`}"></div> for DEMO -->
+        <div  class="progress-bar bg-danger p-3" :style="{width: `${(answers.length*100)/totalElements}%`}"></div> 
 
       </div>
     </div>
@@ -172,13 +166,16 @@ const aria = (indexButton) => {
       </div>
 
       
-      <div v-if="pageNumber<(totalPAGES-1)" class="d-flex justify-content-center bg-light fs-5">
+      <div v-if="pageNumber<(totalPages-1)" class="d-flex justify-content-center bg-light fs-5">
         <button type="submit" class="btn btn-outline-primary btn-lg m-5" @click="isPageCompleted()">{{ t('answer.nextPage') }}</button>
       </div>
-      <div v-else="pageNumber===(totalPAGES-1)" class="d-flex justify-content-center bg-light fs-5">
-        <form @submit.prevent="handleSubmit" class="bg-light fs-5">
+      <div v-else="pageNumber===(totalPages-1)" class="d-flex justify-content-center bg-light fs-5">
+        <!-- <form @submit.prevent="handleSubmit" class="bg-light fs-5">
           <button type="submit" class="btn btn-outline-danger btn-lg m-5">{{t('answer.submit')}}</button>
-        </form> 
+        </form>  -->
+        <button class="btn btn-outline-danger btn-lg m-5" @click="handleSubmit">
+          {{t('answer.submit')}}
+        </button>
       </div>
 
 </template>

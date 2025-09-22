@@ -11,10 +11,6 @@ import java.util.List;
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
-    Answer findByQuestionIdAndUserId(Long questionId, Long userId);
-
-    List<Answer> findAllByUserId(Long userId);
-
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from Answer a where a.user.id =:userId")
     int deleteAllByUserId(Long userId);

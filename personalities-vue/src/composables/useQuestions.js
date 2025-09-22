@@ -45,12 +45,10 @@ export function useQuestions(){
   })
 
   async function loadQuestions() {
-    console.log("pagenumber = "+pageNumber.value)
     try {
       const response = await axios.get(`${apiUrl}/questions`);
       allQuestions.value = response.data;
       questions.value = response.data;
-      console.log(questions.value)
     }catch(err){
       if(err.response){
         const statusCode = err.response.status;
@@ -75,9 +73,6 @@ export function useQuestions(){
       totalPages.value = response.data.page.totalPages;
       totalElements.value = response.data.page.totalElements;
       pageSize.value = response.data.page.size;
-      paginatedQuestions.value.forEach((question) => {
-        console.log("ID:", question.id, "psychPref:", question.psychPref, "Label:", question.label);
-      });
     }catch(err){
       if(err.response){
         const statusCode = err.response.status;
