@@ -170,9 +170,6 @@ const aria = (indexButton) => {
         <button type="submit" class="btn btn-outline-primary btn-lg m-5" @click="isPageCompleted()">{{ t('answer.nextPage') }}</button>
       </div>
       <div v-else="pageNumber===(totalPages-1)" class="d-flex justify-content-center bg-light fs-5">
-        <!-- <form @submit.prevent="handleSubmit" class="bg-light fs-5">
-          <button type="submit" class="btn btn-outline-danger btn-lg m-5">{{t('answer.submit')}}</button>
-        </form>  -->
         <button class="btn btn-outline-danger btn-lg m-5" @click="handleSubmit">
           {{t('answer.submit')}}
         </button>
