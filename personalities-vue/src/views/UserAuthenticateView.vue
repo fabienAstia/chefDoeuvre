@@ -42,11 +42,11 @@ const authenticate = async() => {
       sharedState.value = 'logged';
       const decodedToken = jwtDecode(jwt);
       if(decodedToken.role === 'ROLE_ADMIN'){
-        await router.push('/questions');
+        await router.push(`questions`);
       } else if (decodedToken.role === 'ROLE_USER'){
-        await router.push('/answers')
+        await router.push(`answers`)
       }else{
-        await router.push('/');
+        await router.push(``);
       } 
   }catch(err){
       showMessage(err)

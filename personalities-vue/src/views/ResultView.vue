@@ -20,6 +20,7 @@
     // const totalElements = ref(0);
     const metadata = ref({})
     const apiUrl = import.meta.env.VITE_API_URL
+    const baseURL=import.meta.env.BASE_URL;
 
     const {t} = useI18n();
     const mbtiStore = useMbtiStore();
@@ -213,7 +214,7 @@ const displayOffers = (job) => {
                 </ul>
             </div>
             <div class="d-flex col-12 col-md-6 justify-content-center">
-                <img class="img-fluid" :src="`/mbtiTypes/${mbtiType.image}`" :alt="`${mbtiType} image`" id="image">
+                <img class="img-fluid" :src="`${baseURL}mbtiTypes/${mbtiType.image}`" :alt="`${mbtiType} image`" id="image">
             </div>
         </div>
 

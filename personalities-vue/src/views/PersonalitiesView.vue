@@ -5,6 +5,7 @@ const idealistes = ['INFJ', 'INFP', 'ENFJ', 'ENFP']
 const rationnels = ['INTJ', 'INTP', 'ENTJ', 'ENTP']
 const gardiens = ['ISTJ', 'ISFJ', 'ESTJ', 'ESFJ']
 const artisans = ['ISTP', 'ISFP', 'ESTP', 'ESFP']
+const baseURL = import.meta.env.BASE_URL;
 const router = useRouter();
 const {t} = useI18n();
 
@@ -17,7 +18,7 @@ const {t} = useI18n();
             <div v-for="type in idealistes" class="col-12 col-sm-3 text-center mb-2">
                 <router-link class="style" :to="`/personality/${type}`">
                     <h5>{{type}}</h5>
-                    <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="">
+                    <img class="img-fluid" :src="`${baseURL}mbtiTypes/${type}.webp`" alt="">
                     <div><b>{{t(`personality.${type}`)}}</b></div>
                 </router-link>
             </div>
@@ -28,7 +29,7 @@ const {t} = useI18n();
             <div v-for="type in rationnels" class="col-12 col-sm-3 text-center mb-2">
                 <router-link class="style" :to="`/personality/${type}`">
                     <h5>{{type}}</h5>
-                    <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="">
+                    <img class="img-fluid" :src="`${baseURL}mbtiTypes/${type}.webp`" alt="">
                     <div><b>{{t(`personality.${type}`)}}</b></div>
                 </router-link>
             </div>
@@ -39,7 +40,7 @@ const {t} = useI18n();
             <div v-for="type in gardiens" class="col-12 col-sm-3 text-center mb-2">
                 <router-link class="style" :to="`/personality/${type}`">
                     <h5>{{type}}</h5>
-                    <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="">
+                    <img class="img-fluid" :src="`${baseURL}mbtiTypes/${type}.webp`" alt="">
                     <div><b>{{t(`personality.${type}`)}}</b></div>
                 </router-link>
             </div>
@@ -50,7 +51,7 @@ const {t} = useI18n();
             <div v-for="type in artisans" class="col-12 col-sm-3 text-center mb-2">
                 <router-link class="style" :to="`/personality/${type}`">
                     <h5>{{type}}</h5>
-                    <img class="img-fluid" :src="`/mbtiTypes/${type}.webp`" alt="">
+                    <img class="img-fluid" :src="`${baseURL}mbtiTypes/${type}.webp`" alt="">
                     <div><b>{{t(`personality.${type}`)}}</b></div>
                 </router-link>
             </div>

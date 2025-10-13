@@ -22,7 +22,8 @@ const pageSize = ref(2);
 // const totalPages = ref(0);
 // const totalElements = ref(0);
 const metadata = ref({})
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = import.meta.env.VITE_API_URL;
+const baseURL = import.meta.env.BASE_URL;
 
 const showMessage = (msg) => {
     modal.value.openModal()
@@ -156,7 +157,7 @@ const displayOffers = (job) => {
                     </ul>
                 </div>
                 <div class="d-flex col-12 col-md-6 justify-content-center">
-                    <img class="img-fluid" :src="`/mbtiTypes/${code}.webp`" :alt="`${code} image`" id="image">
+                    <img class="img-fluid" :src="`${baseURL}mbtiTypes/${code}.webp`" :alt="`${code} image`" id="image">
                 </div>
             </div>
 
@@ -288,11 +289,7 @@ h3{
     min-height: 100px;
     min-width: 100px;
 }
-/* #myChart{
-    max-width: 350px;
-    max-height: 300px;
-    min-height: 100px;
-} */
+
 .progress-bar{
     background-color: #0077b6;
     border-color: #00344f;
