@@ -36,7 +36,7 @@ personalities/
 │  ├─ deploy-db.sh
 │  ├─ deploy-api.sh
 │  ├─ deploy-front.sh
-├─ JenkinsFile/              # Groovy 
+├─ JenkinsFile               # Groovy 
 └─ README.md
 ```
 
