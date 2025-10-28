@@ -32,6 +32,11 @@ personalities/
 │  ├─ 1-order_question.dml.sql
 │  ├─ 2-professions.dml.sql
 |  └─ 3-eval_and_traits.dml.sql
+├─ deployment/               # Shell 
+│  ├─ deploy-db.sh
+│  ├─ deploy-api.sh
+│  ├─ deploy-front.sh
+├─ JenkinsFile/              # Groovy 
 └─ README.md
 ```
 
@@ -39,7 +44,7 @@ personalities/
 
 ### 3.1. Cloner le projet
 ```bash
-git clone https://github.com/fabienAstia/chefDoeuvre.git
+git clone https://github.com/fabienAstia/personalities.git
 ```
 
 ### 3.2. Base de données
